@@ -83,25 +83,34 @@ function UpdateTimer()
 	{
 		timerValue = 0;
 	}
-	$("#TimerPanel").SetDialogVariableInt( "timer_seconds", timerValue );
+	var timerPanel = $("#TimerPanel");
+	if (timerPanel) {
+		timerPanel.SetDialogVariableInt( "timer_seconds", timerValue );
+	}
+	// $("#TimerPanel").SetDialogVariableInt( "timer_seconds", timerValue );
 
 	$.Schedule( 0.1, UpdateTimer );
 }
 
 (function()
 {
-	$.Msg("WHATTTTTTTTTTTTTTTTTTTT");
 	var localPlayerTeamId = Game.GetLocalPlayerInfo().player_team_id;
 	var first = true;
 	var teamsContainer = $("#HeroSelectTeamsContainer");
 	$.CreatePanel( "Panel", teamsContainer, "EndSpacer" );
 	
-	var timerPanel = $.CreatePanel( "Panel", teamsContainer, "TimerPanel" );
-	timerPanel.BLoadLayout( "file://{resources}/layout/custom_game/multiteam_hero_select_overlay_timer.xml", false, false );
+	// var timerPanel = $.CreatePanel( "Panel", teamsContainer, "TimerPanel" );
+	// timerPanel.BLoadLayout( "file://{resources}/layout/custom_game/multiteam_hero_select_overlay_timer.xml", false, false );
 
+	var first = true;
 	for ( var teamId of Game.GetAllTeamIDs() )
 	{
-		$.CreatePanel( "Panel", teamsContainer, "Spacer" );
+		if (!first) {
+			var timerPanel = $.CreatePanel( "Panel", teamsContainer, "TimerPanel" );
+			timerPanel.BLoadLayout( "file://{resources}/layout/custom_game/multiteam_hero_select_overlay_timer.xml", false, false );
+		}
+		first = false;
+		// $.CreatePanel( "Panel", teamsContainer, "Spacer" );
 
 		var teamPanelName = "team_" + teamId;
 		var teamPanel = $.CreatePanel( "Panel", teamsContainer, teamPanelName );
