@@ -21,21 +21,35 @@ function Activate()
 end
 
 function CAddonTemplateGameMode:InitGameMode()
-	print( "Template addon is loaded." )
+
+	-- Game Setup Phase
+	GameRules:SetCustomGameSetupTimeout( 1 ) -- must be 1 or host will be unable to pick hero
+	GameRules:SetCustomGameSetupAutoLaunchDelay( 0 )
+	GameRules:LockCustomGameSetupTeamAssignment( true )
 
 	-- Adjust team limits
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 12 )
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 12 )
 
-	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
+	-- GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
+
+	-- Hero Selection Phase 
+	GameRules:SetHeroSelectionTime( 60 )
+	GameRules:SetStrategyTime( 0 )
+	GameRules:SetShowcaseTime( 0 )
+
+	-- Pre Game Phase
+	GameRules:SetPreGameTime( 90 )
+
+
 end
 
--- Evaluate the state of the game
-function CAddonTemplateGameMode:OnThink()
-	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		--print( "Template addon script is running." )
-	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
-		return nil
-	end
-	return 1
-end
+-- -- Evaluate the state of the game
+-- function CAddonTemplateGameMode:OnThink()
+-- 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+-- 		--print( "Template addon script is running." )
+-- 	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
+-- 		return nil
+-- 	end
+-- 	return 1
+-- end
