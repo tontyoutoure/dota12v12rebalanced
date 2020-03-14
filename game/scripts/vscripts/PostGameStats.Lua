@@ -10,7 +10,7 @@ function PostGameStats:SetNetTable()
                 GPM = PlayerResource:GetGoldPerMin(playerID),
                 goldEarned = PlayerResource:GetTotalEarnedGold(playerID),
                 damageDealt = PlayerResource:GetRawPlayerDamage(playerID),
-                damageTaken = PlayerResource:GetHeroDamageTaken(playerID) 
+                damageTaken = PlayerResource:GetHeroDamageTaken(playerID, true) 
             };
 
             CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(playerID) , stats );

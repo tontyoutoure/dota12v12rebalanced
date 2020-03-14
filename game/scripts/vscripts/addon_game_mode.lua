@@ -50,20 +50,20 @@ function GameMode:InitGameMode()
 
 	-- Game Rules
 	GameRules:SetStartingGold( 800 );
+	GameRules:GetGameModeEntity():SetRespawnTimeScale( 1.0 );
 	
 	-- GameRules:SetGoldTickTime( 0.5 ); -- no longer works
 	-- GameRules:SetGoldPerTick( 2 );  -- no longer works
 	GameRules:GetGameModeEntity():SetPauseEnabled( false );
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled( true );
 
-	-- Game Filters
-	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
-	GameRules:GetGameModeEntity():SetModifyExperienceFilter( Dynamic_Wrap( ExperienceTuner, "ExperienceFilter" ), ExperienceTuner );
+	-- Game Tuner (Filters and Thinkers)
+	GoldTuner:Initialize( GameRules );
+	ExperienceTuner:Initialize( GameRules );
 
 	-- Game Thinkers
 	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", self, "GameTimeThinker", 1 );
 	-- GameRules:GetGameModeEntity():SetThink( "AfterDelay", self, "AfterDelay", 30 ); -- CHECK
-	GoldTuner:SetGoldThinker( GameRules );
 
 	-- GameRules:GetGameModeEntity():SetMaximumAttackSpeed( 9999 );
 
@@ -75,11 +75,10 @@ end
 -- for testing
 function GameMode:AfterDelay()
 	GameRules:SetGameWinner( DOTA_TEAM_GOODGUYS );
-
 end
 
 
--- think every second of game time
+-- trigger every second of game time
 function GameMode:GameTimeThinker()
 	local gameState = GameRules:State_Get();
 	local time = GameRules:GetDOTATime(false, false);

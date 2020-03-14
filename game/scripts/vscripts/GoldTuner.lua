@@ -5,6 +5,8 @@ local GOLD_PER_TICK = 2;
 
 local INITIAL_TIME = 0;
 local HOUR_TIME = 60 * 60;
+
+local EXTRA_BOUNTY_RUNE_FACTOR = 2;
 local SCALE_INITIAL_VALUE = 1; -- value at initial time 
 local SCALE_HOUR_VALUE = 5; -- value at final time 
 local SCALE_TIME_COEFFICIENT = (SCALE_HOUR_VALUE - SCALE_INITIAL_VALUE) / (HOUR_TIME - INITIAL_TIME);
@@ -21,6 +23,12 @@ function GoldTuner:GoldFilter( filterTable )
     return true;
 end
 
+-- does not change the value of rune but the value received by player (UI message reports un-scaled value)
+function GoldTuner:BountyRuneFilter( filterTable )
+    filterTable["gold_bounty"] = scaleFactor * EXTRA_BOUNTY_RUNE_FACTOR * filterTable["gold_bounty"];
+    return true;
+end
+
 function GoldTuner:IncrementPlayerGold()
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
         local allHeroes = HeroList:GetAllHeroes();
@@ -33,9 +41,10 @@ function GoldTuner:IncrementPlayerGold()
     return GOLD_TICK_TIME;
 end
 
-function GoldTuner:SetGoldThinker( GameRules )
-    GameRules:GetGameModeEntity():SetThink( "IncrementPlayerGold", GoldTuner, "GoldThinker", GOLD_PER_TICK );
+function GoldTuner:Initialize( GameRules )
+	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
+	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( GoldTuner, "BountyRuneFilter" ), GoldTuner );
+    GameRules:GetGameModeEntity():SetThink( "IncrementPlayerGold", GoldTuner, "GoldThinker", GOLD_TICK_TIME );
 end
-
 
 return GoldTuner;
