@@ -21,6 +21,7 @@ function Activate()
 end
 
 GoldTuner = require("GoldTuner");
+ExperienceTuner = require("ExperienceTuner");
 
 function GameMode:InitGameMode()
 
@@ -34,19 +35,19 @@ function GameMode:InitGameMode()
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 12 );
 
 	-- Hero Selection Phase 
-	GameRules:SetHeroSelectionTime( 30 ); -- ignored when EnablePickRules is enabled
+	-- GameRules:SetHeroSelectionTime( 30 ); -- ignored when EnablePickRules is enabled
 	GameRules:SetStrategyTime( 0 );
 	GameRules:SetShowcaseTime( 0 );
 	GameRules:SetHeroSelectPenaltyTime( 15 );
 	GameRules:GetGameModeEntity():SetSelectionGoldPenaltyEnabled( true );
-	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 0 );
+	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 15 );
 	GameRules:GetGameModeEntity():SetDraftingHeroPickSelectTimeOverride( 30 );
 
 	-- Pre Game Phase
 	GameRules:SetPreGameTime( 0 );
 
 	-- Game Rules
-	GameRules:SetStartingGold( 1000 );
+	GameRules:SetStartingGold( 800 );
 	
 	-- GameRules:SetGoldTickTime( 0.5 ); -- no longer works
 	-- GameRules:SetGoldPerTick( 2 );  -- no longer works
@@ -55,11 +56,10 @@ function GameMode:InitGameMode()
 
 	-- Game Filters
 	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
+	GameRules:GetGameModeEntity():SetModifyExperienceFilter( Dynamic_Wrap( ExperienceTuner, "ExperienceFilter" ), ExperienceTuner );
 
 	-- Game Thinker
 	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 1 );
-
-
 
 end
 
@@ -67,12 +67,18 @@ end
 -- Evaluate the state of the game
 function GameMode:OnThink()
 	local time = GameRules:GetDOTATime(false, false);
-    local allHeroes = HeroList:GetAllHeroes();
+	local allHeroes = HeroList:GetAllHeroes();
+
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+
 		GoldTuner:UpdateFactor( time );
 		GoldTuner:IncrementPlayerGold( allHeroes );
+
+		ExperienceTuner:UpdateFactor( time );
+
 	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
 		return nil
 	end
+
 	return 1
 end
