@@ -1,5 +1,92 @@
 "use strict";
 
+var isEndScreen = false;
+
+var newStatistics = [
+	// // template
+	// {
+	// 	header: "header",
+	// 	class: "class",
+	// 	panelId: "panelId",
+	// 	labelId: "labelId",
+	// 	callback: function (parentPanel, playerId) {
+	// 		var panel = $.CreatePanel( "Panel", parentPanel, this.panelId )
+	// 		panel.AddClass("ScoreboardPanel");
+	// 		panel.AddClass(this.class); // must also be added to header
+	// 		var label = $.CreatePanel("Label", panel, this.labelId );
+	// 		label.text = "Hello, world!";
+	// 	}
+	// },
+	{
+		header: "GPM",
+		headerId: "GPMHeader",
+		class: "ScoreCol_GPM",
+		panelId: "GPMContainer",
+		labelId: "PlayerGPM",
+		callback: function (parentPanel, playerId) {
+			var panel = $.CreatePanel( "Panel", parentPanel, this.panelId )
+			panel.AddClass("ScoreboardPanel");
+			panel.AddClass(this.class); // must also be added to header
+			var label = $.CreatePanel("Label", panel, this.labelId );
+			var playerStats = CustomNetTables.GetTableValue( "post_game_stats", playerId.toString() );
+			if (playerStats) {
+				label.text = Math.round(playerStats.GPM).toString();
+			}
+		}
+	},
+	{
+		header: "Total Gold",
+		headerId: "GoldEarnedHeader",
+		class: "ScoreCol_GoldEarned",
+		panelId: "TotalGoldContainer",
+		labelId: "PlayerGoldEarned",
+		callback: function (parentPanel, playerId) {
+			var panel = $.CreatePanel( "Panel", parentPanel, this.panelId )
+			panel.AddClass("ScoreboardPanel");
+			panel.AddClass(this.class); // must also be added to header
+			var label = $.CreatePanel("Label", panel, this.labelId );
+			var playerStats = CustomNetTables.GetTableValue( "post_game_stats", playerId.toString() );
+			if (playerStats) {
+				label.text = Math.round(playerStats.goldEarned).toString();
+			}
+		}
+	},
+	{
+		header: "Damage Dealt",
+		headerId: "DamageDealtHeader",
+		class: "ScoreCol_DamageDealt",
+		panelId: "DamageDealtContainer",
+		labelId: "PlayerDamageDealt",
+		callback: function (parentPanel, playerId) {
+			var panel = $.CreatePanel( "Panel", parentPanel, this.panelId )
+			panel.AddClass("ScoreboardPanel");
+			panel.AddClass(this.class); // must also be added to header
+			var label = $.CreatePanel("Label", panel, this.labelId );
+			var playerStats = CustomNetTables.GetTableValue( "post_game_stats", playerId.toString() );
+			if (playerStats) {
+				label.text = Math.round(playerStats.damageDealt).toString();
+			}
+		}
+	},
+	{
+		header: "Damage Taken",
+		headerId: "DamageTakenHeader",
+		class: "ScoreCol_DamageTaken",
+		panelId: "DamageTakenContainer",
+		labelId: "PlayerDamageTaken",
+		callback: function (parentPanel, playerId) {
+			var panel = $.CreatePanel( "Panel", parentPanel, this.panelId )
+			panel.AddClass("ScoreboardPanel");
+			panel.AddClass(this.class); // must also be added to header
+			var label = $.CreatePanel("Label", panel, this.labelId );
+			var playerStats = CustomNetTables.GetTableValue( "post_game_stats", playerId.toString() );
+			if (playerStats) {
+				label.text = Math.round(playerStats.damageTaken).toString();
+			}
+		}
+	}
+];
+
 //=============================================================================
 //=============================================================================
 function _ScoreboardUpdater_SetTextSafe( panel, childName, textValue )
@@ -18,14 +105,25 @@ function _ScoreboardUpdater_SetTextSafe( panel, childName, textValue )
 //=============================================================================
 function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContainer, playerId, localPlayerTeamId )
 {
-	var playerPanelName = "_dynamic_player_" + playerId;
-//	$.Msg( playerPanelName );
-	var playerPanel = playersContainer.FindChild( playerPanelName );
+	var playerPanelId = "_dynamic_player_" + playerId;
+//	$.Msg( playerPanelId );
+	var playerPanel = playersContainer.FindChild( playerPanelId );
 	if ( playerPanel === null )
 	{
-		playerPanel = $.CreatePanel( "Panel", playersContainer, playerPanelName );
+		playerPanel = $.CreatePanel( "Panel", playersContainer, playerPanelId );
 		playerPanel.SetAttributeInt( "player_id", playerId );
 		playerPanel.BLoadLayout( scoreboardConfig.playerXmlName, false, false );
+
+		if ( isEndScreen ) {
+			var playerRowContainer = playerPanel.FindChildInLayoutFile( "PlayerRowContainer" )
+
+			// for each new statistic
+			for ( var i = 0; i < newStatistics.length; i++ ) {
+				// use callback 
+				newStatistics[i].callback(playerRowContainer, playerId);
+			} 
+		}
+
 	}
 
 	playerPanel.SetHasClass( "is_local_player", ( playerId == Game.GetLocalPlayerID() ) );
@@ -69,7 +167,7 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		
 		if ( playerInfo.player_selected_hero_id == -1 )
 		{
-			_ScoreboardUpdater_SetTextSafe( playerPanel, "HeroName", $.Localize( "#DOTA_Scoreboard_Picking_Hero" ) )
+			_ScoreboardUpdater_SetTextSafe( playerPanel, "HeroName", $.Localize( "#DOTA_ScoreboardPicking_Hero" ) )
 		}
 		else
 		{
@@ -81,7 +179,7 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		{
 			if ( playerInfo.player_selected_hero_id == -1 )
 			{
-				heroNameAndDescription.SetDialogVariable( "hero_name", $.Localize( "#DOTA_Scoreboard_Picking_Hero" ) );
+				heroNameAndDescription.SetDialogVariable( "hero_name", $.Localize( "#DOTA_ScoreboardPicking_Hero" ) );
 			}
 			else
 			{
@@ -159,7 +257,10 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "TeammateGoldAmount", goldValue );
 	}
 
-	_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerGoldAmount", goldValue );
+	_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerGPM", Math.round(Players.GetGoldPerMin(playerId)) );
+	_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerGoldEarned", Math.round(Players.GetTotalEarnedGold(playerId)) );
+	// _ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerDamageDealt", XXXX );
+	// _ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerDamageTaken", XXXX );
 
 	playerPanel.SetHasClass( "player_ultimate_ready", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_READY ) );
 	playerPanel.SetHasClass( "player_ultimate_no_mana", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_NO_MANA) );
@@ -337,3 +438,18 @@ function ScoreboardUpdater_GetSortedTeamInfoList( scoreboardHandle )
 	return teamsList;
 }
 
+function AddNewStatisticHeaders( headerContainer ) {
+	for ( var i = 0; i < newStatistics.length; i++ ) {
+		var stat = newStatistics[i];
+		var label = $.CreatePanel( "Label", headerContainer, stat.headerId );
+		label.AddClass( "LegendPanel" )
+		label.AddClass( stat.class );
+		label.text = stat.header; 
+	}
+}
+
+if ( $.GetContextPanel().GetParent().id == "CustomUIContainer_EndScreen" ) {
+	isEndScreen = true
+	AddNewStatisticHeaders( $( "#RadiantHeader" ) )
+	AddNewStatisticHeaders( $( "#DireHeader" ) )
+}

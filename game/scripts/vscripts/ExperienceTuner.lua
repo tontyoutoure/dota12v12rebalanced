@@ -8,6 +8,7 @@ local SCALE_TIME_COEFFICIENT = (SCALE_HOUR_VALUE - SCALE_INITIAL_VALUE) / (HOUR_
 
 local scaleFactor = SCALE_INITIAL_VALUE;
 
+-- call in game time thinker
 function ExperienceTuner:UpdateFactor( time )
     scaleFactor = SCALE_INITIAL_VALUE + SCALE_TIME_COEFFICIENT * time;
 end

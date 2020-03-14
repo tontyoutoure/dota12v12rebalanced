@@ -22,11 +22,13 @@ end
 
 GoldTuner = require("GoldTuner");
 ExperienceTuner = require("ExperienceTuner");
+PostGameStats = require("PostGameStats");
 
 function GameMode:InitGameMode()
 
 	-- Game Setup Phase
-	GameRules:SetCustomGameSetupTimeout( 1 ); -- must be 1 or host will be unable to pick hero
+	GameRules:SetCustomGameSetupTimeout( 1 ); -- must be > 0 or host will be unable to pick hero
+	GameRules:EnableCustomGameSetupAutoLaunch( true );
 	GameRules:SetCustomGameSetupAutoLaunchDelay( 0 );
 	GameRules:LockCustomGameSetupTeamAssignment( true );
 
@@ -40,11 +42,11 @@ function GameMode:InitGameMode()
 	GameRules:SetShowcaseTime( 0 );
 	GameRules:SetHeroSelectPenaltyTime( 15 );
 	GameRules:GetGameModeEntity():SetSelectionGoldPenaltyEnabled( true );
-	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 15 );
+	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 15 ); -- 15 CHECK
 	GameRules:GetGameModeEntity():SetDraftingHeroPickSelectTimeOverride( 30 );
 
 	-- Pre Game Phase
-	GameRules:SetPreGameTime( 0 );
+	GameRules:SetPreGameTime( 90 ); -- 90 CHECK
 
 	-- Game Rules
 	GameRules:SetStartingGold( 800 );
@@ -58,27 +60,43 @@ function GameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
 	GameRules:GetGameModeEntity():SetModifyExperienceFilter( Dynamic_Wrap( ExperienceTuner, "ExperienceFilter" ), ExperienceTuner );
 
-	-- Game Thinker
-	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 1 );
+	-- Game Thinkers
+	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", self, "GameTimeThinker", 1 );
+	-- GameRules:GetGameModeEntity():SetThink( "AfterDelay", self, "AfterDelay", 30 ); -- CHECK
+	GoldTuner:SetGoldThinker( GameRules );
+
+	-- GameRules:GetGameModeEntity():SetMaximumAttackSpeed( 9999 );
+
+	-- Game Events
+	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), self)
+
+end
+
+-- for testing
+function GameMode:AfterDelay()
+	GameRules:SetGameWinner( DOTA_TEAM_GOODGUYS );
 
 end
 
 
--- Evaluate the state of the game
-function GameMode:OnThink()
+-- think every second of game time
+function GameMode:GameTimeThinker()
+	local gameState = GameRules:State_Get();
 	local time = GameRules:GetDOTATime(false, false);
-	local allHeroes = HeroList:GetAllHeroes();
-
-	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-
+	if gameState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		GoldTuner:UpdateFactor( time );
-		GoldTuner:IncrementPlayerGold( allHeroes );
-
 		ExperienceTuner:UpdateFactor( time );
-
-	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
+	elseif gameState >= DOTA_GAMERULES_STATE_POST_GAME then
 		return nil
 	end
-
 	return 1
+end
+
+-- call when game state changes
+function GameMode:OnGameRulesStateChange()
+	local gameState = GameRules:State_Get();
+	if gameState == DOTA_GAMERULES_STATE_POST_GAME then
+		PostGameStats:SetNetTable();
+	end 
+
 end

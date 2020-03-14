@@ -323,7 +323,10 @@
 #Kills,
 #Deaths,
 #Assists,
-#PlayerGoldAmount
+#PlayerGPM,
+#PlayerGoldEarned,
+#PlayerDamageDealt,
+#PlayerDamageTaken
 {
 	horizontal-align: center;
 	vertical-align: center;
@@ -332,8 +335,10 @@
 	margin-top: 3px;
 }
 
-#PlayerGoldAmount
+#PlayerGPM,
+#PlayerGoldEarned
 {
+	color: goldenrod;
 }
 
 #PlayerName
@@ -432,8 +437,26 @@
 	text-align: center;
 }
 
-.ScoreCol_Gold
+.ScoreCol_GPM,
+.ScoreCol_GoldEarned,
+.ScoreCol_DamageDealt,
+.ScoreCol_DamageTaken
 {
-	width: 70px;
+	width: 100px;
 	text-align: center;
+}
+
+#Kills
+{
+	color: greenyellow;
+}
+
+#Deaths
+{
+	color: red;
+}
+
+#Assists
+{
+	color: yellow;
 }
