@@ -39,15 +39,17 @@ function GameMode:InitGameMode()
 	GameRules:SetShowcaseTime( 0 );
 	GameRules:SetHeroSelectPenaltyTime( 15 );
 	GameRules:GetGameModeEntity():SetSelectionGoldPenaltyEnabled( true );
-	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 15 );
+	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 0 );
 	GameRules:GetGameModeEntity():SetDraftingHeroPickSelectTimeOverride( 30 );
 
 	-- Pre Game Phase
-	GameRules:SetPreGameTime( 90 );
+	GameRules:SetPreGameTime( 0 );
 
 	-- Game Rules
-	GameRules:SetGoldTickTime( 1 );
-	GameRules:SetGoldPerTick( 10 );
+	GameRules:SetStartingGold( 1000 );
+	
+	-- GameRules:SetGoldTickTime( 0.5 ); -- no longer works
+	-- GameRules:SetGoldPerTick( 2 );  -- no longer works
 	GameRules:GetGameModeEntity():SetPauseEnabled( false );
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled( true );
 
@@ -55,18 +57,22 @@ function GameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
 
 	-- Game Thinker
-	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 5 );
+	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 1 );
+
 
 
 end
 
+
 -- Evaluate the state of the game
 function GameMode:OnThink()
 	local time = GameRules:GetDOTATime(false, false);
+    local allHeroes = HeroList:GetAllHeroes();
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 		GoldTuner:UpdateFactor( time );
+		GoldTuner:IncrementPlayerGold( allHeroes );
 	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
 		return nil
 	end
-	return 5
+	return 1
 end
