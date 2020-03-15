@@ -257,11 +257,6 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 		_ScoreboardUpdater_SetTextSafe( playerPanel, "TeammateGoldAmount", goldValue );
 	}
 
-	_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerGPM", Math.round(Players.GetGoldPerMin(playerId)) );
-	_ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerGoldEarned", Math.round(Players.GetTotalEarnedGold(playerId)) );
-	// _ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerDamageDealt", XXXX );
-	// _ScoreboardUpdater_SetTextSafe( playerPanel, "PlayerDamageTaken", XXXX );
-
 	playerPanel.SetHasClass( "player_ultimate_ready", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_READY ) );
 	playerPanel.SetHasClass( "player_ultimate_no_mana", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_NO_MANA) );
 	playerPanel.SetHasClass( "player_ultimate_not_leveled", ( ultStateOrTime == PlayerUltimateStateOrTime_t.PLAYER_ULTIMATE_STATE_NOT_LEVELED) );

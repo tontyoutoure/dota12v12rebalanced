@@ -15,12 +15,34 @@
 				$.GetContextPanel().SetHasClass( "player_muted", newIsMuted );
 			}
 		}
-
-		(function()
+		
+		function ToggleDisableHelp()
 		{
+			var targetPlayerId = $.GetContextPanel().GetAttributeInt( "player_id", -1 );
+			if ( targetPlayerId !== -1 )
+			{
+				var disable = $("#DisableHelpButton").checked;
+				var args = {
+					playerId: Players.GetLocalPlayer(),
+					targetPlayerId: targetPlayerId,
+					disable: disable
+				};
+				GameEvents.SendCustomGameEventToServer("set_disable_help", args);
+			}
+		}
+
+		function setToggles() {
 			var playerId = $.GetContextPanel().GetAttributeInt( "player_id", -1 );
 			$.GetContextPanel().SetHasClass( "player_muted", Game.IsPlayerMuted( playerId ) );
-		})();
+			
+			var disableHelp = CustomNetTables.GetTableValue("disable_help", Players.GetLocalPlayer());
+			if (disableHelp && disableHelp[playerId]) {
+				$("#DisableHelpButton").checked = true
+			}
+		}
+
+		setToggles();
+
 	</script>
 	<Panel class="PlayerRow">
 		<Panel id="PlayerRowContainer">
@@ -33,7 +55,8 @@
 					<Label id="HeroNameAndDescription" text="#custom_scoreboard_hero_name_and_desc" />
 				</Panel>
 				<Label id="TeammateGoldAmount" text="999" />
-				<Button id="MuteButton" onactivate="ToggleMute();" />
+				<ToggleButton id="DisableHelpButton" onactivate="ToggleDisableHelp();" onmouseover="DOTAShowTextTooltip(Disable Help)" onmouseout="DOTAHideTextTooltip()" />
+				<Button id="MuteButton" onactivate="ToggleMute();" onmouseover="DOTAShowTextTooltip(Mute)" onmouseout="DOTAHideTextTooltip()" />
 			</Panel>
 			<Panel id="TeamScoreSpace" class="ScoreCol_TeamScore" />
 			<Panel id="KillsContainer" class="ScoreCol_Kills ScoreboardPanel">

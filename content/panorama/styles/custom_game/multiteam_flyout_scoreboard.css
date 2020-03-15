@@ -290,7 +290,20 @@
 	opacity: 0.8;
 }
 
-.local_player_teammate #MuteButton
+#DisableHelpButton
+{
+	margin-right: 22px;
+	margin-top: 2px;
+	width: 16px;
+	height: 16px;
+	padding: 0px;
+	horizontal-align: right;
+	vertical-align: top;
+	visibility: collapse;
+}
+
+.local_player_teammate #MuteButton,
+.local_player_teammate #DisableHelpButton
 {
 	visibility: visible;
 }
@@ -331,6 +344,7 @@
 {
 	flow-children: down;
 	padding-left: 8px;
+	width: 120px;
 }
 
 .is_local_player #Kills,

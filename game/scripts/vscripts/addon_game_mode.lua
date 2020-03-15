@@ -23,14 +23,15 @@ end
 GoldTuner = require("GoldTuner");
 ExperienceTuner = require("ExperienceTuner");
 PostGameStats = require("PostGameStats");
+DisableHelp = require("DisableHelp");
 
 function GameMode:InitGameMode()
 
 	-- Game Setup Phase
-	GameRules:SetCustomGameSetupTimeout( 1 ); -- must be > 0 or host will be unable to pick hero
+	GameRules:SetCustomGameSetupTimeout( 5 ); -- must be > 0 or host will be unable to pick hero; besides that, value does not seem to matter
 	GameRules:EnableCustomGameSetupAutoLaunch( true );
-	GameRules:SetCustomGameSetupAutoLaunchDelay( 0 );
-	GameRules:LockCustomGameSetupTeamAssignment( true );
+	GameRules:SetCustomGameSetupAutoLaunchDelay( 15 );
+	GameRules:LockCustomGameSetupTeamAssignment( false );
 
 	-- Adjust team limits
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 12 );
@@ -60,6 +61,9 @@ function GameMode:InitGameMode()
 	-- Game Tuner (Filters and Thinkers)
 	GoldTuner:Initialize( GameRules );
 	ExperienceTuner:Initialize( GameRules );
+
+	-- Anti-Troll
+	DisableHelp:Initialize();
 
 	-- Game Thinkers
 	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", self, "GameTimeThinker", 1 );
