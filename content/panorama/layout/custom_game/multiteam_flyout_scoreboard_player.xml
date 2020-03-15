@@ -68,6 +68,11 @@
 			<Panel id="AssistsContainer" class="ScoreCol_Assists ScoreboardPanel">
 				<Label id="Assists" text="999" />
 			</Panel>
+			<Panel id="KickContainer" class="ScoreCol_Kick ScoreboardPanel">
+				<Button id="KickButton" onactivate="" onmouseover="DOTAShowTextTooltip(Vote Kick)" onmouseout="DOTAHideTextTooltip()">
+					<Image id="KickButtonImage" src="file://{images}/custom_game/boots_of_travel.png" scaling="stretch-to-fit-preserve-aspect" />
+				</Button>
+			</Panel>
 		</Panel>
 		<Panel id="UltimateIndicatorBG" class="UltimateIndicatorShared" />
 		<Panel id="UltimateIndicator" class="UltimateIndicatorShared" />

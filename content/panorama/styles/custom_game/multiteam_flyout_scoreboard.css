@@ -193,7 +193,8 @@
 #LevelContainer,
 #KillsContainer,
 #DeathsContainer,
-#AssistsContainer
+#AssistsContainer,
+#KickContainer
 {
 	height: 100%;
 }
@@ -303,7 +304,8 @@
 }
 
 .local_player_teammate #MuteButton,
-.local_player_teammate #DisableHelpButton
+.local_player_teammate #DisableHelpButton,
+.local_player_teammate #KickButton
 {
 	visibility: visible;
 }
@@ -384,9 +386,25 @@
 
 .ScoreCol_Kills,
 .ScoreCol_Deaths,
-.ScoreCol_Assists
+.ScoreCol_Assists,
+.ScoreCol_Kick
 {
 	width: 50px;
 	text-align: center;
 }
 
+#KickButton
+{
+	margin-top: 4px;
+	height: 24px;
+	width: 24px;
+	horizontal-align: center;
+	vertical-align: center;
+	opacity: 0.5;
+	visibility: collapse;
+}
+
+#KickButton:hover
+{
+	opacity: 1;
+}
