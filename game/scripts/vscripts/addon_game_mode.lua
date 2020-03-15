@@ -31,7 +31,7 @@ function GameMode:InitGameMode()
 	-- Game Setup Phase
 	GameRules:SetCustomGameSetupTimeout( 5 ); -- must be > 0 or host will be unable to pick hero; besides that, value does not seem to matter
 	GameRules:EnableCustomGameSetupAutoLaunch( true );
-	GameRules:SetCustomGameSetupAutoLaunchDelay( 15 + 1 );
+	GameRules:SetCustomGameSetupAutoLaunchDelay( 10 + 1 );
 	GameRules:LockCustomGameSetupTeamAssignment( false );
 
 	-- Adjust team limits
@@ -68,14 +68,14 @@ function GameMode:InitGameMode()
 	Kick:Initialize();
 
 	-- Game Thinkers
-	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", GameMode, "GameTimeThinker", 1 );
+	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", self, "GameTimeThinker", 1 );
 
 	-- Game Events
-	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
+	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( self, 'OnGameRulesStateChange'), self );
 
 	-- Other
 	-- GameRules:GetGameModeEntity():SetMaximumAttackSpeed( 9999 );
-	-- GameRules:GetGameModeEntity():SetThink( "AfterDelay", GameMode, "AfterDelay", 30 ); -- CHECK
+	-- GameRules:GetGameModeEntity():SetThink( "AfterDelay", self, "AfterDelay", 30 ); -- CHECK
 
 end
 

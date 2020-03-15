@@ -19,7 +19,7 @@ function ExperienceTuner:ExperienceFilter( filterTable )
 end
 
 function ExperienceTuner:Initialize( GameRules )
-	GameRules:GetGameModeEntity():SetModifyExperienceFilter( Dynamic_Wrap( ExperienceTuner, "ExperienceFilter" ), ExperienceTuner );
+	GameRules:GetGameModeEntity():SetModifyExperienceFilter( Dynamic_Wrap( self, "ExperienceFilter" ), self );
 end
 
 return ExperienceTuner;

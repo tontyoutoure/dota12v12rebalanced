@@ -42,9 +42,9 @@ function GoldTuner:IncrementPlayerGold()
 end
 
 function GoldTuner:Initialize( GameRules )
-	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
-	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( GoldTuner, "BountyRuneFilter" ), GoldTuner );
-    GameRules:GetGameModeEntity():SetThink( "IncrementPlayerGold", GoldTuner, "GoldThinker", GOLD_TICK_TIME );
+	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( self, "GoldFilter" ), self );
+	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( self, "BountyRuneFilter" ), self );
+    GameRules:GetGameModeEntity():SetThink( "IncrementPlayerGold", self, "GoldThinker", GOLD_TICK_TIME );
 end
 
 return GoldTuner;

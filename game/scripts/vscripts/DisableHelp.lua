@@ -8,19 +8,19 @@ function DisableHelp:UpdateNetTable( playerId, targetPlayerId, disable )
     CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(playerId), table );
 end
 
-function DisableHelp:DisableHelpListener( args )
-    local targetPlayerId = args.targetPlayerId;
+function DisableHelp:DisableHelpListener( event )
+    local targetPlayerId = event.targetPlayerId;
 
 	if PlayerResource:IsValidPlayerID(targetPlayerId) then
-		local playerId = args.playerId;
-        local disable = (args.disable == 1);
+		local playerId = event.playerId;
+        local disable = (event.disable == 1);
 		PlayerResource:SetUnitShareMaskForPlayer(playerId, targetPlayerId, 4, disable);
-        DisableHelp:UpdateNetTable( playerId, targetPlayerId, disable );
+        self:UpdateNetTable( playerId, targetPlayerId, disable );
 	end
 end
 
 function DisableHelp:Initialize()
-    CustomGameEventManager:RegisterListener( "set_disable_help", Dynamic_Wrap( DisableHelp, "DisableHelpListener" ) );
+    CustomGameEventManager:RegisterListener( "set_disable_help", Dynamic_Wrap( self, "DisableHelpListener" ) );
 end
 
 return DisableHelp;
