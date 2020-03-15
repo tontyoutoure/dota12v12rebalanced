@@ -21,10 +21,10 @@
 						<Image id="TeamListLockedIcon" src="file://{images}/control_icons/lock_small.png" />
 					</Panel>
 					<Panel id="TeamsListRoot" />
-					<Button id="ShuffleTeamAssignmentButton" onactivate="OnShufflePlayersPressed()">
+					<!-- <Button id="ShuffleTeamAssignmentButton" onactivate="OnShufflePlayersPressed()">
 						<Label text="#custom_game_team_select_shuffle" />
 						<Image src="file://{images}/control_icons/shuffle.psd" />
-					</Button>
+					</Button> -->
 				</Panel>
 			</Panel>
 
@@ -74,9 +74,9 @@
 				<Button id="LockAndStartButton" class="PlayButton" onactivate="OnLockAndStartPressed()">
 					<Label text="#custom_game_team_select_lock_start" />
 				</Button>
-				<Button id="CancelAndUnlockButton" class="PlayButton" onactivate="OnCancelAndUnlockPressed()">
+				<!-- <Button id="CancelAndUnlockButton" class="PlayButton" onactivate="OnCancelAndUnlockPressed()">
 					<Label text="#custom_game_team_select_cancel_unlock" />
-				</Button>
+				</Button> -->
 				
 			</Panel>
 		</Panel>

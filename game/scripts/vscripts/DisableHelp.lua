@@ -14,10 +14,7 @@ function DisableHelp:DisableHelpListener( args )
 	if PlayerResource:IsValidPlayerID(targetPlayerId) then
 		local playerId = args.playerId;
         local disable = (args.disable == 1);
-        print("HELLLLLLLLOOOOOOO");
-        print(disable);
 		PlayerResource:SetUnitShareMaskForPlayer(playerId, targetPlayerId, 4, disable);
-
         DisableHelp:UpdateNetTable( playerId, targetPlayerId, disable );
 	end
 end
