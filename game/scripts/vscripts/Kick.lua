@@ -13,7 +13,7 @@ end
 
 function Kick:KickPlayer( playerId )
     CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(playerId), { isKicked = true } );
-    self:KickCheck({ playerId = playerId });
+    Kick:KickCheck({ playerId = playerId });
 end
 
 return Kick;

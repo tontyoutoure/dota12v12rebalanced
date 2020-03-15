@@ -4,6 +4,9 @@
 		<include src="file://{resources}/styles/custom_game/shared_scoreboard_styles.css" />
         <include src="file://{resources}/styles/custom_game/multiteam_flyout_scoreboard.css" />
     </styles>
+    <scripts>
+		<include src="file://{resources}/scripts/common/vote.js" />
+    </scripts>
 	<script>
 		function ToggleMute()
 		{
@@ -42,7 +45,6 @@
 		}
 
 		setToggles();
-
 	</script>
 	<Panel class="PlayerRow">
 		<Panel id="PlayerRowContainer">
@@ -69,7 +71,7 @@
 				<Label id="Assists" text="999" />
 			</Panel>
 			<Panel id="KickContainer" class="ScoreCol_Kick ScoreboardPanel">
-				<Button id="KickButton" onactivate="" onmouseover="DOTAShowTextTooltip(Vote Kick)" onmouseout="DOTAHideTextTooltip()">
+				<Button id="KickButton" onactivate="onBeginVotingButtonClicked();" onmouseover="DOTAShowTextTooltip(Vote Kick)" onmouseout="DOTAHideTextTooltip()">
 					<Image id="KickButtonImage" src="file://{images}/custom_game/boots_of_travel.png" scaling="stretch-to-fit-preserve-aspect" />
 				</Button>
 			</Panel>

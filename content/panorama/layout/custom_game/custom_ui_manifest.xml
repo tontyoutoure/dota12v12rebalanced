@@ -2,6 +2,7 @@
 	<scripts>
 		<include src="file://{resources}/scripts/common/utils.js" />
 		<include src="file://{resources}/scripts/common/selection.js" />
+		<include src="file://{resources}/scripts/common/client_error_listener.js" />
 	</scripts>
 	<script>
 		GameUI.CustomUIConfig().multiteam_top_scoreboard =

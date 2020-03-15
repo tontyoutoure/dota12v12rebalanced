@@ -1,8 +1,13 @@
 function kickCheck() {
     var myId = Game.GetLocalPlayerID();
+    $.Msg(myId);
     var table = CustomNetTables.GetTableValue( "kicked_players", myId.toString() );
+    $.Msg("table is");
+    $.Msg(table);
     if (table && table.isKicked) {
-        $.Msg("YOU ARE KICKED! D:");
+        while (true) {
+            $.Msg("YOU ARE KICKED! D:");
+        }
     } else {
         $.Msg("YOU ARE NOT KICKED! :D");
     }

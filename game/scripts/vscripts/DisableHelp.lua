@@ -15,7 +15,7 @@ function DisableHelp:DisableHelpListener( event )
 		local playerId = event.playerId;
         local disable = (event.disable == 1);
 		PlayerResource:SetUnitShareMaskForPlayer(playerId, targetPlayerId, 4, disable);
-        self:UpdateNetTable( playerId, targetPlayerId, disable );
+        DisableHelp:UpdateNetTable( playerId, targetPlayerId, disable );
 	end
 end
 

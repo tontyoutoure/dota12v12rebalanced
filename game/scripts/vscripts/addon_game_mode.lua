@@ -1,8 +1,6 @@
 -- Generated from template
 
-if GameMode == nil then
-	GameMode = class({});
-end
+GameMode = GameMode or class({});
 
 function Precache( context )
 	--[[
@@ -20,11 +18,12 @@ function Activate()
 	GameRules.AddonTemplate:InitGameMode();
 end
 
-GoldTuner = require("GoldTuner");
-ExperienceTuner = require("ExperienceTuner");
-PostGameStats = require("PostGameStats");
-DisableHelp = require("DisableHelp");
-Kick = require("Kick");
+GoldTuner = GoldTuner or require("GoldTuner");
+ExperienceTuner = ExperienceTuner or require("ExperienceTuner");
+PostGameStats = PostGameStats or require("PostGameStats");
+DisableHelp = DisableHelp or require("DisableHelp");
+Kick = Kick or require("Kick");
+Vote = Vote or require("Vote");
 
 function GameMode:InitGameMode()
 
@@ -44,7 +43,7 @@ function GameMode:InitGameMode()
 	GameRules:SetShowcaseTime( 0 );
 	GameRules:SetHeroSelectPenaltyTime( 15 );
 	GameRules:GetGameModeEntity():SetSelectionGoldPenaltyEnabled( true );
-	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 15 ); -- 15 CHECK
+	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 0 ); -- 15 CHECK
 	GameRules:GetGameModeEntity():SetDraftingHeroPickSelectTimeOverride( 30 );
 
 	-- Pre Game Phase
@@ -66,6 +65,7 @@ function GameMode:InitGameMode()
 	-- Anti-Troll
 	DisableHelp:Initialize();
 	Kick:Initialize();
+	Vote:Initialize();
 
 	-- Game Thinkers
 	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", self, "GameTimeThinker", 1 );
@@ -75,13 +75,14 @@ function GameMode:InitGameMode()
 
 	-- Other
 	-- GameRules:GetGameModeEntity():SetMaximumAttackSpeed( 9999 );
-	-- GameRules:GetGameModeEntity():SetThink( "AfterDelay", self, "AfterDelay", 30 ); -- CHECK
+	-- GameRules:GetGameModeEntity():SetThink( "AfterDelay", self, "AfterDelay", 10 ); -- CHECK
 
 end
 
 -- for testing
 function GameMode:AfterDelay()
 	-- GameRules:SetGameWinner( DOTA_TEAM_GOODGUYS );
+	return nil;
 end
 
 
@@ -103,6 +104,9 @@ function GameMode:OnGameRulesStateChange()
 	local gameState = GameRules:State_Get();
 	if gameState == DOTA_GAMERULES_STATE_POST_GAME then
 		PostGameStats:SetNetTable();
+	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
+		-- print("kicking self");
+		-- Kick:KickPlayer(0);
 	end 
 
 end
