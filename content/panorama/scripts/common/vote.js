@@ -1,5 +1,14 @@
+// Should be run only once
+function registerVoteListeners() {
+    $.Msg("Registering Vote Event Listeners...");
+    GameEvents.Subscribe("request_votes", handleVoteRequest);
+    GameEvents.Subscribe("end_voting", endVoteDialog);
+    GameEvents.Subscribe("update_vote", updateVoteDialog);
+}
+
 // button callback that emits "begin_voting"
-function onBeginVotingButtonClicked() {
+/*
+function onBeginVotingButtonClicked () {
     // get player ID and target player ID
     var playerId = Game.GetLocalPlayerID();
     var subjectId = $.GetContextPanel().GetAttributeInt( "player_id", -1 );
@@ -10,7 +19,37 @@ function onBeginVotingButtonClicked() {
         $.Msg("Vote Button Failed!");
         GameUI.SendCustomHUDError("Vote.js: Vote button failed.", "");
     }
+};
+*/
+
+// used to throttle
+function cooldown(wait, func) {
+	var lock;
+	var unlock = function () {
+		lock = null;
+	};
+	return function() {
+		var context = this, args = arguments;
+		if (!lock) {
+			func.apply(context, arguments);
+			lock = $.Schedule(wait, unlock);
+		}
+	};
 }
+
+var onBeginVotingButtonClicked = cooldown( 0.5 , function () {
+    // get player ID and target player ID
+    var playerId = Game.GetLocalPlayerID();
+    var subjectId = $.GetContextPanel().GetAttributeInt( "player_id", -1 );
+
+    if ( playerId !== -1 ) {
+        GameEvents.SendCustomGameEventToServer("begin_voting", {playerId: playerId, subjectId: subjectId});
+    } else {
+        $.Msg("Vote Button Failed!");
+        GameUI.SendCustomHUDError("Vote.js: Vote button failed.", "");
+    }
+});
+
 
 
 // button callback that emits "vote"
@@ -35,23 +74,21 @@ function handleVoteRequest ( event ) {
     // display vote dialog for other players on team
         // need callback for vote button
         // need to keep reference
-    $.Msg("HEEEEEEEELLLLLLLLLLLOOOOOOOOOOOO");
-    $.Msg("HEEEEEEEELLLLLLLLLLLOOOOOOOOOOOO");
-    $.Msg("HEEEEEEEELLLLLLLLLLLOOOOOOOOOOOO");
-    $.Msg("HEEEEEEEELLLLLLLLLLLOOOOOOOOOOOO");
-    $.Msg($("#VoteContainer"));
 
-    var votePanel = $.CreatePanel("Panel", $("#VoteContainer"), "")
-    votePanel.BLoadLayoutSnippet("VoteSnippet");
+    // var votePanel = $.CreatePanel("Panel", $("#VoteContainer"), "")
+    // votePanel.BLoadLayoutSnippet("VoteSnippet");
 
-    GameUI.SendCustomHUDError("vote requested", "");
+    GameUI.SendCustomHUDError("Vote requested.", "");
 }
 
 
 // event callback that handles "end_voting"
 function endVoteDialog ( event ) {
     // event.subjectId
-    GameUI.SendCustomHUDError("voting ended", "");
+    $.Msg("______________________________________")
+    $.Msg(event);
+    $.Msg("______________________________________")
+    GameUI.SendCustomHUDError("Voting ended.", "");
 }
 
 
@@ -65,11 +102,3 @@ function updateVoteDialog ( event ) {
     */
     GameUI.SendCustomHUDError("voting updated", "");
 }
-
-
-// initialize by registering callbacks
-(function () {
-    GameEvents.Subscribe("request_votes", handleVoteRequest);
-    GameEvents.Subscribe("end_voting", endVoteDialog);
-    GameEvents.Subscribe("update_vote", updateVoteDialog);
-})();

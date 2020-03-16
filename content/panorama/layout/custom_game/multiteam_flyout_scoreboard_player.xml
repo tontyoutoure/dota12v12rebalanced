@@ -5,6 +5,7 @@
         <include src="file://{resources}/styles/custom_game/multiteam_flyout_scoreboard.css" />
     </styles>
     <scripts>
+		<include src="file://{resources}/scripts/common/utils.js" />
 		<include src="file://{resources}/scripts/common/vote.js" />
     </scripts>
 	<script>

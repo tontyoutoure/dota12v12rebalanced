@@ -6,6 +6,7 @@
 		"disable_help",
 		"kicked_players",
 		"vote_table",
+		"vote_team_table",
 		"disconnected"
 	]
 }

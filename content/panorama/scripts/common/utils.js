@@ -66,3 +66,18 @@ function formatDate(date) {
 		? date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate()
 		: date.getMonth() + '/' + date.getDate() + '/' + date.getFullYear();
 }
+
+// used to throttle
+function cooldown(wait, func) {
+	var lock;
+	var unlock = function () {
+		lock = null;
+	};
+	return function() {
+		var context = this, args = arguments;
+		if (!lock) {
+			func.apply(context, arguments);
+			lock = $.Schedule(wait, unlock);
+		}
+	};
+}

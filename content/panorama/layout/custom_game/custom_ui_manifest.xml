@@ -4,6 +4,7 @@
 		<include src="file://{resources}/scripts/common/selection.js" />
 		<include src="file://{resources}/scripts/common/client_error_listener.js" />
 		<include src="file://{resources}/scripts/common/client_sound_player.js" />
+		<include src="file://{resources}/scripts/common/vote.js" />
 	</scripts>
 	<script>
 		GameUI.CustomUIConfig().multiteam_top_scoreboard =
@@ -30,8 +31,9 @@
 			}
 		}
 
-
 		FindDotaHudElement( "PreGame" ).FindChild( "Header" ).style.visibility = "collapse";
+
+		registerVoteListeners(); // see vote.js
 	</script>
 
 	<Panel>
