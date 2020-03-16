@@ -105,8 +105,21 @@ function GameMode:OnGameRulesStateChange()
 	if gameState == DOTA_GAMERULES_STATE_POST_GAME then
 		PostGameStats:SetNetTable();
 	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
+		GameMode:AddBots();
 		-- print("kicking self");
 		-- Kick:KickPlayer(0);
 	end 
 
+end
+
+function GameMode:AddBots()
+	GameRules:BotPopulate();
+	GameRules:GetGameModeEntity():SetBotThinkingEnabled(true);
+	GameRules:GetGameModeEntity():SetBotsInLateGame(true);
+
+	-- local allHeroes = HeroList:GetAllHeroes();
+	-- for _, hero in pairs(allHeroes) do
+	-- 	if hero:IsRealHero() then
+	-- 	end
+	-- end
 end

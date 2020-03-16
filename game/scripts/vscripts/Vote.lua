@@ -59,7 +59,6 @@ function Vote:BeginVoting( event )
     -- event.playerId, event.subjectId
     -- check same team
     -- TODO remove
-    CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(event.playerId), "display_error_from_server", {message = "Begin voting!"});
 
     local playerId = event.playerId;
     local subjectId = event.subjectId;
@@ -97,6 +96,8 @@ function Vote:BeginVoting( event )
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
         return nil;
     end
+
+    CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(event.playerId), "display_error_from_server", {message = "Begin voting!"});
 
     -- set lock
     CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(playerTeamId), { voteInProgress = subjectId, cooldown = 1} );

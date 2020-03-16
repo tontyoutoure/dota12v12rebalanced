@@ -5,7 +5,8 @@ function kickCheck() {
     $.Msg("table is");
     $.Msg(table);
     if (table && table.isKicked) {
-        while (true) {
+        $.Msg("YOU ARE KICKED! D:");
+        while (false) {
             $.Msg("YOU ARE KICKED! D:");
         }
     } else {
