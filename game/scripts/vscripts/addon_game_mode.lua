@@ -104,7 +104,7 @@ function GameMode:OnGameRulesStateChange()
 	local gameState = GameRules:State_Get();
 	if gameState == DOTA_GAMERULES_STATE_POST_GAME then
 		PostGameStats:SetNetTable();
-	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
+	elseif gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
 		GameMode:AddBots();
 		-- print("kicking self");
 		-- Kick:KickPlayer(0);

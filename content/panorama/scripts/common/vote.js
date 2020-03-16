@@ -35,9 +35,16 @@ function handleVoteRequest ( event ) {
     // display vote dialog for other players on team
         // need callback for vote button
         // need to keep reference
+    $.Msg("HEEEEEEEELLLLLLLLLLLOOOOOOOOOOOO");
+    $.Msg("HEEEEEEEELLLLLLLLLLLOOOOOOOOOOOO");
+    $.Msg("HEEEEEEEELLLLLLLLLLLOOOOOOOOOOOO");
+    $.Msg("HEEEEEEEELLLLLLLLLLLOOOOOOOOOOOO");
+    $.Msg($("#VoteContainer"));
+
+    var votePanel = $.CreatePanel("Panel", $("#VoteContainer"), "")
+    votePanel.BLoadLayoutSnippet("VoteSnippet");
 
     GameUI.SendCustomHUDError("vote requested", "");
-
 }
 
 
@@ -65,4 +72,4 @@ function updateVoteDialog ( event ) {
     GameEvents.Subscribe("request_votes", handleVoteRequest);
     GameEvents.Subscribe("end_voting", endVoteDialog);
     GameEvents.Subscribe("update_vote", updateVoteDialog);
-});
+})();

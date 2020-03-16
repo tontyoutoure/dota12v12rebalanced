@@ -1,0 +1,52 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/vote.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/common/vote.js" />
+	</scripts>
+
+    <snippets>
+        <snippet name="VoteSnippet" hittest="false" >
+            <Panel class="VoteSnippetContainer">
+                <Label id="VoteHeader" text="Vote To Kick:" />
+                <!-- subject player info row container-->
+                <!-- <Panel id="PlayerInfoContainer" class="RowContainer"> -->
+                <Panel class="RowContainer">
+                    <!-- hero picture container -->
+                    <Panel id="HeroIconContainer">
+                        <DOTAHeroImage id="HeroIcon" heroname="npc_dota_hero_pudge" heroimagestyle="landscape" />
+                    </Panel>
+                    <!-- steam username container -->
+                    <Panel>
+                    <DOTAUserName id="SteamId" steamid="local" />>
+                    </Panel>
+                </Panel>
+                <!-- button row container -->
+                <Panel class="RowContainer">
+                    <!-- button container -->
+                    <Panel id="YesContainer" class="ButtonContiner">
+                        <!-- button -->
+                        <Button id="YesButton">
+                            <Label id="YesButtonLabel" text="Kick"/>
+                        </Button>
+                    </Panel>
+                    <!-- button container -->
+                    <Panel id="NoContainer" class="ButtonContiner">
+                        <!-- button -->
+                        <Button id="NoButton">
+                            <Label id="NoButtonLabel" text="Don't Kick"/>
+                        </Button>
+                    </Panel>
+                </Panel>
+                <Panel id="TimeoutBar"/>
+            </Panel>
+        </snippet>
+    </snippets>
+
+    <Panel class="VoteHud">
+        <Panel id="VoteContainer">
+        </Panel>
+    </Panel>
+</root>

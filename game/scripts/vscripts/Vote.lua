@@ -8,6 +8,7 @@ end
 -- TODO SET TIMEOUTS
 local VOTE_TIMEOUT = 15;
 local VOTE_BUTTON_COOLDOWN = 15; -- cooldown after voting ends
+local VOTE_BUTTON_INITIAL_COOLDOWN = 10; -- cooldown after match start 
 local VOTES_TO_KICK = 5;
 local VOTE_OPTIONS = {
     YES = "Yes",
@@ -49,19 +50,42 @@ local DISCONNECT_TABLE_NAME = "disconnected";
 function Vote:Initialize()
     CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( self, "BeginVoting" ) );
     CustomGameEventManager:RegisterListener( "vote", Dynamic_Wrap( self, "ReceiveVote" ) );
-    CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { voteInProgress = nil, cooldown = 0 } );
-    CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { voteInProgress = nil, cooldown = 0 } );
+    CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { voteInProgress = nil, cooldown = 1 } );
+    CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { voteInProgress = nil, cooldown = 1 } );
     CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { } );
     CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { } );
+
+    GameRules:GetGameModeEntity():SetThink(function () 
+        CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { voteInProgress = nil, cooldown = 0 } );
+        CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { voteInProgress = nil, cooldown = 0 } );
+        CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "Vote kick is now off cooldown."});
+    end, self, "Initial Cooldown", VOTE_BUTTON_INITIAL_COOLDOWN );
 end
 
 function Vote:BeginVoting( event )
     -- event.playerId, event.subjectId
-    -- check same team
-    -- TODO remove
-
     local playerId = event.playerId;
     local subjectId = event.subjectId;
+    local playerTeamId = PlayerResource:GetTeam(playerId);
+    local subjectTeamId = PlayerResource:GetTeam(subjectId);
+
+    -- check team vote lock
+    local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(playerTeamId) ); 
+    if table.voteInProgress then
+        local error = {
+            message = "A vote is already in progress for your team."
+        };
+        CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_NoMana" } );
+        CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
+        return nil;
+    elseif table.cooldown == 1 then
+        local error = {
+            message = "Vote kick is on cooldown."
+        };
+        CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_AbilityInCooldown" } );
+        CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
+        return nil;
+    end
 
     if playerId == subjectId then
         local error = {
@@ -71,8 +95,7 @@ function Vote:BeginVoting( event )
         return nil;
     end
 
-    local playerTeamId = PlayerResource:GetTeam(playerId);
-    local subjectTeamId = PlayerResource:GetTeam(subjectId);
+    -- check same team
     if playerTeamId ~= subjectTeamId then
         local error = {
             message = "Cannot kick players on different teams."
@@ -81,22 +104,7 @@ function Vote:BeginVoting( event )
         return nil;
     end
     
-    -- check team vote lock
-    local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(playerTeamId) ); 
-    if table.voteInProgress then
-        local error = {
-            message = "A vote is already in progress for your team."
-        };
-        CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
-        return nil;
-    elseif table.cooldown == 1 then
-        local error = {
-            message = "Vote kick is on cooldown."
-        };
-        CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
-        return nil;
-    end
-
+    print("should only appear once");
     CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(event.playerId), "display_error_from_server", {message = "Begin voting!"});
 
     -- set lock
@@ -232,9 +240,6 @@ end
 
 function Vote:UpdateNetTable( voterId, subjectId, vote )
     local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(subjectId) );
-    if not table then
-        return nil;
-    end
 
     table.numVotes = table.numVotes + 1;
     if vote == VOTE_OPTIONS.YES then 
@@ -264,7 +269,7 @@ function Vote:EndVoting( subjectId )
     -- release team vote lock after delay
     GameRules:GetGameModeEntity():SetThink(function () 
         -- TODO REMOVE
-        CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "Vote kick is now off cooldown."});
+        CustomGameEventManager:Send_ServerToTeam( subjectTeamId, "display_error_from_server", {message = "Vote kick is now off cooldown."});
         CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(subjectTeamId), { voteInProgress = nil, cooldown = 0 } );
     end, self, "UnlockVoting", VOTE_BUTTON_COOLDOWN );
 
@@ -278,11 +283,11 @@ function Vote:HandleVoteResults( subjectId )
     local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(subjectId) ); 
     if Vote:KickCondition(table) then
         Kick:KickPlayer( subjectId );
-        -- TODO
         -- play axe successs sound on all players
+        CustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "Hero_Axe.Culling_Blade_Success" } );
     else
-        -- TODO
         -- play axe fail sound on all players
+        CustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "Hero_Axe.Culling_Blade_Fail" } );
     end
 end
 
