@@ -18,6 +18,20 @@ function setInterval(callback, interval) {
 	});
 }
 
+/*
+// very laggy
+function setIntervalUntil(callback, interval, stopTime) {
+	var remaining = stopTime;
+	$.Schedule(interval, function reschedule() {
+		if (remaining > 0) {
+			remaining = remaining - interval;
+			$.Schedule(interval, reschedule);
+			callback(remaining, stopTime);
+		}
+	});
+}
+*/
+
 function createEventRequestCreator(eventName) {
 	var idCounter = 0;
 	return function(data, callback) {

@@ -6,7 +6,7 @@ if not Kick then
 end
 
 -- TODO SET TIMEOUTS
-local VOTE_TIMEOUT = 5;
+local VOTE_TIMEOUT = 10;
 local VOTE_BUTTON_COOLDOWN = 5; -- cooldown after voting ends
 local VOTE_BUTTON_INITIAL_COOLDOWN = 0; -- cooldown after match start 
 local VOTES_TO_KICK = 5;
@@ -49,6 +49,7 @@ local DISCONNECT_TABLE_NAME = "disconnected";
 
 
 function Vote:Initialize()
+    CustomNetTables:SetTableValue( "vote", "settings", { timeOut = VOTE_TIMEOUT } );
     CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { voteInProgress = nil, cooldown = 1 } );
     CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { voteInProgress = nil, cooldown = 1 } );
     CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { } );

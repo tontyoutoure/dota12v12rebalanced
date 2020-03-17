@@ -6,7 +6,6 @@
     </styles>
     <scripts>
 		<include src="file://{resources}/scripts/common/utils.js" />
-		<include src="file://{resources}/scripts/common/vote.js" />
     </scripts>
 	<script>
 		function ToggleMute()
@@ -44,6 +43,34 @@
 				$("#DisableHelpButton").checked = true
 			}
 		}
+
+		// used to throttle
+		function cooldown(wait, func) {
+			var lock;
+			var unlock = function () {
+				lock = null;
+			};
+			return function() {
+				var context = this, args = arguments;
+				if (!lock) {
+					func.apply(context, arguments);
+					lock = $.Schedule(wait, unlock);
+				}
+			};
+		}
+
+		var onBeginVotingButtonClicked = cooldown( 0.5 , function () {
+			// get player ID and target player ID
+			var playerId = Game.GetLocalPlayerID();
+			var subjectId = $.GetContextPanel().GetAttributeInt( "player_id", -1 );
+
+			if ( playerId !== -1 ) {
+				GameEvents.SendCustomGameEventToServer("begin_voting", {playerId: playerId, subjectId: subjectId});
+			} else {
+				$.Msg("Vote Button Failed!");
+				GameUI.SendCustomHUDError("Vote.js: Vote button failed.", "");
+			}
+		});
 
 		setToggles();
 	</script>

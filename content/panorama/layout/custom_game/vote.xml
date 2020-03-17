@@ -1,52 +1,55 @@
 <root>
 	<styles>
+		<include src="file://{resources}/styles/dotastyles.css" />
 		<include src="file://{resources}/styles/custom_game/vote.css" />
 	</styles>
 
 	<scripts>
+		<include src="file://{resources}/scripts/common/utils.js" />
 		<include src="file://{resources}/scripts/common/vote.js" />
 	</scripts>
+    <script>
+		registerVoteListeners(); // see vote.js
+    </script>
 
-    <snippets>
-        <snippet name="VoteSnippet" hittest="false" >
-            <Panel class="VoteSnippetContainer">
+    <Panel class="VoteHud">
+        <Panel id="VoteContainer">
+            <Panel id="VoteScreen">
                 <Label id="VoteHeader" text="Vote To Kick:" />
                 <!-- subject player info row container-->
                 <!-- <Panel id="PlayerInfoContainer" class="RowContainer"> -->
-                <Panel class="RowContainer">
+                <Panel id="PlayerRowContainer" class="RowContainer">
                     <!-- hero picture container -->
                     <Panel id="HeroIconContainer">
                         <DOTAHeroImage id="HeroIcon" heroname="npc_dota_hero_pudge" heroimagestyle="landscape" />
                     </Panel>
                     <!-- steam username container -->
-                    <Panel>
-                    <DOTAUserName id="SteamId" steamid="local" />>
+                    <Panel id="SteamIdContainer">
+                        <DOTAUserName id="SteamId" steamid="local" />>
                     </Panel>
                 </Panel>
                 <!-- button row container -->
-                <Panel class="RowContainer">
+                <Panel id="ButtonRowContainer" class="RowContainer">
                     <!-- button container -->
-                    <Panel id="YesContainer" class="ButtonContiner">
+                    <Panel id="YesContainer" class="ButtonContainer">
                         <!-- button -->
-                        <Button id="YesButton">
-                            <Label id="YesButtonLabel" text="Kick"/>
+                        <Button id="YesButton" class="Button CustomGameDetailButton ButtonBevel">
+                            <Label id="YesButtonLabel" class="ButtonLabel" text="Kick"/>
                         </Button>
                     </Panel>
                     <!-- button container -->
-                    <Panel id="NoContainer" class="ButtonContiner">
+                    <Panel id="NoContainer" class="ButtonContainer">
                         <!-- button -->
-                        <Button id="NoButton">
-                            <Label id="NoButtonLabel" text="Don't Kick"/>
+                        <Button id="NoButton" class="Button CustomGameDetailButton ButtonBevel">
+                            <Label id="NoButtonLabel" class="ButtonLabel" text="Don't Kick"/>
                         </Button>
                     </Panel>
                 </Panel>
-                <Panel id="TimeoutBar"/>
             </Panel>
-        </snippet>
-    </snippets>
-
-    <Panel class="VoteHud">
-        <Panel id="VoteContainer">
+        </Panel>
+        <Panel id="TimeoutBarContainer">
+            <Panel id="TimeoutBarBackground"/>
+            <Panel id="TimeoutBar"/>
         </Panel>
     </Panel>
 </root>
