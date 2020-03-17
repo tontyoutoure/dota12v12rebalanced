@@ -108,52 +108,39 @@ function GameMode:OnGameRulesStateChange()
 		-- print("kicking self");
 		-- Kick:KickPlayer(0);
 	elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
-		GameMode:AddBots();
+		if IsServer() then
+			GameMode:AddBots();
+		end
 	end
 
 end
 
+-- TODO FIX BOTS
 function GameMode:AddBots()
 	-- GameRules:BotPopulate(); -- does not work on live server
 	local numRadiant = PlayerResource:GetPlayerCountForTeam( DOTA_TEAM_GOODGUYS );
 	local numDire = PlayerResource:GetPlayerCountForTeam( DOTA_TEAM_BADGUYS );
-	local maxRadiant = math.min(GameRules:GetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS ), 12);
-	local maxDire = math.min(GameRules:GetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS ), 12);
 
-	GameMode:SpawnNBots( maxRadiant - numRadiant, true);
-	GameMode:SpawnNBots( maxDire - numDire, false);
+	local lane = { "top", "mid", "bot" };
+	for i = 1, 12 do
+		if (numRadiant < 12) then
+			local r = GameMode:RandomHeroName();
+			local l = lane[RandomInt(1, 3)];
+			Tutorial:AddBot(r, l, "unfair", true);
+			numRadiant = numRadiant + 1;
+		end
+		if (numDire < 12) then
+			local r = GameMode:RandomHeroName();
+			local l = lane[RandomInt(1, 3)];
+			Tutorial:AddBot(r, l, "unfair", false);
+			numDire = numDire + 1;
+		end
+	end
 
 	GameRules:GetGameModeEntity():SetBotThinkingEnabled(true);
 	GameRules:GetGameModeEntity():SetBotsInLateGame(true);
 
-	-- local allHeroes = HeroList:GetAllHeroes();
-	-- for _, hero in pairs(allHeroes) do
-	-- 	if hero:IsRealHero() then
-	-- 	end
-	-- end
 end
-
-function GameMode:SpawnNBots( count, isRadiant )
-	local team = "Dire";
-	if isRadiant then
-		team = "Radiant";
-	end
-
-	local lane = { "top", "mid", "bot" };
-
-	GameRules:GetGameModeEntity():SetThink(function () 
-		if (count > 0) then
-			local r = GameMode:RandomHeroName();
-			local l = lane[RandomInt(1, 3)];
-			Tutorial:AddBot(r, l, "hard", isRadiant);
-			count = count - 1;
-			return 0.05;
-		else
-			return nil;
-		end
-	end, "Spawn Bots for "..team, 1);
-end
-
 
 function GameMode:RandomHeroName() 
 	local length = #(GameMode.HeroList);
