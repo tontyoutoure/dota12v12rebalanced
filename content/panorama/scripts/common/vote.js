@@ -3,16 +3,22 @@ function registerVoteListeners() {
     $.Msg("Registering Vote Event Listeners...");
     GameEvents.Subscribe("request_votes", handleVoteRequest);
     GameEvents.Subscribe("end_voting", endVoteDialog);
-    GameEvents.Subscribe("update_vote", updateVoteDialog);
+    GameEvents.Subscribe("update_votes", updateVoteDialog);
 }
 
 // button callback that emits "vote"
-function onVote() {
-
+function onVote( yesButton, noButton, voteOptions, subjectId, vote ) {
+    // TODO disable buttons
+    yesButton.enabled = false;
+    noButton.enabled = false;
+    if (vote == voteOptions.YES) {
+        Game.EmitSound("notification.teammate.death"); // vote yes
+    } else if (vote == voteOptions.NO) {
+        Game.EmitSound("notification.teammate.death"); // vote no
+    }
+    GameEvents.SendCustomGameEventToServer("vote", {voterId: Game.GetLocalPlayerID(), subjectId: subjectId, vote: vote});
 }
 
-// Game.EmitSound("ui.click_alt"); // vote yes
-// Game.EmitSound("ui.click_back"); // vote no
 
 // event callback that handles "request_votes"
 function handleVoteRequest ( event ) {
@@ -21,6 +27,8 @@ function handleVoteRequest ( event ) {
     local event = {
         playerId = playerId,
         subjectId = subjectId,
+        subjectSteamId = subjectSteamId,
+        subjectHero = subjectHero,
         voteOptions = VOTE_OPTIONS
     };
     */
@@ -35,23 +43,52 @@ function handleVoteRequest ( event ) {
 
     var voteHud = $.GetContextPanel();
     // $.Msg(voteHud);
-    voteHud.AddClass("SlideIn");
-    Game.EmitSound("ui.ready_check.popup"); // vote begins
 
     var timeOut = CustomNetTables.GetTableValue("vote", "settings").timeOut;
 
     var timeOutBar = voteHud.FindChildTraverse("TimeoutBar"); 
     // timeOutBar.AddClass("Shrink");
 
+    // set timeOut animation
     timeOutBar.style.transitionDuration = "0s";
     timeOutBar.style.width = "100%";
     timeOutBar.style.transitionDuration = timeOut.toString() + "s";
     timeOutBar.style.width = "0%";
 
-    // setIntervalUntil(UpdateTimeOutBar, 0.1, timeOut); // TODO use time set on server
+    // setIntervalUntil(UpdateTimeOutBar, 0.1, timeOut); 
+
+    // set player info
+    var steamIdElement = voteHud.FindChildTraverse("SteamId");
+    steamIdElement.steamid = event.subjectSteamId;
+    var heroElement = voteHud.FindChildTraverse("HeroIcon");
+    heroElement.heroname = event.subjectHero;
+
+    // hook up buttons
+    var yesButton = voteHud.FindChildTraverse("YesButton");
+    var noButton = voteHud.FindChildTraverse("NoButton");
+    yesButton.SetPanelEvent("onactivate", function () {
+        onVote(yesButton, noButton, event.voteOptions, event.subjectId, event.voteOptions.YES);
+    });
+
+    noButton.SetPanelEvent("onactivate", function () {
+        onVote(yesButton, noButton, event.voteOptions, event.subjectId, event.voteOptions.NO)
+    });
+
+    var localPlayerId = Game.GetLocalPlayerID();
+    if (localPlayerId != event.playerId && localPlayerId != event.subjectId) {
+        yesButton.enabled = true;
+        noButton.enabled = true;
+    } else {
+        yesButton.enabled = false;
+        noButton.enabled = false;
+    }
 
 
-    GameUI.SendCustomHUDError("Vote requested.", "");
+    // GameUI.SendCustomHUDError("Vote requested.", "");
+
+    // render
+    voteHud.AddClass("SlideIn");
+    Game.EmitSound("ui.ready_check.popup"); // vote begins
 }
 
 
@@ -73,7 +110,7 @@ function endVoteDialog ( event ) {
     // event.subjectId
     var voteHud = $.GetContextPanel();
     voteHud.RemoveClass("SlideIn");
-    GameUI.SendCustomHUDError("Voting ended.", "");
+    // GameUI.SendCustomHUDError("Voting ended.", "");
 }
 
 
@@ -83,7 +120,9 @@ function updateVoteDialog ( event ) {
         event.numVoters
         event.numVotes
         event.numYes
-        event.votes
+        event.votes // who voted what
     */
-    GameUI.SendCustomHUDError("voting updated", "");
+   
+    $.Msg("VOTE RECIEVED BY SERVER");
+    GameUI.SendCustomHUDError(event.numYes.toString() + "/" + event.numVotes.toString() + "voted yes.", "");
 }

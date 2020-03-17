@@ -3,11 +3,13 @@ function kickCheck() {
     var table = CustomNetTables.GetTableValue( "kicked_players", myId.toString() );
     if (table && table.isKicked) {
         $.Msg("YOU ARE KICKED! D:");
+        GameUI.SendCustomHUDError("TESTING: YOU HAVE BEEN KICKED.", "");
         while (false) {
             $.Msg("YOU ARE KICKED! D:");
         }
     } else {
-        $.Msg("YOU ARE NOT KICKED! :D");
+        GameUI.SendCustomHUDError("TESTING: YOU HAVE NOT BEEN KICKED.", "");
+            $.Msg("YOU ARE NOT KICKED!");
     }
 }
 

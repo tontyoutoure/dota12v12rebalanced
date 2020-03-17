@@ -146,10 +146,14 @@ function Vote:RequestVotes( playerId, subjectId )
     -- send vote request to everyone on same team except the above two players
     -- or let client handle displaying correct dialog
     local playerTeamId = PlayerResource:GetTeam(playerId);
+    local subjectSteamId = PlayerResource:GetSteamID(subjectId);
+    local subjectHero = PlayerResource:GetSelectedHeroName(subjectId);
     -- local subjectTeam = PlayerResource:GetTeam(subjectId);
     local event = {
         playerId = playerId,
         subjectId = subjectId,
+        subjectSteamId = subjectSteamId,
+        subjectHero = subjectHero,
         voteOptions = VOTE_OPTIONS
     };
     CustomGameEventManager:Send_ServerToTeam( playerTeamId , "request_votes", event );
