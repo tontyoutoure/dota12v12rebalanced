@@ -117,6 +117,7 @@
     background-image: url("s2r://panorama/images/backgrounds/background_play_button_2x_png.vtex");
     background-size: 300% 300%; */
     wash-color: rgba(0, 200, 0, 0.8);
+    font-weight: bold;
 }
 
 
@@ -126,6 +127,7 @@
     /* background-image: url("s2r://panorama/images/red_large_off_png.vtex"); */
     /* background-size: 100% 100%; */
     wash-color: rgba(200, 0, 0, 0.8);
+    font-weight: bold;
 }
 
 #TimeoutBarContainer

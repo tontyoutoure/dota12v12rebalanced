@@ -288,12 +288,10 @@ function Vote:HandleVoteResults( subjectId )
     if Vote:KickCondition(table) then
         Kick:KickPlayer( subjectId );
         -- play axe successs sound on all players
-        -- TODO
         CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "Vote kick successful."});
         CustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "ui.report_negative" } );
     else
         -- play axe fail sound on all players
-        -- TODO
         CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "Vote kick failed."});
         CustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "Hero_Axe.Culling_Blade_Failed" } );
     end
