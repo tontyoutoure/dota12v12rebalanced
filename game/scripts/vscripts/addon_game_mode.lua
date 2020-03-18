@@ -68,10 +68,10 @@ function GameMode:InitGameMode()
 	Vote:Initialize();
 
 	-- Game Thinkers
-	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", self, "GameTimeThinker", 1 );
+	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", GameMode, "GameTimeThinker", 1 );
 
 	-- Game Events
-	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( self, 'OnGameRulesStateChange'), self );
+	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
 
 	-- Other
 	-- GameRules:GetGameModeEntity():SetMaximumAttackSpeed( 9999 );
@@ -111,35 +111,66 @@ function GameMode:OnGameRulesStateChange()
 		if IsServer() then
 			GameMode:AddBots();
 		end
+	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
+		-- GameMode:SetBotDifficulty();
 	end
 
 end
 
 -- TODO FIX BOTS
 function GameMode:AddBots()
+	Tutorial:StartTutorialMode(); -- MUST ADD OR CRASH
+	GameRules:GetGameModeEntity():SetBotThinkingEnabled(true);
+	-- GameRules:GetGameModeEntity():SetBotsInLateGame(true); -- they might be rushing mid because of this
+
 	-- GameRules:BotPopulate(); -- does not work on live server
-	local numRadiant = PlayerResource:GetPlayerCountForTeam( DOTA_TEAM_GOODGUYS );
-	local numDire = PlayerResource:GetPlayerCountForTeam( DOTA_TEAM_BADGUYS );
+	local numRadiant = GameMode:GetTeamCount( DOTA_TEAM_GOODGUYS );
+	local numDire = GameMode:GetTeamCount( DOTA_TEAM_BADGUYS );
 
 	local lane = { "top", "mid", "bot" };
+	local difficulty = "unfair";
+
 	for i = 1, 12 do
 		if (numRadiant < 12) then
+			-- print("numRadiant is "..numRadiant);
+			-- CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "numRadiant is "..numRadiant});
 			local r = GameMode:RandomHeroName();
 			local l = lane[RandomInt(1, 3)];
-			Tutorial:AddBot(r, l, "unfair", true);
+			Tutorial:AddBot(r, l, difficulty, true);
 			numRadiant = numRadiant + 1;
 		end
 		if (numDire < 12) then
+			-- print("numDire is "..numDire);
+			-- CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "numDire is "..numDire});
 			local r = GameMode:RandomHeroName();
 			local l = lane[RandomInt(1, 3)];
-			Tutorial:AddBot(r, l, "unfair", false);
+			Tutorial:AddBot(r, l, difficulty, false);
 			numDire = numDire + 1;
 		end
 	end
 
-	GameRules:GetGameModeEntity():SetBotThinkingEnabled(true);
-	GameRules:GetGameModeEntity():SetBotsInLateGame(true);
+end
 
+function GameMode:SetBotDifficulty()
+	-- set bot difficulty
+	for i = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
+		local player = PlayerResource:GetPlayer(i);
+		print("player "..i.." is:")
+		DeepPrintTable(player);
+		local hero = player:GetAssignedHero();
+		DeepPrintTable(hero);
+		-- hero:SetBotDifficulty(4);
+	end
+end
+
+function GameMode:GetTeamCount( teamId )
+	local count = 0;
+	for i = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
+		if PlayerResource:IsValidPlayer(i) and PlayerResource:GetTeam(i) == teamId then
+			count = count + 1;
+		end
+	end
+	return count;
 end
 
 function GameMode:RandomHeroName() 

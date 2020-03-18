@@ -4,14 +4,19 @@
     width: 320px;
     height: 150px;
     flow-children: down;
-	transform: translatex( 500px );
-    transition-property: transform;
-    transition-duration: 0.3s;
+    transform: translatex( 500px );
+    opacity: 1;
+    transition: transform 0.3s ease-in 0s, opacity 1s ease-in 0s;
 }
 
 .VoteHud.SlideIn
 {
 	transform: translatex( 0px );
+}
+
+.VoteHud.Transparent
+{
+    opacity: 0.9;
 }
 
 #VoteContainer

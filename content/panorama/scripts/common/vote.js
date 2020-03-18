@@ -9,6 +9,8 @@ function registerVoteListeners() {
 // button callback that emits "vote"
 function onVote( yesButton, noButton, voteOptions, subjectId, vote ) {
     // TODO disable buttons
+    var voteHud = $.GetContextPanel();
+    voteHud.AddClass("Transparent");
     yesButton.enabled = false;
     noButton.enabled = false;
     if (vote == voteOptions.YES) {
@@ -76,9 +78,11 @@ function handleVoteRequest ( event ) {
 
     var localPlayerId = Game.GetLocalPlayerID();
     if (localPlayerId != event.playerId && localPlayerId != event.subjectId) {
+        voteHud.RemoveClass("Transparent");
         yesButton.enabled = true;
         noButton.enabled = true;
     } else {
+        voteHud.AddClass("Transparent");
         yesButton.enabled = false;
         noButton.enabled = false;
     }

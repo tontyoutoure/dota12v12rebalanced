@@ -1,5 +1,6 @@
 GameEvents.Subscribe( "display_error_from_server", function (event) {
 	GameUI.SendCustomHUDError(event.message, "");
+	$.Msg("Error: " + event.message);
 });
 
 // GameEvents.Subscribe("display_chat_error", function(event) {
