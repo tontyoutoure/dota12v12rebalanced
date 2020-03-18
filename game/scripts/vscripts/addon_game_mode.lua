@@ -18,6 +18,8 @@ function Activate()
 	GameRules.AddonTemplate:InitGameMode();
 end
 
+local BOT_MAP_NAME = "bots";
+
 GoldTuner = GoldTuner or require("GoldTuner");
 ExperienceTuner = ExperienceTuner or require("ExperienceTuner");
 PostGameStats = PostGameStats or require("PostGameStats");
@@ -108,7 +110,9 @@ function GameMode:OnGameRulesStateChange()
 		-- print("kicking self");
 		-- Kick:KickPlayer(0);
 	elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
-		if IsServer() then
+		-- print(BOT_MAP_NAME);
+		-- print(GetMapName());
+		if IsServer() and GetMapName() == BOT_MAP_NAME then
 			GameMode:AddBots();
 		end
 	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
@@ -130,26 +134,57 @@ function GameMode:AddBots()
 	local lane = { "top", "mid", "bot" };
 	local difficulty = "unfair";
 
-	for i = 1, 12 do
-		if (numRadiant < 12) then
-			-- print("numRadiant is "..numRadiant);
-			-- CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "numRadiant is "..numRadiant});
-			local r = GameMode:RandomHeroName();
-			local l = lane[RandomInt(1, 3)];
-			Tutorial:AddBot(r, l, difficulty, true);
-			numRadiant = numRadiant + 1;
+	local i = 1;
+	local N = 12;
+	local INITIAL_DELAY = 1;
+	local SPAWN_INTERVAL = 0.25;
+
+	GameRules:GetGameModeEntity():SetThink(function()
+		if i <= 12 then
+			if (numRadiant < 12) then
+				-- print("numRadiant is "..numRadiant);
+				-- CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "numRadiant is "..numRadiant});
+				local r = GameMode:RandomHeroName();
+				local l = lane[RandomInt(1, 3)];
+				Tutorial:AddBot(r, l, difficulty, true);
+				numRadiant = numRadiant + 1;
+			end
+			if (numDire < 12) then
+				-- print("numDire is "..numDire);
+				-- CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "numDire is "..numDire});
+				local r = GameMode:RandomHeroName();
+				local l = lane[RandomInt(1, 3)];
+				Tutorial:AddBot(r, l, difficulty, false);
+				numDire = numDire + 1;
+			end
+			i = i + 1;
+			return SPAWN_INTERVAL;
+		else
+			return nil;
 		end
-		if (numDire < 12) then
-			-- print("numDire is "..numDire);
-			-- CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "numDire is "..numDire});
-			local r = GameMode:RandomHeroName();
-			local l = lane[RandomInt(1, 3)];
-			Tutorial:AddBot(r, l, difficulty, false);
-			numDire = numDire + 1;
-		end
-	end
+	end, "Spawn Bots", INITIAL_DELAY);
+
+	-- for i = 1, 12 do
+	-- 	if (numRadiant < 12) then
+	-- 		-- print("numRadiant is "..numRadiant);
+	-- 		-- CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "numRadiant is "..numRadiant});
+	-- 		local r = GameMode:RandomHeroName();
+	-- 		local l = lane[RandomInt(1, 3)];
+	-- 		Tutorial:AddBot(r, l, difficulty, true);
+	-- 		numRadiant = numRadiant + 1;
+	-- 	end
+	-- 	if (numDire < 12) then
+	-- 		-- print("numDire is "..numDire);
+	-- 		-- CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "numDire is "..numDire});
+	-- 		local r = GameMode:RandomHeroName();
+	-- 		local l = lane[RandomInt(1, 3)];
+	-- 		Tutorial:AddBot(r, l, difficulty, false);
+	-- 		numDire = numDire + 1;
+	-- 	end
+	-- end
 
 end
+
 
 function GameMode:SetBotDifficulty()
 	-- set bot difficulty
