@@ -1,15 +1,11 @@
 "AddonInfo"
 {
-    maps	                "Dota Bots"
+    maps	                "dota"
     "IsPlayable"            "1"
     "PenaltiesEnabled"      "0"
     "EnablePickRules"       "1"
     "CheckAFKPlayers"       "1"
-    "Dota"
-    {
-                    "MaxPlayers"                    "24"
-    }
-    "Bots"
+    "dota"
     {
                     "MaxPlayers"                    "24"
     }

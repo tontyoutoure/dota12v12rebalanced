@@ -18,7 +18,7 @@ function Activate()
 	GameRules.AddonTemplate:InitGameMode();
 end
 
-local BOT_MAP_NAME = "bots";
+-- local BOT_MAP_NAME = "bots";
 
 GoldTuner = GoldTuner or require("GoldTuner");
 ExperienceTuner = ExperienceTuner or require("ExperienceTuner");
@@ -112,7 +112,10 @@ function GameMode:OnGameRulesStateChange()
 	elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 		-- print(BOT_MAP_NAME);
 		-- print(GetMapName());
-		if IsServer() and GetMapName() == BOT_MAP_NAME then
+		-- if IsServer() and GetMapName() == BOT_MAP_NAME then
+		-- 	GameMode:AddBots();
+		-- end
+		if IsServer() then
 			GameMode:AddBots();
 		end
 	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
