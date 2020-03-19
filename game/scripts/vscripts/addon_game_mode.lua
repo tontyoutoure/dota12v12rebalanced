@@ -10,7 +10,7 @@ function Precache( context )
 			PrecacheResource( "particle", "*.vpcf", context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
-	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context );
+	PrecacheResource( "soundfile", "soundevents/custom_game.vsndevts", context );
 
 end
 
@@ -101,8 +101,6 @@ end
 
 -- trigger every second of game time
 function GameMode:GameTimeThinker()
-	-- Say(PlayerResource:GetPlayer(0), "HELLLLLLLOOOOOOOOOOO", true); --TODO
-	-- GameRules:SendCustomMessage("what", 0, 0);
 	local gameState = GameRules:State_Get();
 	local time = GameRules:GetDOTATime(false, false);
 	if gameState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
@@ -120,7 +118,8 @@ function GameMode:OnGameRulesStateChange()
 	if gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
 	elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 		if IsServer() then
-			Bots:AddBots();
+			-- Bots:AddBots();
+			Bots:AddBotsInterval();
 		end
 	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
 		-- GameMode:SetBotDifficulty();

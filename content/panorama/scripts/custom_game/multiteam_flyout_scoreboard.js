@@ -4,11 +4,6 @@ var g_ScoreboardHandle = null;
 
 function SetFlyoutScoreboardVisible( bVisible )
 {
-	// var x = "Hero_Axe.Culling_Blade_Fail";
-	var y = "Hero_Zuus.GodsWrath.PreCast";
-	// var x = "ui.report_negative";
-	// $.Msg("emitting: " + y);
-	// var h = Game.EmitSound(y);
 	$.GetContextPanel().SetHasClass( "flyout_scoreboard_visible", bVisible );
 	if ( bVisible )
 	{

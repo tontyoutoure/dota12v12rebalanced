@@ -48,8 +48,8 @@ function Bots:AddBotsInterval()
 
 	local i = 1;
 	local N = 12;
-	local INITIAL_DELAY = 0;
-	local SPAWN_INTERVAL = 0.25;
+	local INITIAL_DELAY = 1;
+	local SPAWN_INTERVAL = 0.4;
 
 	GameRules:GetGameModeEntity():SetThink(function()
 		if i <= 12 then
@@ -57,12 +57,14 @@ function Bots:AddBotsInterval()
 				local r = Bots:RandomUnusedHeroName();
 				local l = lane[RandomInt(1, 3)];
 				Tutorial:AddBot(r, l, difficulty, true);
+				EmitGlobalSound("Bots.Spawned");
 				numRadiant = numRadiant + 1;
 			end
 			if (numDire < 12) then
 				local r = Bots:RandomUnusedHeroName();
 				local l = lane[RandomInt(1, 3)];
 				Tutorial:AddBot(r, l, difficulty, false);
+				EmitGlobalSound("Bots.Spawned");
 				numDire = numDire + 1;
 			end
 			i = i + 1;
