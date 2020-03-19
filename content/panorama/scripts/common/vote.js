@@ -128,5 +128,5 @@ function updateVoteDialog ( event ) {
     */
    
     $.Msg("VOTE RECIEVED BY SERVER");
-    GameUI.SendCustomHUDError(event.numYes.toString() + "/" + event.numVotes.toString() + "voted yes.", "");
+    // GameUI.SendCustomHUDError(event.numYes.toString() + "/" + event.numVotes.toString() + "voted yes.", "");
 }

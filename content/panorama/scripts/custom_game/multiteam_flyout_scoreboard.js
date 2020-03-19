@@ -4,6 +4,10 @@ var g_ScoreboardHandle = null;
 
 function SetFlyoutScoreboardVisible( bVisible )
 {
+	// var x = "Hero_Axe.Culling_Blade_Fail";
+	// var x = "ui.report_negative";
+	// $.Msg("emitting: " + x);
+	// Game.EmitSound(x);
 	$.GetContextPanel().SetHasClass( "flyout_scoreboard_visible", bVisible );
 	if ( bVisible )
 	{

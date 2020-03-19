@@ -6,15 +6,20 @@ if not Kick then
 end
 
 -- TODO SET TIMEOUTS
-local VOTE_TIMEOUT = 10;
-local VOTE_BUTTON_COOLDOWN = 5; -- cooldown after voting ends
-local VOTE_BUTTON_INITIAL_COOLDOWN = 0; -- cooldown after match start 
-local VOTES_TO_KICK = 5;
+local VOTE_TIMEOUT = 15;
+local VOTE_BUTTON_COOLDOWN = 30; -- cooldown after voting ends
+local VOTE_BUTTON_INITIAL_COOLDOWN = 60; -- cooldown after match start 
+local VOTES_TO_KICK = 6;
 local VOTE_OPTIONS = {
     YES = "Yes",
     NO = "No",
     NEITHER = "Neither"
-}
+};
+
+function Vote:Threshold( table )
+    -- return math.min(VOTES_TO_KICK, table.numVotes); --TODO change to voters
+    return VOTES_TO_KICK;
+end
 
 local NET_TABLE_NAME = "vote_table";
 -- Table Contents:
@@ -46,6 +51,18 @@ local DISCONNECT_TABLE_NAME = "disconnected";
 -- Table Contents
 -- teamId -> table that maps playerId to true if disconnect or false/nil otherwise
 
+function Vote:TeamName( teamId )
+    if teamId == DOTA_TEAM_GOODGUYS then
+        return "Radiant";
+    else
+        return "Dire";
+    end
+end
+
+function Vote:TeamMessage( teamId, message )
+    local teamName = Vote:TeamName(teamId);
+    GameRules:SendCustomMessage(teamName.." | "..message, 0, 0);
+end
 
 
 function Vote:Initialize()
@@ -54,6 +71,7 @@ function Vote:Initialize()
     CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { voteInProgress = nil, cooldown = 1 } );
     CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { } );
     CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { } );
+    GameRules:SendCustomMessage("Start a vote kick by clicking the Boots icon on the scoreboard.", 0, 0);
 
     CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( self, "BeginVoting" ) );
     CustomGameEventManager:RegisterListener( "vote", Dynamic_Wrap( self, "ReceiveVote" ) );
@@ -61,7 +79,8 @@ function Vote:Initialize()
     GameRules:GetGameModeEntity():SetThink(function () 
         CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { voteInProgress = nil, cooldown = 0 } );
         CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { voteInProgress = nil, cooldown = 0 } );
-        CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "Vote kick is now off cooldown."});
+        Vote:TeamMessage( DOTA_TEAM_GOODGUYS, "Vote kick is now off cooldown.");
+        Vote:TeamMessage( DOTA_TEAM_BADGUYS, "Vote kick is now off cooldown.");
     end, self, "Initial Cooldown", VOTE_BUTTON_INITIAL_COOLDOWN );
 end
 
@@ -164,7 +183,10 @@ function Vote:ReceiveVote( event )
     local table = Vote:UpdateNetTable( event.voterId, event.subjectId, event.vote );
     -- send vote net table info to client to update dialog box
     local teamId = PlayerResource:GetTeam(event.voterId);
+
     CustomGameEventManager:Send_ServerToTeam( teamId, "update_votes", table );
+    local message = "Votes: "..(table.numVotes).." | Kick: "..(table.numYes).." | Don't Kick: "..(table.numVotes - table.numYes);
+    Vote:TeamMessage(subjectTeamId, message);
 
     if Vote:IsComplete( event.subjectId ) then
         Vote:EndVoting( event.subjectId );
@@ -211,6 +233,8 @@ function Vote:OnPlayerDisconnect( event )
     CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(subjectId), table );
 
     CustomGameEventManager:Send_ServerToTeam( playerTeamId, "update_votes", table );
+    local message = "Votes: "..(table.numVotes).." (Voter Disconnected) | Kick: "..(table.numYes).." | Don't Kick: "..(table.numVotes - table.numYes);
+    Vote:TeamMessage(subjectTeamId, message);
 
     -- check kick condition
     if Vote:IsComplete( event.subjectId ) then
@@ -229,9 +253,7 @@ function Vote:IsComplete( subjectId )
 end
 
 function Vote:KickCondition( table )
-    local threshold = math.min(VOTES_TO_KICK, table.numVoters);
-    local kickCondition = (table.numYes >= threshold);
-    return kickCondition;
+    return table.numYes >= Vote:Threshold(table);
 end
 
 function Vote:ResetNetTable( subjectId )
@@ -272,8 +294,9 @@ function Vote:EndVoting( subjectId )
 
     -- release team vote lock after delay
     GameRules:GetGameModeEntity():SetThink(function () 
-        -- TODO REMOVE
-        CustomGameEventManager:Send_ServerToTeam( subjectTeamId, "display_error_from_server", {message = "Vote kick is now off cooldown."});
+        local message = "Vote kick is now off cooldown.";
+        -- CustomGameEventManager:Send_ServerToTeam( subjectTeamId, "display_error_from_server", {message = "Vote kick is now off cooldown."});
+        Vote:TeamMessage(subjectTeamId, message);
         CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(subjectTeamId), { voteInProgress = nil, cooldown = 0 } );
     end, self, "UnlockVoting", VOTE_BUTTON_COOLDOWN );
 
@@ -284,16 +307,25 @@ function Vote:EndVoting( subjectId )
 end
 
 function Vote:HandleVoteResults( subjectId )
+    local subjectTeamId = PlayerResource:GetTeam(subjectId);
     local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(subjectId) ); 
+    local threshold = Vote:Threshold(table);
     if Vote:KickCondition(table) then
         Kick:KickPlayer( subjectId );
+        local message = table.numYes.."/"..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick successful.";
+        Vote:TeamMessage(subjectTeamId, message);
         -- play axe successs sound on all players
-        CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "Vote kick successful."});
-        CustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "ui.report_negative" } );
+        -- Hero_Axe.Culling_Blade_FailCustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "Hero_Axe.Culling_Blade_Success" } );
+        -- EmitGlobalSound("Hero_Axe.Culling_Blade_Success");
+        EmitGlobalSound("ui.report_negative");
     else
         -- play axe fail sound on all players
-        CustomGameEventManager:Send_ServerToAllClients( "display_error_from_server", {message = "Vote kick failed."});
-        CustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "Hero_Axe.Culling_Blade_Failed" } );
+        local message = table.numYes.."/"..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick failed.";
+        Vote:TeamMessage(subjectTeamId, message);
+        -- play axe fail sound on all players
+        -- CustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "Hero_Axe.Culling_Blade_Fail" } );
+        -- EmitGlobalSound("Hero_Axe.Culling_Blade_Fail");
+        EmitGlobalSound("ui.report_negative");
     end
 end
 
