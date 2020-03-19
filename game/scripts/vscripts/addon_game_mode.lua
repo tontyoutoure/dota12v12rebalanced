@@ -10,7 +10,7 @@ function Precache( context )
 			PrecacheResource( "particle", "*.vpcf", context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
-	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_axe.vsndevts", context );
+	PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context );
 
 end
 
@@ -76,6 +76,8 @@ function GameMode:InitGameMode()
 	-- Game Thinkers
 	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", GameMode, "GameTimeThinker", 1 );
 
+	--TODO
+	-- GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter( GameMode.InventoryFilter, GameMode );
 	-- Game Events
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
 
@@ -83,6 +85,11 @@ function GameMode:InitGameMode()
 	-- GameRules:GetGameModeEntity():SetMaximumAttackSpeed( 9999 );
 	-- GameRules:GetGameModeEntity():SetThink( "AfterDelay", self, "AfterDelay", 10 ); -- CHECK
 
+end
+
+function GameMode:InventoryFilter( filterTable )
+	DeepPrintTable(filterTable);
+	return true;
 end
 
 -- for testing
@@ -120,5 +127,4 @@ function GameMode:OnGameRulesStateChange()
 	elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
 		PostGameStats:SetNetTable();
 	end
-
 end

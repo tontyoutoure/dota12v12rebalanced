@@ -6,6 +6,18 @@
 		<include src="file://{resources}/scripts/common/client_sound_player.js" />
 	</scripts>
 	<script>
+		
+		function OverrideDotaNeutralItemsShop() {
+			var shop_grid_1 = $.GetContextPanel().GetParent().GetParent().GetParent().FindChildTraverse("GridNeutralsCategory")
+			if(shop_grid_1) {
+				shop_grid_1.style.overflow = "squish scroll"
+			}
+		}
+
+		(function () {
+			OverrideDotaNeutralItemsShop();
+		})();
+
 		GameUI.CustomUIConfig().multiteam_top_scoreboard =
 		{
 			shouldSort: false
