@@ -54,8 +54,10 @@ local DISCONNECT_TABLE_NAME = "disconnected";
 function Vote:TeamName( teamId )
     if teamId == DOTA_TEAM_GOODGUYS then
         return "Radiant";
-    else
+    elseif teamId == DOTA_TEAM_BADGUYS then
         return "Dire";
+    else 
+        return "Team "..teamId;
     end
 end
 
@@ -315,17 +317,13 @@ function Vote:HandleVoteResults( subjectId )
         local message = table.numYes.."/"..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick successful.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe successs sound on all players
-        -- Hero_Axe.Culling_Blade_FailCustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "Hero_Axe.Culling_Blade_Success" } );
-        -- EmitGlobalSound("Hero_Axe.Culling_Blade_Success");
-        EmitGlobalSound("ui.report_negative");
+        EmitGlobalSound("Vote_Kick.Success");
     else
         -- play axe fail sound on all players
         local message = table.numYes.."/"..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick failed.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe fail sound on all players
-        -- CustomGameEventManager:Send_ServerToAllClients( "play_sound", { sound = "Hero_Axe.Culling_Blade_Fail" } );
-        -- EmitGlobalSound("Hero_Axe.Culling_Blade_Fail");
-        EmitGlobalSound("ui.report_negative");
+        EmitGlobalSound("Vote_Kick.Fail");
     end
 end
 

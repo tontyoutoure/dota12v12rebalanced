@@ -10,7 +10,7 @@ function Precache( context )
 			PrecacheResource( "particle", "*.vpcf", context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
-	PrecacheResource( "soundfile", "soundevents/custom_game.vsndevts", context );
+	PrecacheResource( "soundfile", "soundevents/dota_rebalanced.vsndevts", context );
 
 end
 
