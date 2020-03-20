@@ -1,0 +1,101 @@
+local Inventory = class({});
+local Bots = Bots or require("Bots");
+
+local BUY_COOLDOWN = {
+    item_tome_of_knowledge = 300
+};
+
+-- NOTE: there is some hidden item purchase at the beginning of the game that, if canceled, will crash the game
+
+-- last_buy_time[itemName][playerId] = gameTimeOfPurchase
+local last_buy_time = {};
+
+function Inventory:InitializeBuyMatrix()
+    for item, cooldown in pairs(BUY_COOLDOWN) do
+        last_buy_time[item] = {};
+        for playerId = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
+            last_buy_time[item][playerId] = -999999;
+        end
+    end
+end
+
+function Inventory:Initialize()
+    GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter( Dynamic_Wrap( Inventory, "InventoryFilter" ), Inventory );
+    Inventory:InitializeBuyMatrix();
+end
+
+function Inventory:InventoryFilter( filterTable )
+	local ownerIndex = filterTable["inventory_parent_entindex_const"]
+	local itemIndex = filterTable["item_entindex_const"]
+
+	if not ownerIndex or not itemIndex then
+		return true
+	end
+
+    local owner = EntIndexToHScript(filterTable["inventory_parent_entindex_const"])
+	local item = EntIndexToHScript(filterTable["item_entindex_const"])
+
+	if not owner or not item or not owner.GetPlayerID then
+		return true
+	end
+
+	local playerId = owner:GetPlayerID();
+
+	if Bots:IsBot(playerId) or not IsValidEntity(item) or not owner:IsRealHero() then
+		return true;
+	end
+
+    -- check if item is restricted
+    local itemName = item:GetName();
+    if BUY_COOLDOWN[itemName] then
+        local currentTime = GameRules:GetDOTATime(false, true); -- must include pregame time 
+        if Inventory:PlayerCanBuy(playerId, itemName, currentTime) then
+            last_buy_time[itemName][playerId] = currentTime;
+            return true;
+        else -- refund since on cooldown
+            Inventory:RefundItem( owner, item );
+            Inventory:PlayerBuyCoolDownMessage( playerId, itemName, currentTime );
+            return false;
+        end
+    end
+
+	return true;
+end
+
+function Inventory:PlayerCanBuy(playerId, itemName, currentTime)
+    return last_buy_time[itemName][playerId] + BUY_COOLDOWN[itemName] < currentTime;
+end
+
+function Inventory:PlayerBuyCoolDownMessage(playerId, itemName, currentTime)
+    local offCoolDownTime = last_buy_time[itemName][playerId] + BUY_COOLDOWN[itemName];
+    local cooldown = offCoolDownTime - currentTime;
+    -- round
+    cooldown = math.floor(cooldown + 0.5);
+    local error = {
+        message = "Purchasing this item is on cooldown for "..cooldown.." more seconds."
+    };
+    CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.Cancel" } );
+    CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
+end
+
+
+function Inventory:RefundItem( player, item )
+	local playerId = player:GetPlayerID();
+	local itemCost = item:GetCost();
+
+	local unreliableGold = PlayerResource:GetUnreliableGold(playerId);
+	-- local reliableGold = PlayerResource:GetReliableGold(playerId);
+
+	if unreliableGold >= itemCost then -- just refund unreliable
+		player:ModifyGold(itemCost, false, 0);
+	else  -- refund reliable portion
+		player:ModifyGold(unreliableGold, false, 0);
+		player:ModifyGold(itemCost - unreliableGold, true, 0);
+	end
+
+	UTIL_Remove(item);
+end
+
+
+
+return Inventory;

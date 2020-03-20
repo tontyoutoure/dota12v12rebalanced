@@ -11,12 +11,9 @@ local SCALE_INITIAL_VALUE = 1; -- value at initial time
 local SCALE_HOUR_VALUE = 5; -- value at final time 
 local SCALE_TIME_COEFFICIENT = (SCALE_HOUR_VALUE - SCALE_INITIAL_VALUE) / (HOUR_TIME - INITIAL_TIME);
 
-local scaleFactor = SCALE_INITIAL_VALUE;
+local SCALE_FACTOR_THINK_TIME = 1;
 
--- call in game time thinker
-function GoldTuner:UpdateFactor( time )
-    scaleFactor = SCALE_INITIAL_VALUE + SCALE_TIME_COEFFICIENT * time;
-end
+local scaleFactor = SCALE_INITIAL_VALUE;
 
 function GoldTuner:GoldFilter( filterTable )
     filterTable["gold"] = scaleFactor * filterTable["gold"];
@@ -41,10 +38,26 @@ function GoldTuner:IncrementPlayerGold()
     return GOLD_TICK_TIME;
 end
 
+function GoldTuner:UpdateScaleFactor( time )
+    scaleFactor = SCALE_INITIAL_VALUE + SCALE_TIME_COEFFICIENT * time;
+end
+
+function GoldTuner:ScaleFactorThinker()
+	local gameState = GameRules:State_Get();
+    local time = GameRules:GetDOTATime(false, false); -- use time to respect pauses
+	if gameState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+		GoldTuner:UpdateScaleFactor( time );
+	elseif gameState >= DOTA_GAMERULES_STATE_POST_GAME then
+		return nil
+	end
+	return SCALE_FACTOR_THINK_TIME;
+end
+
 function GoldTuner:Initialize( GameRules )
-	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( self, "GoldFilter" ), self );
-	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( self, "BountyRuneFilter" ), self );
-    GameRules:GetGameModeEntity():SetThink( "IncrementPlayerGold", self, "GoldThinker", GOLD_TICK_TIME );
+	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
+	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( GoldTuner, "BountyRuneFilter" ), GoldTuner );
+    GameRules:GetGameModeEntity():SetThink( "IncrementPlayerGold", GoldTuner, "GoldThinker", GOLD_TICK_TIME );
+	GameRules:GetGameModeEntity():SetThink( "ScaleFactorThinker", GoldTuner, "GoldScaleThinker", SCALE_FACTOR_THINK_TIME );
 end
 
 return GoldTuner;

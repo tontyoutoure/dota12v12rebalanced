@@ -113,6 +113,11 @@ function Bots:RandomUnusedHeroName()
 	return heroName;
 end
 
+
+function Bots:IsBot( playerId )
+	return PlayerResource:GetConnectionState(playerId) == 1;
+end
+
 -- does not include newest heroes
 Bots.HeroList = {
 	"npc_dota_hero_axe",

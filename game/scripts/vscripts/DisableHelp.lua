@@ -20,7 +20,7 @@ function DisableHelp:DisableHelpListener( event )
 end
 
 function DisableHelp:Initialize()
-    CustomGameEventManager:RegisterListener( "set_disable_help", Dynamic_Wrap( self, "DisableHelpListener" ) );
+    CustomGameEventManager:RegisterListener( "set_disable_help", Dynamic_Wrap( DisableHelp, "DisableHelpListener" ) );
 end
 
 return DisableHelp;

@@ -75,8 +75,8 @@ function Vote:Initialize()
     CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { } );
     GameRules:SendCustomMessage("Start a vote kick by clicking the Boots icon on the scoreboard.", 0, 0);
 
-    CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( self, "BeginVoting" ) );
-    CustomGameEventManager:RegisterListener( "vote", Dynamic_Wrap( self, "ReceiveVote" ) );
+    CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( Vote, "BeginVoting" ) );
+    CustomGameEventManager:RegisterListener( "vote", Dynamic_Wrap( Vote, "ReceiveVote" ) );
 
     GameRules:GetGameModeEntity():SetThink(function () 
         CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { voteInProgress = nil, cooldown = 0 } );
@@ -314,13 +314,13 @@ function Vote:HandleVoteResults( subjectId )
     local threshold = Vote:Threshold(table);
     if Vote:KickCondition(table) then
         Kick:KickPlayer( subjectId );
-        local message = table.numYes.."/"..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick successful.";
+        local message = table.numYes.." out of "..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick successful.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe successs sound on all players
         EmitGlobalSound("Vote_Kick.Success");
     else
         -- play axe fail sound on all players
-        local message = table.numYes.."/"..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick failed.";
+        local message = table.numYes.." out of "..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick failed.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe fail sound on all players
         EmitGlobalSound("Vote_Kick.Fail");

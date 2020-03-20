@@ -1,6 +1,23 @@
--- Generated from template
-
 GameMode = GameMode or class({});
+
+-- set parameters
+local HERO_BANNING_TIME = 0;
+local HERO_SELECTION_TIME = 30;
+local HERO_SELECTION_PENALTY_TIME = 15;
+local PRE_GAME_TIME = 90;
+
+local STARTING_GOLD = 800;
+local RESPAWN_SCALE = 0.6;
+
+-- Load Lua modules
+local GoldTuner = GoldTuner or require("GoldTuner");
+local ExperienceTuner = ExperienceTuner or require("ExperienceTuner");
+local PostGameStats = PostGameStats or require("PostGameStats");
+local DisableHelp = DisableHelp or require("DisableHelp");
+local Kick = Kick or require("Kick");
+local Vote = Vote or require("Vote");
+local Bots = Bots or require("Bots");
+local Inventory = Inventory or require("Inventory");
 
 function Precache( context )
 	--[[
@@ -20,17 +37,6 @@ function Activate()
 	GameRules.AddonTemplate:InitGameMode();
 end
 
-
--- Load Lua modules
-GoldTuner = GoldTuner or require("GoldTuner");
-ExperienceTuner = ExperienceTuner or require("ExperienceTuner");
-PostGameStats = PostGameStats or require("PostGameStats");
-DisableHelp = DisableHelp or require("DisableHelp");
-Kick = Kick or require("Kick");
-Vote = Vote or require("Vote");
-Bots = Bots or require("Bots");
-
-
 function GameMode:InitGameMode()
 
 	-- Game Setup Phase
@@ -44,25 +50,22 @@ function GameMode:InitGameMode()
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_BADGUYS, 12 );
 
 	-- Hero Selection Phase 
-	-- GameRules:SetHeroSelectionTime( 30 ); -- ignored when EnablePickRules is enabled
+	-- GameRules:SetHeroSelectionTime( HERO_SELECTION_TIME ); -- ignored when EnablePickRules is enabled
 	GameRules:SetStrategyTime( 0 );
 	GameRules:SetShowcaseTime( 0 );
 	GameRules:SetHeroSelectPenaltyTime( 15 );
 	GameRules:GetGameModeEntity():SetSelectionGoldPenaltyEnabled( true );
-	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( 0 ); -- 15 CHECK
-	GameRules:GetGameModeEntity():SetDraftingHeroPickSelectTimeOverride( 30 ); -- 30 CHECK
+	GameRules:GetGameModeEntity():SetDraftingBanningTimeOverride( HERO_BANNING_TIME );
+	GameRules:GetGameModeEntity():SetDraftingHeroPickSelectTimeOverride( HERO_SELECTION_TIME ); 
 
 	-- Pre Game Phase
-	GameRules:SetPreGameTime( 90 ); -- 90 CHECK
+	GameRules:SetPreGameTime( PRE_GAME_TIME ); -- 90 CHECK
 
 	-- Game Rules
-	GameRules:SetStartingGold( 800 );
-	GameRules:GetGameModeEntity():SetRespawnTimeScale( 1.0 );
-	
-	-- GameRules:SetGoldTickTime( 0.5 ); -- no longer works
-	-- GameRules:SetGoldPerTick( 2 );  -- no longer works
+	GameRules:SetStartingGold( STARTING_GOLD );
 	GameRules:GetGameModeEntity():SetPauseEnabled( false );
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled( true );
+	GameRules:GetGameModeEntity():SetRespawnTimeScale( RESPAWN_SCALE );
 
 	-- Game Tuner (Filters and Thinkers)
 	GoldTuner:Initialize( GameRules );
@@ -72,45 +75,27 @@ function GameMode:InitGameMode()
 	DisableHelp:Initialize();
 	Kick:Initialize();
 	Vote:Initialize();
+	Inventory:Initialize();
 
-	-- Game Thinkers
-	GameRules:GetGameModeEntity():SetThink( "GameTimeThinker", GameMode, "GameTimeThinker", 1 );
-
-	--TODO
-	-- GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter( GameMode.InventoryFilter, GameMode );
 	-- Game Events
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
 
 	-- Other
-	-- GameRules:GetGameModeEntity():SetMaximumAttackSpeed( 9999 );
-	-- GameRules:GetGameModeEntity():SetThink( "AfterDelay", self, "AfterDelay", 10 ); -- CHECK
-
+	-- GameRules:GetGameModeEntity():SetThink( "TimePrinter", GameMode, "TimePrinter", 1 );
 end
 
-function GameMode:InventoryFilter( filterTable )
-	DeepPrintTable(filterTable);
-	return true;
-end
-
--- for testing
-function GameMode:AfterDelay()
-	-- GameRules:SetGameWinner( DOTA_TEAM_GOODGUYS );
-	return nil;
-end
-
-
--- trigger every second of game time
-function GameMode:GameTimeThinker()
-	local gameState = GameRules:State_Get();
-	local time = GameRules:GetDOTATime(false, false);
-	if gameState == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-		GoldTuner:UpdateFactor( time );
-		ExperienceTuner:UpdateFactor( time );
-	elseif gameState >= DOTA_GAMERULES_STATE_POST_GAME then
-		return nil
-	end
-	return 1
-end
+-- function GameMode:TimePrinter()
+-- 	local gameState = GameRules:State_Get();
+-- 	local time;
+-- 	if gameState == DOTA_GAMERULES_STATE_PRE_GAME then
+-- 		print("dotatime "..GameRules:GetDOTATime(false, true));
+-- 		print("gametime "..GameRules:GetGameTime());
+-- 	elseif gameSate == DOTA_GAMERULES_STATE_IN_PROGRESS then
+-- 		print("dotatime "..GameRules:GetDOTATime(false, true));
+-- 		print("gametime "..GameRules:GetGameTime());
+-- 	end
+-- 	return 1;
+-- end
 
 -- call when game state changes
 function GameMode:OnGameRulesStateChange()
@@ -118,11 +103,8 @@ function GameMode:OnGameRulesStateChange()
 	if gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
 	elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 		if IsServer() then
-			-- Bots:AddBots();
 			Bots:AddBotsInterval();
 		end
-	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
-		-- GameMode:SetBotDifficulty();
 	elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
 		PostGameStats:SetNetTable();
 	end
