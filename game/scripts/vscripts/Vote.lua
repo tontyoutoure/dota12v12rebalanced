@@ -16,38 +16,30 @@ local VOTE_OPTIONS = {
     NEITHER = "Neither"
 };
 
-function Vote:Threshold( table )
+function Vote:Threshold( voteTable )
     -- return math.min(VOTES_TO_KICK, table.numVotes); --TODO change to voters
     return VOTES_TO_KICK;
 end
 
-local NET_TABLE_NAME = "vote_table";
+local SUBJECT_VOTE_TABLE = {};
 -- Table Contents:
 -- subjectId
-    -- key is player ID of player to kick
-    -- value is table containing:
-        -- table containing:
-            -- "numVoters" number of people that can vote
-                -- current number of players minus subject (GetTeamPlayerCount)
-            -- "numVotes"
-            -- "numYes" number of yes's
-            -- "votes" each player's votes
-                -- votes[voterID] = "yes"/"no"/"neither"
-                -- iterate through table to process results
-local NET_TEAM_TABLE_NAME = "vote_team_table";
+    -- "numVoters" number of people that can vote
+        -- current number of players minus subject (GetTeamPlayerCount)
+    -- "numVotes"
+    -- "numYes" number of yes's
+    -- "votes" each player's votes
+        -- votes[voterID] = "yes"/"no"/"neither"
+        -- iterate through table to process results
+
+local TEAM_VOTE_STATUS = {};
 -- Table Contents:
 -- teamId (radiant or dire) 
-    -- key is a teamID
-    -- value is table containing:
-        -- voteInProgress
-            -- subjectId
-                -- player going to be kicked
-                -- used as a lock on votes
-                -- nil means no in progress votes, i.e. this can be used as a lock
-        -- cooldown
-                -- is true if vote kick is on cooldown
+    -- voteInProgress
+    -- cooldown
+    -- subjectId
 
-local DISCONNECT_TABLE_NAME = "disconnected";
+local DISCONNECTED = {};
 -- Table Contents
 -- teamId -> table that maps playerId to true if disconnect or false/nil otherwise
 
@@ -68,32 +60,23 @@ end
 
 
 function Vote:Initialize()
-    CustomNetTables:SetTableValue( "vote", "settings", { timeOut = VOTE_TIMEOUT } );
-    CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { voteInProgress = nil, cooldown = 1 } );
-    CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { voteInProgress = nil, cooldown = 1 } );
-    CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { } );
-    CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { } );
+    TEAM_VOTE_STATUS[DOTA_TEAM_GOODGUYS] = { voteInProgress = false, cooldown = true, subjectId = nil };
+    TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS] = { voteInProgress = false, cooldown = true, subjectId = nil };
+
     GameRules:SendCustomMessage("Start a vote kick by clicking the Boots icon on the scoreboard.", 0, 0);
 
     CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( Vote, "BeginVoting" ) );
-    CustomGameEventManager:RegisterListener( "vote", Dynamic_Wrap( Vote, "ReceiveVote" ) );
+    CustomGameEventManager:RegisterListener( "vote_submitted", Dynamic_Wrap( Vote, "ReceiveVote" ) );
 
     GameRules:GetGameModeEntity():SetThink(function () 
-        CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_GOODGUYS), { voteInProgress = nil, cooldown = 0 } );
-        CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(DOTA_TEAM_BADGUYS), { voteInProgress = nil, cooldown = 0 } );
+        TEAM_VOTE_STATUS[DOTA_TEAM_GOODGUYS].cooldown = false;
+        TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS].cooldown = false;
         Vote:TeamMessage( DOTA_TEAM_GOODGUYS, "Vote kick is now off cooldown.");
         Vote:TeamMessage( DOTA_TEAM_BADGUYS, "Vote kick is now off cooldown.");
     end, self, "Initial Cooldown", VOTE_BUTTON_INITIAL_COOLDOWN );
 end
 
-local lock = false;
 function Vote:BeginVoting( event )
-
-    if lock then
-        return nil;
-    else
-        lock = true;
-    end
 
     -- event.playerId, event.subjectId
     local playerId = event.playerId;
@@ -101,56 +84,46 @@ function Vote:BeginVoting( event )
     local playerTeamId = PlayerResource:GetTeam(playerId);
     local subjectTeamId = PlayerResource:GetTeam(subjectId);
 
-    -- check team vote lock
-    local table = CustomNetTables:GetTableValue( NET_TEAM_TABLE_NAME, tostring(playerTeamId) ); 
-    if table.voteInProgress then
+    local teamTable = TEAM_VOTE_STATUS[playerTeamId];
+    if teamTable.voteInProgress then
         local error = {
             message = "A vote is already in progress for your team."
         };
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_NoMana" } );
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
-        lock = false;
         return nil;
-    elseif table.cooldown == 1 then
+    elseif teamTable.cooldown then
         local error = {
             message = "Vote kick is on cooldown."
         };
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_AbilityInCooldown" } );
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
-        lock = false;
         return nil;
-    end
-
-    if playerId == subjectId then
+    elseif playerId == subjectId then
         local error = {
             message = "Cannot kick yourself."
         };
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_NoMana" } );
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
-        lock = false;
         return nil;
-    end
-
-    -- check same team
-    if playerTeamId ~= subjectTeamId then
+    elseif playerTeamId ~= subjectTeamId then
         local error = {
             message = "Cannot kick players on different teams."
         };
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_NoMana" } );
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
-        lock = false;
         return nil;
     end
     
-    CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(event.playerId), "display_error_from_server", {message = "Begin voting!"});
+    Vote:TeamMessage(subjectTeamId, "Begin Voting!");
 
-    -- set lock
-    CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(playerTeamId), { voteInProgress = subjectId, cooldown = 1} );
+    teamTable.voteInProgress = true;
+    teamTable.subjectId = subjectId;
 
-    -- set net table
-    Vote:ResetNetTable( subjectId );
+    -- set vote table
+    Vote:ResetVoteTable( subjectId );
     -- apply vote from initiating player
-    Vote:UpdateNetTable( playerId, subjectId, VOTE_OPTIONS.YES );
+    Vote:UpdateVoteTable( playerId, subjectId, VOTE_OPTIONS.YES );
 
     -- set timeout for vote using thinker
     -- need closure to capture subjectId
@@ -160,7 +133,6 @@ function Vote:BeginVoting( event )
 
     -- send vote button disable timeout to client
     Vote:RequestVotes( playerId, subjectId );
-    lock = false;
 end
 
 function Vote:RequestVotes( playerId, subjectId )
@@ -174,68 +146,61 @@ function Vote:RequestVotes( playerId, subjectId )
         playerId = playerId,
         subjectId = subjectId,
         subjectSteamId = subjectSteamId,
-        subjectHero = subjectHero,
-        voteOptions = VOTE_OPTIONS
+        subjectHero = subjectHero, -- for displaying hero
+        voteOptions = VOTE_OPTIONS,
+        timeOut = VOTE_TIMEOUT
     };
     CustomGameEventManager:Send_ServerToTeam( playerTeamId , "request_votes", event );
 end
 
 function Vote:ReceiveVote( event )
     -- handle vote sent by player
-    local table = Vote:UpdateNetTable( event.voterId, event.subjectId, event.vote );
-    -- send vote net table info to client to update dialog box
-    local teamId = PlayerResource:GetTeam(event.voterId);
+    local voterId = event.voterId;
+    local subjectId = event.subjectId;
+    local vote = event.vote;
+    Vote:UpdateVoteTable( voterId, subjectId, vote );
 
-    CustomGameEventManager:Send_ServerToTeam( teamId, "update_votes", table );
-    local message = "Votes: "..(table.numVotes).." | Kick: "..(table.numYes).." | Don't Kick: "..(table.numVotes - table.numYes);
-    Vote:TeamMessage(subjectTeamId, message);
+    local voteTable = SUBJECT_VOTE_TABLE[subjectId];
+    local teamId = PlayerResource:GetTeam(voterId);
 
-    if Vote:IsComplete( event.subjectId ) then
-        Vote:EndVoting( event.subjectId );
+    -- not used
+    -- CustomGameEventManager:Send_ServerToTeam( teamId, "update_votes", table );
+
+    local message = "Votes: "..(voteTable.numVotes).." | Kick: "..(voteTable.numYes).." | Don't Kick: "..(voteTable.numVotes - voteTable.numYes);
+    Vote:TeamMessage(teamId, message);
+
+    if Vote:IsComplete( subjectId ) then
+        Vote:EndVoting( subjectId );
     end
 end
 
 function Vote:OnPlayerReconnect( event )
-    -- update disconnected table
-    local playerId = event.playerId;
-    local playerTeamId = PlayerResource:GetTeam(playerId);
-    local disconnected = CustomNetTables:GetTableValue( DISCONNECT_TABLE_NAME, tostring(playerTeamId) );
-    disconnected[tostring(playerId)] = false;
-    CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(playerTeamId), disconnected );
+    DISCONNECTED[event.playerId] = false;
 end
 
 function Vote:OnPlayerDisconnect( event )
-
-    -- update disconnected table
-    local playerId = event.playerId;
-    local playerTeamId = PlayerResource:GetTeam(playerId);
-    local disconnected = CustomNetTables:GetTableValue( DISCONNECT_TABLE_NAME, tostring(playerTeamId) );
-    disconnected[tostring(playerId)] = true;
-    CustomNetTables:SetTableValue( DISCONNECT_TABLE_NAME, tostring(playerTeamId), disconnected );
-
     -- the point of the following is that disconnecting reduces the number of voters
     -- which can change the outcome of an in-progress vote
 
-    -- do something if player is on same team as a subject player
-    -- i.e. get team table and check voteInProgress 
-    local teamTable = CustomNetTables:GetTableValue( NET_TEAM_TABLE_NAME, tostring(playerTeamId) );
+    -- update disconnected table
+    local playerId = event.playerId;
+    DISCONNECTED[playerId] = true;
 
-    -- does not matter if vote is not in progress
-    if not teamTable.voteInProgress then
+    local playerTeamId = PlayerResource:GetTeam(playerId);
+
+    local teamTable = TEAM_VOTE_STATUS[playerTeamId];
+    if not teamTable.voteInProgress then -- does not matter if vote is not in progress
         return nil;
     end
 
-    local subjectId = teamTable.voteInProgress;
-
-    local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(subjectId) );
+    local subjectId = teamTable.subjectId;
+    local voteTable = SUBJECT_VOTE_TABLE[subjectId];
 
     -- change number of voters
-    table.numVoters = Vote:GetNumVoters( subjectId );
+    voteTable.numVoters = Vote:GetNumVoters( subjectId );
 
-    CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(subjectId), table );
-
-    CustomGameEventManager:Send_ServerToTeam( playerTeamId, "update_votes", table );
-    local message = "Votes: "..(table.numVotes).." (Voter Disconnected) | Kick: "..(table.numYes).." | Don't Kick: "..(table.numVotes - table.numYes);
+    CustomGameEventManager:Send_ServerToTeam( playerTeamId, "update_votes", voteTable);
+    local message = "Votes: "..(voteTable.numVotes).." (Voter Disconnected) | Kick: "..(voteTable.numYes).." | Don't Kick: "..(voteTable.numVotes - voteTable.numYes);
     Vote:TeamMessage(subjectTeamId, message);
 
     -- check kick condition
@@ -247,37 +212,32 @@ function Vote:OnPlayerDisconnect( event )
 end
 
 function Vote:IsComplete( subjectId )
-    -- check net table to see if finished
-    local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(subjectId) ); 
-    local kickCondition = Vote:KickCondition( table );
-    local allVoted = (table.numVotes == table.numVoters);
+    local voteTable = SUBJECT_VOTE_TABLE[subjectId];
+    local kickCondition = Vote:KickCondition( voteTable );
+    local allVoted = (voteTable.numVotes == voteTable.numVoters);
     return kickCondition or allVoted;
 end
 
-function Vote:KickCondition( table )
-    return table.numYes >= Vote:Threshold(table);
+function Vote:KickCondition( voteTable )
+    return voteTable.numYes >= Vote:Threshold(voteTable);
 end
 
-function Vote:ResetNetTable( subjectId )
-    local table = {
+function Vote:ResetVoteTable( subjectId )
+    SUBJECT_VOTE_TABLE[subjectId] = {
         numVoters = Vote:GetNumVoters(subjectId), 
         numVotes = 0,
         numYes = 0,
         votes = {}
     };
-    CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(subjectId), table );
 end
 
-function Vote:UpdateNetTable( voterId, subjectId, vote )
-    local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(subjectId) );
-
-    table.numVotes = table.numVotes + 1;
+function Vote:UpdateVoteTable( voterId, subjectId, vote )
+    local voteTable = SUBJECT_VOTE_TABLE[subjectId];
+    voteTable.numVotes = voteTable.numVotes + 1;
     if vote == VOTE_OPTIONS.YES then 
-        table.numYes = table.numYes + 1;
+        voteTable.numYes = voteTable.numYes + 1;
     end
-    table.votes[tostring(voterId)] = vote;
-    CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(subjectId), table );
-    return table;
+    voteTable.votes[voterId] = vote;
 end
 
 function Vote:EndVoting( subjectId )
@@ -289,17 +249,17 @@ function Vote:EndVoting( subjectId )
     local event = {
         subjectId = subjectId
     };
-    CustomGameEventManager:Send_ServerToTeam( subjectTeamId, "end_voting", event );
+    CustomGameEventManager:Send_ServerToTeam( subjectTeamId, "end_voting", event ); -- close vote dialog
 
-    -- set voteInProgress to nil, but cooldown to true
-    CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(subjectTeamId), { voteInProgress = nil, cooldown = 1 } );
+    TEAM_VOTE_STATUS[subjectTeamId].voteInProgress = false;
+    TEAM_VOTE_STATUS[subjectTeamId].cooldown = true;
+    TEAM_VOTE_STATUS[subjectTeamId].subjectId = nil;
 
     -- release team vote lock after delay
     GameRules:GetGameModeEntity():SetThink(function () 
+        TEAM_VOTE_STATUS[subjectTeamId].cooldown = false;
         local message = "Vote kick is now off cooldown.";
-        -- CustomGameEventManager:Send_ServerToTeam( subjectTeamId, "display_error_from_server", {message = "Vote kick is now off cooldown."});
         Vote:TeamMessage(subjectTeamId, message);
-        CustomNetTables:SetTableValue( NET_TEAM_TABLE_NAME, tostring(subjectTeamId), { voteInProgress = nil, cooldown = 0 } );
     end, self, "UnlockVoting", VOTE_BUTTON_COOLDOWN );
 
     -- process results
@@ -310,17 +270,17 @@ end
 
 function Vote:HandleVoteResults( subjectId )
     local subjectTeamId = PlayerResource:GetTeam(subjectId);
-    local table = CustomNetTables:GetTableValue( NET_TABLE_NAME, tostring(subjectId) ); 
-    local threshold = Vote:Threshold(table);
-    if Vote:KickCondition(table) then
+    local voteTable = SUBJECT_VOTE_TABLE[subjectId];
+    local threshold = Vote:Threshold(voteTable);
+    if Vote:KickCondition(voteTable) then
         Kick:KickPlayer( subjectId );
-        local message = table.numYes.." out of "..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick successful.";
+        local message = voteTable.numYes.." out of "..voteTable.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick successful.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe successs sound on all players
         EmitGlobalSound("Vote_Kick.Success");
     else
         -- play axe fail sound on all players
-        local message = table.numYes.." out of "..table.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick failed.";
+        local message = voteTable.numYes.." out of "..voteTable.numVotes.." voted 'Kick' (need "..threshold.."). Vote kick failed.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe fail sound on all players
         EmitGlobalSound("Vote_Kick.Fail");
@@ -329,13 +289,12 @@ end
 
 function Vote:GetNumVoters( subjectId )
     local subjectTeamId = PlayerResource:GetTeam(subjectId);
-    local disconnected = CustomNetTables:GetTableValue( DISCONNECT_TABLE_NAME, tostring(subjectTeamId) );
-    -- count up number of non disconnected players
+    -- count up number of non disconnected players on the same team
     local count = 0;
     for playerId = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
         if PlayerResource:IsValidPlayerID(playerId) then
             local playerTeamId = PlayerResource:GetTeam(playerId);
-            if (playerTeamId == subjectTeamId) and not disconnected[tostring(playerId)] then
+            if (playerTeamId == subjectTeamId) and not DISCONNECTED[playerId] then
                 count = count + 1;
             end
         end

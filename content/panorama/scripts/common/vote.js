@@ -3,7 +3,7 @@ function registerVoteListeners() {
     $.Msg("Registering Vote Event Listeners...");
     GameEvents.Subscribe("request_votes", handleVoteRequest);
     GameEvents.Subscribe("end_voting", endVoteDialog);
-    GameEvents.Subscribe("update_votes", updateVoteDialog);
+    // GameEvents.Subscribe("update_votes", updateVoteDialog);
 }
 
 // button callback that emits "vote"
@@ -18,7 +18,7 @@ function onVote( yesButton, noButton, voteOptions, subjectId, vote ) {
     } else if (vote == voteOptions.NO) {
         Game.EmitSound("Vote_Kick.No"); // vote no
     }
-    GameEvents.SendCustomGameEventToServer("vote", {voterId: Game.GetLocalPlayerID(), subjectId: subjectId, vote: vote});
+    GameEvents.SendCustomGameEventToServer("vote_submitted", {voterId: Game.GetLocalPlayerID(), subjectId: subjectId, vote: vote});
 }
 
 
@@ -46,18 +46,16 @@ function handleVoteRequest ( event ) {
     var voteHud = $.GetContextPanel();
     // $.Msg(voteHud);
 
-    var timeOut = CustomNetTables.GetTableValue("vote", "settings").timeOut;
-
     var timeOutBar = voteHud.FindChildTraverse("TimeoutBar"); 
     // timeOutBar.AddClass("Shrink");
 
     // set timeOut animation
     timeOutBar.style.transitionDuration = "0s";
     timeOutBar.style.width = "100%";
-    timeOutBar.style.transitionDuration = timeOut.toString() + "s";
+    timeOutBar.style.transitionDuration = event.timeOut.toString() + "s";
     timeOutBar.style.width = "0%";
 
-    // setIntervalUntil(UpdateTimeOutBar, 0.1, timeOut); 
+    // setIntervalUntil(UpdateTimeOutBar, 0.1, event.timeOut); 
 
     // set player info
     var steamIdElement = voteHud.FindChildTraverse("SteamId");

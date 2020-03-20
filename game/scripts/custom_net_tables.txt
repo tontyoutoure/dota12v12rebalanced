@@ -4,10 +4,6 @@
 	[
 		"post_game_stats",
 		"disable_help",
-		"kicked_players",
-		"vote_table",
-		"vote_team_table",
-		"vote",
-		"disconnected"
+		"kicked_players"
 	]
 }
