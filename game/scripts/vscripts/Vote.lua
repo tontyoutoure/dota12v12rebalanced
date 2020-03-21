@@ -119,7 +119,7 @@ function Vote:BeginVoting( event )
         return nil;
     end
     
-    Vote:TeamMessage(subjectTeamId, "Begin vote to kick "..Vote:PlayerNameString(subjectId).."!");
+    Vote:TeamMessage(subjectTeamId, "A vote to kick "..Vote:PlayerNameString(subjectId).." has begun!");
 
     teamTable.voteInProgress = true;
     teamTable.subjectId = subjectId;
@@ -128,6 +128,14 @@ function Vote:BeginVoting( event )
     Vote:ResetVoteTable( subjectId );
     -- apply vote from initiating player
     Vote:UpdateVoteTable( playerId, subjectId, VOTE_OPTIONS.YES );
+
+    local voteTable = SUBJECT_VOTE_TABLE[subjectId];
+
+    local message = "Vote Initiated | Votes: "..(voteTable.numVotes)..
+                    " | Kick: "..(voteTable.numYes)..
+                    " | Don't Kick: "..(voteTable.numVotes - voteTable.numYes)..
+                    " | Did Not Vote: "..(voteTable.numVoters);
+    Vote:TeamMessage(subjectTeamId, message);
 
     -- check kick condition
     if Vote:IsComplete( subjectId ) then
@@ -176,7 +184,10 @@ function Vote:ReceiveVote( event )
     -- not used
     -- CustomGameEventManager:Send_ServerToTeam( teamId, "update_votes", table );
 
-    local message = "Vote Submitted | Votes: "..(voteTable.numVotes).." | Kick: "..(voteTable.numYes).." | Don't Kick: "..(voteTable.numVotes - voteTable.numYes);
+    local message = "Vote Submitted | Votes: "..(voteTable.numVotes)..
+                    " | Kick: "..(voteTable.numYes)..
+                    " | Don't Kick: "..(voteTable.numVotes - voteTable.numYes)..
+                    " | Did Not Vote: "..(voteTable.numVoters);
     Vote:TeamMessage(teamId, message);
 
     if Vote:IsComplete( subjectId ) then
@@ -223,7 +234,10 @@ function Vote:OnPlayerDisconnect( event )
 
     -- update players on change
     CustomGameEventManager:Send_ServerToTeam( playerTeamId, "update_votes", voteTable);
-    local message = "Voter Disconnected | Votes: "..(voteTable.numVotes).." | Kick: "..(voteTable.numYes).." | Don't Kick: "..(voteTable.numVotes - voteTable.numYes);
+    local message = "Vote Submitted | Votes: "..(voteTable.numVotes)..
+                    " | Kick: "..(voteTable.numYes)..
+                    " | Don't Kick: "..(voteTable.numVotes - voteTable.numYes)..
+                    " | Did Not Vote: "..(voteTable.numVoters);
     Vote:TeamMessage(subjectTeamId, message);
 
     -- check kick condition
@@ -296,15 +310,21 @@ function Vote:HandleVoteResults( subjectId )
     local subjectTeamId = PlayerResource:GetTeam(subjectId);
     local voteTable = SUBJECT_VOTE_TABLE[subjectId];
     local threshold = Vote:Threshold(voteTable);
+
+    local v = " voters";
+    if voteTable.numYes == 1 then
+        v = " voter"
+    end
+
     if Vote:KickCondition(voteTable) then
         Kick:KickPlayer( subjectId );
-        local message = voteTable.numYes.." out of "..voteTable.numVotes.." voters voted to kick "..Vote:PlayerNameString(subjectId).." ("..threshold.." needed). Vote kick successful.";
+        local message = voteTable.numYes..v.." voted to kick "..Vote:PlayerNameString(subjectId).." ("..threshold.." needed). Vote kick successful.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe successs sound on all players
         EmitGlobalSound("Vote_Kick.Success");
     else
         -- play axe fail sound on all players
-        local message = voteTable.numYes.." out of "..voteTable.numVotes.." voters voted to kick "..Vote:PlayerNameString(subjectId).." ("..threshold.." needed). Vote kick failed.";
+        local message = voteTable.numYes..v.." voted to kick "..Vote:PlayerNameString(subjectId).." ("..threshold.." needed). Vote kick failed.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe fail sound on all players
         EmitGlobalSound("Vote_Kick.Fail");
