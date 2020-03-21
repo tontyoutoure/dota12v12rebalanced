@@ -59,7 +59,7 @@ function handleVoteRequest ( event ) {
 
     // set player info
     var steamIdElement = voteHud.FindChildTraverse("SteamId");
-    steamIdElement.steamid = event.subjectSteamId;
+    steamIdElement.text = event.subjectName;
     var heroElement = voteHud.FindChildTraverse("HeroIcon");
     heroElement.heroname = event.subjectHero;
 

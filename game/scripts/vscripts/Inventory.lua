@@ -57,6 +57,7 @@ function Inventory:InventoryFilter( filterTable )
         else -- refund since on cooldown
             Inventory:RefundItem( playerId, item:GetCost() );
             Inventory:PlayerBuyCoolDownMessage( playerId, itemName, currentTime );
+            UTIL_Remove(item); -- important
             return false;
         end
     end
@@ -92,8 +93,6 @@ function Inventory:RefundItem( playerId, itemCost )
 		PlayerResource:ModifyGold(playerId, unreliableGold, false, 6);
 		PlayerResource:ModifyGold(playerId, itemCost - unreliableGold, true, 6);
 	end
-
-	UTIL_Remove(item);
 end
 
 

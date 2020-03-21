@@ -74,7 +74,7 @@ function GameMode:InitGameMode()
 	-- Anti-Troll
 	DisableHelp:Initialize();
 	Kick:Initialize();
-	Vote:Initialize();
+	-- Vote:Initialize(); -- moved to Stategy Time
 	Inventory:Initialize();
 
 	-- Game Events
@@ -104,6 +104,7 @@ function GameMode:OnGameRulesStateChange()
 	elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 		if IsServer() then
 			Bots:AddBotsInterval();
+			Vote:Initialize(); 
 		end
 	elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
 		PostGameStats:SetNetTable();

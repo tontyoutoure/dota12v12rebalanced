@@ -25,7 +25,7 @@
                     </Panel>
                     <!-- steam username container -->
                     <Panel id="SteamIdContainer">
-                        <DOTAUserName id="SteamId" steamid="local" />>
+                        <Label id="SteamId" text="[unknown]" />
                     </Panel>
                 </Panel>
                 <!-- button row container -->

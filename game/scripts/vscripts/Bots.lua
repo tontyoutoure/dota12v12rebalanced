@@ -34,6 +34,25 @@ function Bots:AddBots()
 
 end
 
+local laneCount = {
+	top = 0,
+	bot = 0,
+	mid = 0,
+};
+
+function Bots:ChooseLane()
+	-- find least occupied
+	local choice = "top";
+	local min = laneCount[choice];
+	for lane, count in pairs(laneCount) do
+		if count < min then
+			choice = lane;
+		end
+	end
+	laneCount[choice] = laneCount[choice] + 1;
+	return choice;
+end
+
 -- adds bots in intervals to prevent lag
 function Bots:AddBotsInterval()
 	Tutorial:StartTutorialMode(); -- MUST ADD OR CRASH
@@ -43,7 +62,6 @@ function Bots:AddBotsInterval()
 	local numRadiant = Bots:GetTeamCount( DOTA_TEAM_GOODGUYS );
 	local numDire = Bots:GetTeamCount( DOTA_TEAM_BADGUYS );
 
-	local lane = { "top", "mid", "bot" };
 	local difficulty = "unfair";
 
 	local i = 1;
@@ -55,14 +73,14 @@ function Bots:AddBotsInterval()
 		if i <= 12 then
 			if (numRadiant < 12) then
 				local r = Bots:RandomUnusedHeroName();
-				local l = lane[RandomInt(1, 3)];
+				local l = Bots:ChooseLane();
 				Tutorial:AddBot(r, l, difficulty, true);
 				EmitGlobalSound("Bots.Spawned");
 				numRadiant = numRadiant + 1;
 			end
 			if (numDire < 12) then
 				local r = Bots:RandomUnusedHeroName();
-				local l = lane[RandomInt(1, 3)];
+				local l = Bots:ChooseLane();
 				Tutorial:AddBot(r, l, difficulty, false);
 				EmitGlobalSound("Bots.Spawned");
 				numDire = numDire + 1;
@@ -145,7 +163,7 @@ Bots.HeroList = {
 	"npc_dota_hero_skywrath_mage",
 	"npc_dota_hero_sniper",
 	"npc_dota_hero_sven",
-	"npc_dota_hero_tidehunter",
+	-- "npc_dota_hero_tidehunter", -- does not work
 	"npc_dota_hero_tiny",
 	"npc_dota_hero_vengefulspirit",
 	"npc_dota_hero_viper",

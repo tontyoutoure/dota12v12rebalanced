@@ -8,7 +8,7 @@ end
 -- TODO SET TIMEOUTS
 local VOTE_TIMEOUT = 15;
 local VOTE_BUTTON_COOLDOWN = 180; -- cooldown after voting ends
-local VOTE_BUTTON_INITIAL_COOLDOWN = 60; -- cooldown after match start 
+local VOTE_BUTTON_INITIAL_COOLDOWN = 90; -- cooldown after match start 
 local VOTES_TO_KICK = 6;
 local VOTE_OPTIONS = {
     YES = "Yes",
@@ -43,9 +43,9 @@ local DISCONNECTED = {};
 
 function Vote:TeamName( teamId )
     if teamId == DOTA_TEAM_GOODGUYS then
-        return "Radiant";
+        return "<font color='#00ee00'>Radiant</font>";
     elseif teamId == DOTA_TEAM_BADGUYS then
-        return "Dire";
+        return "<font color='#ee0000'>Dire</font>";
     else 
         return "Team "..teamId;
     end
@@ -56,6 +56,10 @@ function Vote:TeamMessage( teamId, message )
     GameRules:SendCustomMessage(teamName.." | "..message, 0, 0);
 end
 
+function Vote:PlayerNameString(playerId)
+    local playerName = PlayerResource:GetPlayerName(playerId);
+    return "<font color='#eeeeee'>"..playerName.."</font>";
+end
 
 function Vote:Initialize()
     -- ListenToGameEvent('player_disconnect', Dynamic_Wrap(Vote, 'OnPlayerDisconnect'), Vote);
@@ -63,7 +67,7 @@ function Vote:Initialize()
 
     TEAM_VOTE_STATUS[DOTA_TEAM_GOODGUYS] = { voteInProgress = false, cooldown = true, subjectId = nil };
     TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS] = { voteInProgress = false, cooldown = true, subjectId = nil };
-    GameRules:SendCustomMessage("Start a vote kick by clicking the Boots icon on the scoreboard.", 0, 0);
+    GameRules:SendCustomMessage("Start a vote kick by clicking the Boots icon on the scoreboard. Vote kicking becomes available when the clock hits <font color='#eeeeee'>0:00</font>.", 0, 0);
 
     CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( Vote, "BeginVoting" ) );
     CustomGameEventManager:RegisterListener( "vote_submitted", Dynamic_Wrap( Vote, "ReceiveVote" ) );
@@ -115,7 +119,7 @@ function Vote:BeginVoting( event )
         return nil;
     end
     
-    Vote:TeamMessage(subjectTeamId, "Begin Voting!");
+    Vote:TeamMessage(subjectTeamId, "Begin vote to kick "..Vote:PlayerNameString(subjectId).."!");
 
     teamTable.voteInProgress = true;
     teamTable.subjectId = subjectId;
@@ -145,13 +149,13 @@ function Vote:RequestVotes( playerId, subjectId )
     -- send vote request to everyone on same team except the above two players
     -- or let client handle displaying correct dialog
     local playerTeamId = PlayerResource:GetTeam(playerId);
-    local subjectSteamId = PlayerResource:GetSteamID(subjectId);
+    local subjectName = PlayerResource:GetPlayerName(subjectId);
     local subjectHero = PlayerResource:GetSelectedHeroName(subjectId);
     -- local subjectTeam = PlayerResource:GetTeam(subjectId);
     local event = {
         playerId = playerId,
         subjectId = subjectId,
-        subjectSteamId = subjectSteamId,
+        subjectName = subjectName,
         subjectHero = subjectHero, -- for displaying hero
         voteOptions = VOTE_OPTIONS,
         timeOut = VOTE_TIMEOUT
@@ -294,13 +298,13 @@ function Vote:HandleVoteResults( subjectId )
     local threshold = Vote:Threshold(voteTable);
     if Vote:KickCondition(voteTable) then
         Kick:KickPlayer( subjectId );
-        local message = voteTable.numYes.." out of "..voteTable.numVotes.." voted 'Kick' ("..threshold.." needed). Vote kick successful.";
+        local message = voteTable.numYes.." out of "..voteTable.numVotes.." voters voted to kick "..Vote:PlayerNameString(subjectId).." ("..threshold.." needed). Vote kick successful.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe successs sound on all players
         EmitGlobalSound("Vote_Kick.Success");
     else
         -- play axe fail sound on all players
-        local message = voteTable.numYes.." out of "..voteTable.numVotes.." voted 'Kick' ("..threshold.." needed). Vote kick failed.";
+        local message = voteTable.numYes.." out of "..voteTable.numVotes.." voters voted to kick "..Vote:PlayerNameString(subjectId).." ("..threshold.." needed). Vote kick failed.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe fail sound on all players
         EmitGlobalSound("Vote_Kick.Fail");
