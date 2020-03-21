@@ -6,9 +6,9 @@ local GOLD_PER_TICK = 2;
 local INITIAL_TIME = 0;
 local HOUR_TIME = 60 * 60;
 
-local EXTRA_BOUNTY_RUNE_FACTOR = 2;
+local EXTRA_BOUNTY_RUNE_FACTOR = 1.5;
 local SCALE_INITIAL_VALUE = 1; -- value at initial time 
-local SCALE_HOUR_VALUE = 5; -- value at final time 
+local SCALE_HOUR_VALUE = 2.5; -- value at final time 
 local SCALE_TIME_COEFFICIENT = (SCALE_HOUR_VALUE - SCALE_INITIAL_VALUE) / (HOUR_TIME - INITIAL_TIME);
 
 local SCALE_FACTOR_THINK_TIME = 1;
@@ -31,7 +31,7 @@ function GoldTuner:IncrementPlayerGold()
         local allHeroes = HeroList:GetAllHeroes();
         for _, hero in pairs(allHeroes) do
             if hero:IsRealHero() then
-                hero:ModifyGold(GOLD_PER_TICK, false, 0);
+                hero:ModifyGold(GOLD_PER_TICK, false, 10);
             end
         end
     end

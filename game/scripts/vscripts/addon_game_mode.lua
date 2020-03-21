@@ -7,7 +7,7 @@ local HERO_SELECTION_PENALTY_TIME = 15;
 local PRE_GAME_TIME = 90;
 
 local STARTING_GOLD = 800;
-local RESPAWN_SCALE = 0.6;
+local RESPAWN_SCALE = 0.8;
 
 -- Load Lua modules
 local GoldTuner = GoldTuner or require("GoldTuner");

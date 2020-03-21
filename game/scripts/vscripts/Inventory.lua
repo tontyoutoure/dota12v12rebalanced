@@ -2,10 +2,11 @@ local Inventory = class({});
 local Bots = Bots or require("Bots");
 
 local BUY_COOLDOWN = {
-    item_tome_of_knowledge = 300
+    item_tome_of_knowledge = 240
 };
 
 -- NOTE: there is some hidden item purchase at the beginning of the game that, if canceled, will crash the game
+-- Inventory Filter DOES trigger even if courier is full.
 
 -- last_buy_time[itemName][playerId] = gameTimeOfPurchase
 local last_buy_time = {};
@@ -33,17 +34,18 @@ function Inventory:InventoryFilter( filterTable )
 	end
 
     local owner = EntIndexToHScript(filterTable["inventory_parent_entindex_const"])
-	local item = EntIndexToHScript(filterTable["item_entindex_const"])
+    local item = EntIndexToHScript(filterTable["item_entindex_const"])
 
-	if not owner or not item or not owner.GetPlayerID then
-		return true
-	end
+    if not owner or not item then
+        return true;
+    end
 
-	local playerId = owner:GetPlayerID();
+    local playerId = owner:GetPlayerOwnerID();
 
-	if Bots:IsBot(playerId) or not IsValidEntity(item) or not owner:IsRealHero() then
+    -- need to let courier pass
+	if not owner:IsCourier() and (Bots:IsBot(playerId) or not IsValidEntity(item) or not owner:IsRealHero()) then
 		return true;
-	end
+    end
 
     -- check if item is restricted
     local itemName = item:GetName();
@@ -53,7 +55,7 @@ function Inventory:InventoryFilter( filterTable )
             last_buy_time[itemName][playerId] = currentTime;
             return true;
         else -- refund since on cooldown
-            Inventory:RefundItem( owner, item );
+            Inventory:RefundItem( playerId, item:GetCost() );
             Inventory:PlayerBuyCoolDownMessage( playerId, itemName, currentTime );
             return false;
         end
@@ -79,18 +81,16 @@ function Inventory:PlayerBuyCoolDownMessage(playerId, itemName, currentTime)
 end
 
 
-function Inventory:RefundItem( player, item )
-	local playerId = player:GetPlayerID();
-	local itemCost = item:GetCost();
+function Inventory:RefundItem( playerId, itemCost )
 
 	local unreliableGold = PlayerResource:GetUnreliableGold(playerId);
 	-- local reliableGold = PlayerResource:GetReliableGold(playerId);
 
 	if unreliableGold >= itemCost then -- just refund unreliable
-		player:ModifyGold(itemCost, false, 0);
+		PlayerResource:ModifyGold(playerId, itemCost, false, 6);
 	else  -- refund reliable portion
-		player:ModifyGold(unreliableGold, false, 0);
-		player:ModifyGold(itemCost - unreliableGold, true, 0);
+		PlayerResource:ModifyGold(playerId, unreliableGold, false, 6);
+		PlayerResource:ModifyGold(playerId, itemCost - unreliableGold, true, 6);
 	end
 
 	UTIL_Remove(item);

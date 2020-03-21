@@ -74,9 +74,7 @@ function Bots:AddBotsInterval()
 			return nil;
 		end
 	end, "Spawn Bots", INITIAL_DELAY);
-
 end
-
 
 --[[
 function Bots:SetBotDifficulty()
@@ -141,7 +139,7 @@ Bots.HeroList = {
 	"npc_dota_hero_omniknight",
 	"npc_dota_hero_oracle",
 	"npc_dota_hero_pudge",
-	"npc_dota_hero_razor",
+	-- "npc_dota_hero_razor", -- does not work
 	"npc_dota_hero_sand_king",
 	"npc_dota_hero_nevermore",
 	"npc_dota_hero_skywrath_mage",

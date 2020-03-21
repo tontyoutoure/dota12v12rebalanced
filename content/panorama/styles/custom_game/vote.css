@@ -1,10 +1,44 @@
-.VoteHud
+.AspectRatio16x9 .VoteHud
 {
     position: 1580px 10% 0px; 
     width: 320px;
     height: 150px;
     flow-children: down;
-    transform: translatex( 500px );
+    transform: translatex( 600px );
+    opacity: 1;
+    transition: transform 0.3s ease-in 0s, opacity 1s ease-in 0s;
+}
+
+.AspectRatio4x3 .VoteHud,
+.AspectRatio5x4 .VoteHud
+{
+    position: 1100px 10% 0px; 
+    width: 320px;
+    height: 150px;
+    flow-children: down;
+    transform: translatex( 600px );
+    opacity: 1;
+    transition: transform 0.3s ease-in 0s, opacity 1s ease-in 0s;
+}
+
+.AspectRatio16x10 .VoteHud
+{
+    position: 1380px 10% 0px; 
+    width: 320px;
+    height: 150px;
+    flow-children: down;
+    transform: translatex( 600px );
+    opacity: 1;
+    transition: transform 0.3s ease-in 0s, opacity 1s ease-in 0s;
+}
+
+.AspectRatio21x9 .VoteHud
+{
+    position: 2200px 10% 0px; 
+    width: 320px;
+    height: 150px;
+    flow-children: down;
+    transform: translatex( 600px );
     opacity: 1;
     transition: transform 0.3s ease-in 0s, opacity 1s ease-in 0s;
 }

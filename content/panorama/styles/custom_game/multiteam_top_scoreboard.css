@@ -7,23 +7,23 @@
 #TopBarScoreboard
 {
 	margin-top: 0px;
-	margin-left: 212px;
     horizontal-align: left;
     vertical-align: top;
-	width: 1495px;
+	margin: 0px; 
+	width: 100%;
 }
 
 .AspectRatio4x3 #TopBarScoreboard,
 .AspectRatio5x4 #TopBarScoreboard
 {
-	margin-left: 200px;
-	width: 1070px;
+	margin: 0px;
+	width: 100%;
 }
 
 .AspectRatio16x10 #TopBarScoreboard
 {
-	margin-left: 200px;
-	width: 1335px;
+	margin-left: 0px;
+	width: 100%;
 }
 
 #ScoreboardContainer
@@ -157,11 +157,11 @@
 
 .AspectRatio4x3 .ScoreboardPlayer
 {
-    margin-top: 2px;
+	/* margin-top: 2px; */
 }
 .AspectRatio16x10 .ScoreboardPlayer
 {
-   margin-top: 4px;
+   /* margin-top: 4px; */
 }
 
 .ScoreboardPlayerWrapper
