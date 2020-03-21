@@ -134,7 +134,7 @@ function Vote:BeginVoting( event )
     local message = "Vote Initiated | Votes: "..(voteTable.numVotes)..
                     " | Kick: "..(voteTable.numYes)..
                     " | Don't Kick: "..(voteTable.numVotes - voteTable.numYes)..
-                    " | Did Not Vote: "..(voteTable.numVoters);
+                    " | Did Not Vote: "..(voteTable.numVoters - voteTable.numVotes);
     Vote:TeamMessage(subjectTeamId, message);
 
     -- check kick condition
@@ -237,7 +237,7 @@ function Vote:OnPlayerDisconnect( event )
     local message = "Vote Submitted | Votes: "..(voteTable.numVotes)..
                     " | Kick: "..(voteTable.numYes)..
                     " | Don't Kick: "..(voteTable.numVotes - voteTable.numYes)..
-                    " | Did Not Vote: "..(voteTable.numVoters);
+                    " | Did Not Vote: "..(voteTable.numVoters - voteTable.numVotes);
     Vote:TeamMessage(subjectTeamId, message);
 
     -- check kick condition
