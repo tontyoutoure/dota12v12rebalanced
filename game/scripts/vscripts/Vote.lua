@@ -5,10 +5,13 @@ if not Kick then
     Kick:Initialize();
 end
 
--- TODO SET TIMEOUTS
-local VOTE_TIMEOUT = 15;
-local VOTE_BUTTON_COOLDOWN = 180; -- cooldown after voting ends
-local VOTE_BUTTON_INITIAL_COOLDOWN = 90; -- cooldown after match start 
+-- vote timeout does not respect pause (which is intentional)
+-- doesn't matter though since pause is disabled
+-- cooldown respects pauses
+
+local VOTE_TIMEOUT = 15; -- 15
+local VOTE_BUTTON_COOLDOWN = 180; -- cooldown after voting ends -- 180
+local INITIAL_AVAILABLE_TIME = 0; -- time when voting becomes off cooldown 0 is game start
 local VOTES_TO_KICK = 6;
 local VOTE_OPTIONS = {
     YES = "Yes",
@@ -35,6 +38,9 @@ local TEAM_VOTE_STATUS = {};
 -- teamId (radiant or dire) 
     -- voteInProgress
     -- cooldown
+        -- true if on cooldown (this is necessary for triggering when it goes off cooldown)
+    -- availableTime
+        -- time when off cooldown
     -- subjectId
 
 local DISCONNECTED = {};
@@ -65,19 +71,20 @@ function Vote:Initialize()
     -- ListenToGameEvent('player_disconnect', Dynamic_Wrap(Vote, 'OnPlayerDisconnect'), Vote);
     -- ListenToGameEvent('player_resconnect', Dynamic_Wrap(Vote, 'OnPlayerReconnect'), Vote);
 
-    TEAM_VOTE_STATUS[DOTA_TEAM_GOODGUYS] = { voteInProgress = false, cooldown = true, subjectId = nil };
-    TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS] = { voteInProgress = false, cooldown = true, subjectId = nil };
+    TEAM_VOTE_STATUS[DOTA_TEAM_GOODGUYS] = { voteInProgress = false, cooldown = true, availableTime = INITIAL_AVAILABLE_TIME, subjectId = nil };
+    TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS] = { voteInProgress = false, cooldown = true, availableTime = INITIAL_AVAILABLE_TIME, subjectId = nil };
     GameRules:SendCustomMessage("Start a vote kick by clicking the Boots icon on the scoreboard. Vote kicking becomes available when the clock hits <font color='#eeeeee'>0:00</font>.", 0, 0);
 
     CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( Vote, "BeginVoting" ) );
     CustomGameEventManager:RegisterListener( "vote_submitted", Dynamic_Wrap( Vote, "ReceiveVote" ) );
 
+    local time = GameRules:GetDOTATime(false, true);
     GameRules:GetGameModeEntity():SetThink(function () 
         TEAM_VOTE_STATUS[DOTA_TEAM_GOODGUYS].cooldown = false;
         TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS].cooldown = false;
         Vote:TeamMessage( DOTA_TEAM_GOODGUYS, "Vote kick is now off cooldown.");
         Vote:TeamMessage( DOTA_TEAM_BADGUYS, "Vote kick is now off cooldown.");
-    end, self, "Initial Cooldown", VOTE_BUTTON_INITIAL_COOLDOWN );
+    end, "Vote Initial Cooldown", INITIAL_AVAILABLE_TIME - time );
 end
 
 function Vote:BeginVoting( event )
@@ -87,6 +94,7 @@ function Vote:BeginVoting( event )
     local subjectId = event.subjectId;
     local playerTeamId = PlayerResource:GetTeam(playerId);
     local subjectTeamId = PlayerResource:GetTeam(subjectId);
+    local time = GameRules:GetDOTATime(false, true);
 
     local teamTable = TEAM_VOTE_STATUS[playerTeamId];
     if teamTable.voteInProgress then
@@ -97,8 +105,9 @@ function Vote:BeginVoting( event )
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
         return nil;
     elseif teamTable.cooldown then
+        local remainingTime = teamTable.availableTime - time;
         local error = {
-            message = "Vote kick is on cooldown."
+            message = "Vote kick is on cooldown for "..math.floor(remainingTime + 0.5).." more seconds."
         };
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_AbilityInCooldown" } );
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
@@ -147,7 +156,7 @@ function Vote:BeginVoting( event )
     -- need closure to capture subjectId
     GameRules:GetGameModeEntity():SetThink(function () 
         Vote:EndVoting(subjectId);
-    end, self, "EndVotingTimeout", VOTE_TIMEOUT );
+    end, "EndVotingTimeout", VOTE_TIMEOUT );
 
     -- send vote button disable timeout to client
     Vote:RequestVotes( playerId, subjectId );
@@ -196,21 +205,24 @@ function Vote:ReceiveVote( event )
     end
 end
 
+--[[
 function Vote:OnPlayerReconnect( event )
-    if not event.playerID then -- failsafe if argument is not what is expected
+    if not event.PlayerID then -- failsafe if argument is not what is expected
         return nil;
     end
     DISCONNECTED[event.playerID] = false;
 end
+--]]
 
 -- TODO FIX UP
+--[[
 function Vote:OnPlayerDisconnect( event )
     -- the point of the following is that disconnecting reduces the number of voters
     -- which can change the outcome of an in-progress vote
 
 
     -- update disconnected table
-    local playerId = event.playerID;
+    local playerId = event.PlayerID;
     DISCONNECTED[playerId] = true;
 
     local playerTeamId = PlayerResource:GetTeam(playerId);
@@ -248,6 +260,7 @@ function Vote:OnPlayerDisconnect( event )
 
     return nil;
 end
+--]]
 
 function Vote:IsComplete( subjectId )
     local voteTable = SUBJECT_VOTE_TABLE[subjectId];
@@ -289,8 +302,10 @@ function Vote:EndVoting( subjectId )
     };
     CustomGameEventManager:Send_ServerToTeam( subjectTeamId, "end_voting", event ); -- close vote dialog
 
+    local time = GameRules:GetDOTATime(false, true);
     TEAM_VOTE_STATUS[subjectTeamId].voteInProgress = false;
     TEAM_VOTE_STATUS[subjectTeamId].cooldown = true;
+    TEAM_VOTE_STATUS[subjectTeamId].availableTime = time + VOTE_BUTTON_COOLDOWN;
     TEAM_VOTE_STATUS[subjectTeamId].subjectId = nil;
 
     -- release team vote lock after delay
@@ -298,7 +313,7 @@ function Vote:EndVoting( subjectId )
         TEAM_VOTE_STATUS[subjectTeamId].cooldown = false;
         local message = "Vote kick is now off cooldown.";
         Vote:TeamMessage(subjectTeamId, message);
-    end, self, "UnlockVoting", VOTE_BUTTON_COOLDOWN );
+    end, "Unlock Voting", VOTE_BUTTON_COOLDOWN );
 
     -- process results
     Vote:HandleVoteResults( subjectId );

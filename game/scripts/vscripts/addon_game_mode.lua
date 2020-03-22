@@ -74,7 +74,7 @@ function GameMode:InitGameMode()
 	-- Anti-Troll
 	DisableHelp:Initialize();
 	Kick:Initialize();
-	-- Vote:Initialize(); -- moved to Stategy Time
+	-- Vote:Initialize(); -- moved to Pre Game 
 	Inventory:Initialize();
 
 	-- Game Events
@@ -84,18 +84,20 @@ function GameMode:InitGameMode()
 	-- GameRules:GetGameModeEntity():SetThink( "TimePrinter", GameMode, "TimePrinter", 1 );
 end
 
--- function GameMode:TimePrinter()
--- 	local gameState = GameRules:State_Get();
--- 	local time;
--- 	if gameState == DOTA_GAMERULES_STATE_PRE_GAME then
--- 		print("dotatime "..GameRules:GetDOTATime(false, true));
--- 		print("gametime "..GameRules:GetGameTime());
--- 	elseif gameSate == DOTA_GAMERULES_STATE_IN_PROGRESS then
--- 		print("dotatime "..GameRules:GetDOTATime(false, true));
--- 		print("gametime "..GameRules:GetGameTime());
--- 	end
--- 	return 1;
--- end
+--[[
+function GameMode:TimePrinter()
+	local gameState = GameRules:State_Get();
+	local time;
+	if gameState == DOTA_GAMERULES_STATE_PRE_GAME then
+		-- print("dotatime "..GameRules:GetDOTATime(false, true));
+		-- print("gametime "..GameRules:GetGameTime());
+	elseif gameSate == DOTA_GAMERULES_STATE_IN_PROGRESS then
+		-- print("dotatime "..GameRules:GetDOTATime(false, true));
+		-- print("gametime "..GameRules:GetGameTime());
+	end
+	return 1;
+end
+--]]
 
 -- call when game state changes
 function GameMode:OnGameRulesStateChange()
@@ -104,8 +106,9 @@ function GameMode:OnGameRulesStateChange()
 	elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 		if IsServer() then
 			Bots:AddBotsInterval();
-			Vote:Initialize(); 
 		end
+	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
+		Vote:Initialize(); 
 	elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
 		PostGameStats:SetNetTable();
 	end
