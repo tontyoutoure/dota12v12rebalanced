@@ -8,6 +8,7 @@ local BUY_COOLDOWN = {
 -- NOTE: there is some hidden item purchase at the beginning of the game that, if canceled, will crash the game
 -- Inventory Filter DOES trigger even if courier is full.
 
+
 -- last_buy_time[itemName][playerId] = gameTimeOfPurchase
 local last_buy_time = {};
 
@@ -25,9 +26,11 @@ function Inventory:Initialize()
     Inventory:InitializeBuyMatrix();
 end
 
+-- core idea: if the item belongs to you, but this filter has not seen it, then you must have purchased it
+
 function Inventory:InventoryFilter( filterTable )
 	local ownerIndex = filterTable["inventory_parent_entindex_const"]
-	local itemIndex = filterTable["item_entindex_const"]
+    local itemIndex = filterTable["item_entindex_const"]
 
 	if not ownerIndex or not itemIndex then
 		return true
@@ -42,23 +45,34 @@ function Inventory:InventoryFilter( filterTable )
 
     local playerId = owner:GetPlayerOwnerID();
 
-    -- need to let courier pass
-	if not owner:IsCourier() and (Bots:IsBot(playerId) or not IsValidEntity(item) or not owner:IsRealHero()) then
-		return true;
+    -- handle item purchases
+
+    -- is a purchase only if the purchaser matches the owner inventory
+    local purchaser = item:GetPurchaser()
+    if not purchaser or purchaser:GetPlayerOwnerID() ~= playerId then
+        return true;
     end
 
-    -- check if item is restricted
-    local itemName = item:GetName();
-    if BUY_COOLDOWN[itemName] then
-        local currentTime = GameRules:GetDOTATime(false, true); -- must include pregame time 
-        if Inventory:PlayerCanBuy(playerId, itemName, currentTime) then
-            last_buy_time[itemName][playerId] = currentTime;
-            return true;
-        else -- refund since on cooldown
-            Inventory:RefundItem( playerId, item:GetCost() );
-            Inventory:PlayerBuyCoolDownMessage( playerId, itemName, currentTime );
-            UTIL_Remove(item); -- important
-            return false;
+    -- do not care about bots
+    -- if not owner:IsCourier() and (Bots:IsBot(playerId) or not IsValidEntity(item) or not owner:IsRealHero()) then
+    --     return true;
+    -- end
+
+    if not item.Seen then
+        -- check if item is restricted
+        local itemName = item:GetName();
+        if BUY_COOLDOWN[itemName] then
+            local currentTime = GameRules:GetDOTATime(false, true); -- must include pregame time 
+            if Inventory:PlayerCanBuy(playerId, itemName, currentTime) then
+                last_buy_time[itemName][playerId] = currentTime;
+                item.Seen = true;
+                return true;
+            else -- refund since on cooldown
+                Inventory:RefundItem( playerId, item:GetCost() );
+                Inventory:PlayerBuyCoolDownMessage( playerId, itemName, currentTime );
+                UTIL_Remove(item); -- important
+                return false;
+            end
         end
     end
 

@@ -74,8 +74,8 @@ function GameMode:InitGameMode()
 	-- Anti-Troll
 	DisableHelp:Initialize();
 	Kick:Initialize();
-	-- Vote:Initialize(); -- moved to Pre Game 
 	Inventory:Initialize();
+	-- Vote:Initialize(); -- moved to Pre Game 
 
 	-- Game Events
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
@@ -83,6 +83,7 @@ function GameMode:InitGameMode()
 	-- Other
 	-- GameRules:GetGameModeEntity():SetThink( "TimePrinter", GameMode, "TimePrinter", 1 );
 end
+
 
 --[[
 function GameMode:TimePrinter()

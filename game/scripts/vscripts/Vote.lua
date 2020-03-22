@@ -84,6 +84,7 @@ function Vote:Initialize()
         TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS].cooldown = false;
         Vote:TeamMessage( DOTA_TEAM_GOODGUYS, "Vote kick is now off cooldown.");
         Vote:TeamMessage( DOTA_TEAM_BADGUYS, "Vote kick is now off cooldown.");
+        return nil;
     end, "Vote Initial Cooldown", INITIAL_AVAILABLE_TIME - time );
 end
 
@@ -156,6 +157,7 @@ function Vote:BeginVoting( event )
     -- need closure to capture subjectId
     GameRules:GetGameModeEntity():SetThink(function () 
         Vote:EndVoting(subjectId);
+        return nil;
     end, "EndVotingTimeout", VOTE_TIMEOUT );
 
     -- send vote button disable timeout to client
@@ -313,6 +315,7 @@ function Vote:EndVoting( subjectId )
         TEAM_VOTE_STATUS[subjectTeamId].cooldown = false;
         local message = "Vote kick is now off cooldown.";
         Vote:TeamMessage(subjectTeamId, message);
+        return nil;
     end, "Unlock Voting", VOTE_BUTTON_COOLDOWN );
 
     -- process results
