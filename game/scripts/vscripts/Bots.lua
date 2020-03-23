@@ -67,7 +67,7 @@ function Bots:AddBotsInterval()
 	local i = 1;
 	local N = 12;
 	local INITIAL_DELAY = 1;
-	local SPAWN_INTERVAL = 0.4;
+	local SPAWN_INTERVAL = 0.5;
 
 	GameRules:GetGameModeEntity():SetThink(function()
 		if i <= 12 then
@@ -82,7 +82,6 @@ function Bots:AddBotsInterval()
 				local r = Bots:RandomUnusedHeroName();
 				local l = Bots:ChooseLane();
 				Tutorial:AddBot(r, l, difficulty, false);
-				EmitGlobalSound("Bots.Spawned");
 				numDire = numDire + 1;
 			end
 			i = i + 1;

@@ -9,6 +9,8 @@ end
 -- doesn't matter though since pause is disabled
 -- cooldown respects pauses
 
+-- NOTES: thinkers can collide here, need to assign unique names for each team
+
 local VOTE_TIMEOUT = 15; -- 15
 local VOTE_BUTTON_COOLDOWN = 180; -- cooldown after voting ends -- 180
 local INITIAL_AVAILABLE_TIME = 0; -- time when voting becomes off cooldown 0 is game start
@@ -158,7 +160,7 @@ function Vote:BeginVoting( event )
     GameRules:GetGameModeEntity():SetThink(function () 
         Vote:EndVoting(subjectId);
         return nil;
-    end, "EndVotingTimeout", VOTE_TIMEOUT );
+    end, "Team "..subjectTeamId.." End Voting", VOTE_TIMEOUT );
 
     -- send vote button disable timeout to client
     Vote:RequestVotes( playerId, subjectId );
@@ -316,7 +318,7 @@ function Vote:EndVoting( subjectId )
         local message = "Vote kick is now off cooldown.";
         Vote:TeamMessage(subjectTeamId, message);
         return nil;
-    end, "Unlock Voting", VOTE_BUTTON_COOLDOWN );
+    end, "Team "..subjectTeamId.." Unlock Voting", VOTE_BUTTON_COOLDOWN );
 
     -- process results
     Vote:HandleVoteResults( subjectId );
@@ -339,13 +341,13 @@ function Vote:HandleVoteResults( subjectId )
         local message = voteTable.numYes..v.." voted to kick "..Vote:PlayerNameString(subjectId).." ("..threshold.." needed). Vote kick successful.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe successs sound on all players
-        EmitGlobalSound("Vote_Kick.Success");
+        EmitGlobalSound("Custom_Game.Vote_Kick.Success");
     else
         -- play axe fail sound on all players
         local message = voteTable.numYes..v.." voted to kick "..Vote:PlayerNameString(subjectId).." ("..threshold.." needed). Vote kick failed.";
         Vote:TeamMessage(subjectTeamId, message);
         -- play axe fail sound on all players
-        EmitGlobalSound("Vote_Kick.Fail");
+        EmitGlobalSound("Custom_Game.Vote_Kick.Fail");
     end
 end
 

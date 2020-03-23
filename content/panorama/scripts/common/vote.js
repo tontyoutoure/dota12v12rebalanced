@@ -14,9 +14,9 @@ function onVote( yesButton, noButton, voteOptions, subjectId, vote ) {
     yesButton.enabled = false;
     noButton.enabled = false;
     if (vote == voteOptions.YES) {
-        Game.EmitSound("Vote_Kick.Yes"); // vote yes
+        Game.EmitSound("Custom_Game.Vote_Kick.Yes"); // vote yes
     } else if (vote == voteOptions.NO) {
-        Game.EmitSound("Vote_Kick.No"); // vote no
+        Game.EmitSound("Custom_Game.Vote_Kick.No"); // vote no
     }
     GameEvents.SendCustomGameEventToServer("vote_submitted", {voterId: Game.GetLocalPlayerID(), subjectId: subjectId, vote: vote});
 }

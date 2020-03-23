@@ -18,6 +18,8 @@ local Kick = Kick or require("Kick");
 local Vote = Vote or require("Vote");
 local Bots = Bots or require("Bots");
 local Inventory = Inventory or require("Inventory");
+local CosmeticAbilities = CosmeticAbilities or require("CosmeticAbilities");
+local Poof = Poof or require("Poof");
 
 function Precache( context )
 	--[[
@@ -28,7 +30,7 @@ function Precache( context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
 	PrecacheResource( "soundfile", "soundevents/dota_rebalanced.vsndevts", context );
-
+	Poof:Precache(context);
 end
 
 -- Create the game mode when we activate
@@ -42,7 +44,7 @@ function GameMode:InitGameMode()
 	-- Game Setup Phase
 	GameRules:SetCustomGameSetupTimeout( 5 ); -- must be > 0 or host will be unable to pick hero; besides that, value does not seem to matter
 	GameRules:EnableCustomGameSetupAutoLaunch( true );
-	GameRules:SetCustomGameSetupAutoLaunchDelay( 10 + 1 );
+	GameRules:SetCustomGameSetupAutoLaunchDelay( 15 + 1 );
 	GameRules:LockCustomGameSetupTeamAssignment( false );
 
 	-- Adjust team limits
@@ -77,13 +79,14 @@ function GameMode:InitGameMode()
 	Inventory:Initialize();
 	-- Vote:Initialize(); -- moved to Pre Game 
 
+	-- Extras
+	CosmeticAbilities:Initialize();
+	Poof:Initialize();
+
 	-- Game Events
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
 
-	-- Other
-	-- GameRules:GetGameModeEntity():SetThink( "TimePrinter", GameMode, "TimePrinter", 1 );
 end
-
 
 --[[
 function GameMode:TimePrinter()

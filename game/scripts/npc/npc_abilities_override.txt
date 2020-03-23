@@ -1,0 +1,9 @@
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	"high_five"
+	{
+        "AbilityTextureName"			"high_five"
+	}
+}	
