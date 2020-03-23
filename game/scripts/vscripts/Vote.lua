@@ -200,7 +200,7 @@ function Vote:ReceiveVote( event )
     local message = "Vote Submitted | Votes: "..(voteTable.numVotes)..
                     " | Kick: "..(voteTable.numYes)..
                     " | Don't Kick: "..(voteTable.numVotes - voteTable.numYes)..
-                    " | Did Not Vote: "..(voteTable.numVoters);
+                    " | Did Not Vote: "..(voteTable.numVoters - voteTable.numVotes);
     Vote:TeamMessage(teamId, message);
 
     if Vote:IsComplete( subjectId ) then

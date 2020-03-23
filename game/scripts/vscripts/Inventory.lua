@@ -58,14 +58,14 @@ function Inventory:InventoryFilter( filterTable )
     --     return true;
     -- end
 
-    if not item.Seen then
+    if not item.SeenByInventory then
         -- check if item is restricted
         local itemName = item:GetName();
         if BUY_COOLDOWN[itemName] then
             local currentTime = GameRules:GetDOTATime(false, true); -- must include pregame time 
             if Inventory:PlayerCanBuy(playerId, itemName, currentTime) then
                 last_buy_time[itemName][playerId] = currentTime;
-                item.Seen = true;
+                item.SeenByInventory = true;
                 return true;
             else -- refund since on cooldown
                 Inventory:RefundItem( playerId, item:GetCost() );

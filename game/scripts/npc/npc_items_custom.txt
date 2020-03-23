@@ -5,7 +5,7 @@
 		"AbilityCooldown"				"240.0"
         "ItemCost"                      "700"
 		"ItemStockMax"					"12"
-		"ItemStockTime"					"120.0"
+		"ItemStockTime"					"240.0"
 		"ItemInitialStockTime"			"390.0"
 		"ItemStockInitial"				"0"
         "ItemStackable"                 "0"
@@ -14,13 +14,13 @@
 
     "item_ward_observer"
     {
-        "ItemStockTime"                 "60.0"
-		"ItemStockInitial"				"5"
+        "ItemStockTime"                 "180.0"
+		"ItemStockInitial"				"4"
     }    
 
     "item_ward_sentry"
     {
-        "ItemStockTime"                 "60.0"
+        "ItemStockTime"                 "180.0"
     }    
 
     "item_gem"
