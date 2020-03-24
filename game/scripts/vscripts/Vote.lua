@@ -12,8 +12,9 @@ end
 -- NOTES: thinkers can collide here, need to assign unique names for each team
 
 local VOTE_TIMEOUT = 15; -- 15
-local VOTE_BUTTON_COOLDOWN = 180; -- cooldown after voting ends -- 180
+local VOTE_BUTTON_COOLDOWN = 60; -- cooldown after voting ends -- 60 
 local INITIAL_AVAILABLE_TIME = 0; -- time when voting becomes off cooldown 0 is game start
+local MAX_VOTE_INITIATIONS_PER_PLAYER = 1; -- if change, update message
 local VOTES_TO_KICK = 6;
 local VOTE_OPTIONS = {
     YES = "Yes",
@@ -49,6 +50,9 @@ local DISCONNECTED = {};
 -- Table Contents
 -- teamId -> table that maps playerId to true if disconnect or false/nil otherwise
 
+local VOTES_INITIATED = {};
+-- playerId -> number of votes triggered
+
 function Vote:TeamName( teamId )
     if teamId == DOTA_TEAM_GOODGUYS then
         return "<font color='#00ee00'>Radiant</font>";
@@ -72,6 +76,10 @@ end
 function Vote:Initialize()
     -- ListenToGameEvent('player_disconnect', Dynamic_Wrap(Vote, 'OnPlayerDisconnect'), Vote);
     -- ListenToGameEvent('player_resconnect', Dynamic_Wrap(Vote, 'OnPlayerReconnect'), Vote);
+
+    for playerId = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
+        VOTES_INITIATED[playerId] = 0;
+    end
 
     TEAM_VOTE_STATUS[DOTA_TEAM_GOODGUYS] = { voteInProgress = false, cooldown = true, availableTime = INITIAL_AVAILABLE_TIME, subjectId = nil };
     TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS] = { voteInProgress = false, cooldown = true, availableTime = INITIAL_AVAILABLE_TIME, subjectId = nil };
@@ -100,7 +108,14 @@ function Vote:BeginVoting( event )
     local time = GameRules:GetDOTATime(false, true);
 
     local teamTable = TEAM_VOTE_STATUS[playerTeamId];
-    if teamTable.voteInProgress then
+    if not (VOTES_INITIATED[playerId] < MAX_VOTE_INITIATIONS_PER_PLAYER) then
+        local error = {
+            message = "You can only initiate a vote once!"
+        };
+        CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_NoMana" } );
+        CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
+        return nil;
+    elseif teamTable.voteInProgress then
         local error = {
             message = "A vote is already in progress for your team."
         };
@@ -130,6 +145,8 @@ function Vote:BeginVoting( event )
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
         return nil;
     end
+
+    VOTES_INITIATED[playerId] = VOTES_INITIATED[playerId] + 1;
     
     Vote:TeamMessage(subjectTeamId, "A vote to kick "..Vote:PlayerNameString(subjectId).." has begun!");
 

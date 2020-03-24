@@ -31,13 +31,12 @@ function CosmeticAbilities:OnNPCSpawned( event )
         if Bots:IsBot(playerId) then
             ability:SetHidden(true);
             if RandomFloat(0, 1) < 0.35 then
-                ability:CastAbility();
+                GameRules:GetGameModeEntity():SetThink(function ()
+                    ability:CastAbility();
+                    ability:StartCooldown(ability:GetCooldown(level));
+                end, "testing "..playerId, 1 + RandomFloat(0, 5));
             end
         end
-        -- GameRules:GetGameModeEntity():SetThink(function ()
-        --     ability:CastAbility();
-        --     ability:StartCooldown(ability:GetCooldown(level));
-        -- end, "testing "..playerId, 2 + RandomFloat(-1, 1));
         hScript.SeenByCosmeticAbilities = true;
     end
 
