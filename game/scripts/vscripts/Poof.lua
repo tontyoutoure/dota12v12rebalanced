@@ -1,8 +1,7 @@
 local Poof = class({});
 
-
 local POOF_PARTICLE = "particles/units/heroes/hero_meepo/meepo_poof_end.vpcf";
-local SUPER_SAIYAN = "particles/units/heroes/hero_sven/sven_storm_bolt_lightning_sword_01.vpcf";
+
 function Poof:Precache( context )
 	PrecacheResource( "particle", POOF_PARTICLE, context );
 end
@@ -21,7 +20,7 @@ function Poof:OnNPCSpawned( event )
 
     local playerId = hScript:GetPlayerOwnerID();
 
-    if not hScript.SeenByPoof then
+    -- if not hScript.SeenByPoof then
         -- local player = hScript:GetPlayerOwner();
         local particle = ParticleManager:CreateParticle( POOF_PARTICLE, PATTACH_ABSORIGIN, hScript);
         EmitSoundOn("Custom_Game.Hero.Spawned", hScript);
@@ -30,10 +29,9 @@ function Poof:OnNPCSpawned( event )
         --     ParticleManager:DestroyParticle(particle, true);
         --     StopSoundOn("Custom_Game.Hero.Spawned", hScript);
         -- end, "Destroy Poof Particle", 1);
-    end
+    -- end
 
-    hScript.SeenByPoof = true;
+    -- hScript.SeenByPoof = true;
 end
-
 
 return Poof;

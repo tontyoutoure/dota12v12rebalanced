@@ -4,6 +4,7 @@
 		<include src="file://{resources}/scripts/common/selection.js" />
 		<include src="file://{resources}/scripts/common/client_error_listener.js" />
 		<include src="file://{resources}/scripts/common/client_sound_player.js" />
+		<include src="file://{resources}/scripts/custom_game/player_color.js" />
 	</scripts>
 	<script>
 		
@@ -42,13 +43,50 @@
 			}
 		}
 
+		var scale = "90%";
+
 		FindDotaHudElement( "PreGame" ).FindChild( "Header" ).style.visibility = "collapse";
+		<!-- $.Msg($.GetContextPanel().GetParent().GetParent().FindChild("HUDElements").FindChild("topbar").id); -->
+
+		var hud = $.GetContextPanel().GetParent().GetParent();
+		hud.RemoveClass("HIDE_TOP_HEROES");
+		hud.RemoveClass("HIDE_TOP_SCOREBOARD");
+		var topbar = hud.FindChild("HUDElements").FindChild("topbar");
+		topbar.style.visibility = "visible";
+		topbar.style.width = "100%";
+
+		var radiantTopbarContainer = topbar.FindChildTraverse("TopBarRadiantTeamContainer");
+		radiantTopbarContainer.style.uiScale = scale;
+		radiantTopbarContainer.style.width= "50%";
+		var radiantTopbar = radiantTopbarContainer.FindChild("TopBarRadiantTeam");
+		radiantTopbar.style.visibility = "visible";
+		radiantTopbar.style.width = "100%";
+		var radiantBackground = radiantTopbar.GetChild(0); 
+		radiantBackground.style.width = "100%";
+		radiantBackground.style.opacity = "0.75";
+		radiantBackground.style.backgroundImage = "none";
+		var radiantFlare = topbar.FindChild("TopBarLeftFlare");
+		<!-- radiantFlare.style.visibility = "collapse"; -->
+
+		var direTopbarContainer = topbar.FindChildTraverse("TopBarDireTeamContainer");
+		direTopbarContainer.style.uiScale = scale;
+		direTopbarContainer.style.width= "50%";
+		var direTopbar = direTopbarContainer.FindChild("TopBarDireTeam");
+		direTopbar.style.visibility = "visible";
+		direTopbar.style.width = "100%";
+		var direBackground = direTopbar.GetChild(0);
+		direBackground.style.width = "100%";
+		direBackground.style.opacity = "0.75";
+		var direFlare = topbar.FindChild("TopBarRightFlare");
+		<!-- direFlare.style.visibility = "collapse"; -->
+
+
 	</script>
 
 	<Panel>
 		<CustomUIElement type="GameSetup"			layoutfile="file://{resources}/layout/custom_game/team_select.xml" />
 		<CustomUIElement type="HeroSelection" 		layoutfile="file://{resources}/layout/custom_game/hero_select_overlay.xml" />
-		<CustomUIElement type="HudTopBar"			layoutfile="file://{resources}/layout/custom_game/multiteam_top_scoreboard.xml" />
+		<!-- <CustomUIElement type="HudTopBar"			layoutfile="file://{resources}/layout/custom_game/multiteam_top_scoreboard.xml" /> -->
 		<CustomUIElement type="Hud"					layoutfile="file://{resources}/layout/custom_game/vote.xml" />
 		<CustomUIElement type="FlyoutScoreboard"	layoutfile="file://{resources}/layout/custom_game/multiteam_flyout_scoreboard.xml" />
 		<CustomUIElement type="EndScreen" 			layoutfile="file://{resources}/layout/custom_game/multiteam_end_screen.xml" />

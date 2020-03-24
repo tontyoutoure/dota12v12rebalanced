@@ -20,6 +20,7 @@ local Bots = Bots or require("Bots");
 local Inventory = Inventory or require("Inventory");
 local CosmeticAbilities = CosmeticAbilities or require("CosmeticAbilities");
 local Poof = Poof or require("Poof");
+local Color = Color or require("Color");
 
 function Precache( context )
 	--[[
@@ -82,6 +83,7 @@ function GameMode:InitGameMode()
 	-- Extras
 	CosmeticAbilities:Initialize();
 	Poof:Initialize();
+	Color:Initialize();
 
 	-- Game Events
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );

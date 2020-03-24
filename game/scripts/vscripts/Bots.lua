@@ -75,7 +75,6 @@ function Bots:AddBotsInterval()
 				local r = Bots:RandomUnusedHeroName();
 				local l = Bots:ChooseLane();
 				Tutorial:AddBot(r, l, difficulty, true);
-				EmitGlobalSound("Bots.Spawned");
 				numRadiant = numRadiant + 1;
 			end
 			if (numDire < 12) then

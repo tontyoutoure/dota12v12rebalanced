@@ -3,7 +3,7 @@
 	"item_tome_of_knowledge"
 	{
 		"AbilityCooldown"				"240.0"
-        "ItemCost"                      "700"
+        "ItemCost"                      "500"
 		"ItemStockMax"					"12"
 		"ItemStockTime"					"240.0"
 		"ItemInitialStockTime"			"390.0"

@@ -184,16 +184,17 @@
 
 #PlayerColorBar
 {
-    height: 4px;
-    width: 100%;
-    border-bottom: 1px solid #000000;
+    height: 6px;
+	width: 100%;
+	/* box-shadow: inset rgba(0,0,0,0.6) 0px -3px 2px 0px;   */
+	background-color: gradient( linear, 00% 00%, 00% 120%, from( #ffffffff ), to( #000000FF ) );
 }
 
 
 #HeroIcon
 {
     border-left: 1px solid black;
-    border-right: 1px solid black;
+	border-right: 1px solid black;
     width: 48px;
     height: 27px;
 }
@@ -250,6 +251,7 @@
 
 #RespawnIndicator
 {
+	z-index: -10;
 	margin-top: 26px;
 	width: 42px;
 	height: 49px;

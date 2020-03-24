@@ -211,8 +211,8 @@ function _ScoreboardUpdater_UpdatePlayerPanel( scoreboardConfig, playersContaine
 			}
 			else
 			{
-				var playerColor = "#000000";
-				playerColorBar.style.backgroundColor = playerColor;
+				var playerColorString = GetHexPlayerColor(playerId);
+				playerColorBar.style.backgroundColor = CreatePlayerColorBarGradiantString(playerColorString);
 			}
 		}
 	}
@@ -447,4 +447,13 @@ if ( $.GetContextPanel().GetParent().id == "CustomUIContainer_EndScreen" ) {
 	isEndScreen = true
 	AddNewStatisticHeaders( $( "#RadiantHeader" ) )
 	AddNewStatisticHeaders( $( "#DireHeader" ) )
+}
+
+function GetHexPlayerColor(playerId) {
+	var playerColor = Players.GetPlayerColor(playerId).toString(16);
+	return playerColor == null ? '#000000' : ('#' + playerColor.substring(6, 8) + playerColor.substring(4, 6) + playerColor.substring(2, 4) + playerColor.substring(0, 2));
+}
+
+function CreatePlayerColorBarGradiantString(hexString) {
+	return "gradient( linear, 00% 00%, 00% 120%, from( " + hexString + " ), to( #000000FF ) )";
 }
