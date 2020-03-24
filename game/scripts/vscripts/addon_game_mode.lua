@@ -1,7 +1,7 @@
 GameMode = GameMode or class({});
 
 -- set parameters
-local HERO_BANNING_TIME = 0;
+local HERO_BANNING_TIME = 15;
 local HERO_SELECTION_TIME = 30;
 local HERO_SELECTION_PENALTY_TIME = 15;
 local PRE_GAME_TIME = 90;

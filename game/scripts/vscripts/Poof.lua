@@ -20,18 +20,18 @@ function Poof:OnNPCSpawned( event )
 
     local playerId = hScript:GetPlayerOwnerID();
 
-    -- if not hScript.SeenByPoof then
-        -- local player = hScript:GetPlayerOwner();
+    if not hScript.SeenByPoof then
+        local player = hScript:GetPlayerOwner();
         local particle = ParticleManager:CreateParticle( POOF_PARTICLE, PATTACH_ABSORIGIN, hScript);
         EmitSoundOn("Custom_Game.Hero.Spawned", hScript);
         ParticleManager:ReleaseParticleIndex(particle);
-        -- hScript:SetThink(function ()
-        --     ParticleManager:DestroyParticle(particle, true);
-        --     StopSoundOn("Custom_Game.Hero.Spawned", hScript);
-        -- end, "Destroy Poof Particle", 1);
-    -- end
+        hScript:SetThink(function ()
+            ParticleManager:DestroyParticle(particle, true);
+            StopSoundOn("Custom_Game.Hero.Spawned", hScript);
+        end, "Destroy Poof Particle", 1);
+    end
 
-    -- hScript.SeenByPoof = true;
+    hScript.SeenByPoof = true;
 end
 
 return Poof;
