@@ -44,7 +44,7 @@ function Color:OnNPCSpawned( event )
 
     local hScript = EntIndexToHScript(event.entindex);
     -- do not care about non heroes
-    if not hScript:IsRealHero() or hScript.SeenByColor then
+    if not hScript:IsRealHero() or not hScript:IsControllableByAnyPlayer() or hScript.SeenByColor then
         return;
     end
 

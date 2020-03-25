@@ -26,11 +26,12 @@ function GoldTuner:BountyRuneFilter( filterTable )
     return true;
 end
 
+-- TODO, grab ero player -> hero, not all heroes
 function GoldTuner:IncrementPlayerGold()
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
         local allHeroes = HeroList:GetAllHeroes();
         for _, hero in pairs(allHeroes) do
-            if hero:IsRealHero() then
+            if hero:IsRealHero() and hero:IsControllableByAnyPlayer() then
                 hero:ModifyGold(GOLD_PER_TICK, false, 10);
             end
         end

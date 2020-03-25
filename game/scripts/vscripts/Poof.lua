@@ -14,7 +14,7 @@ function Poof:OnNPCSpawned( event )
     -- event.entindex
     local hScript = EntIndexToHScript(event.entindex);
     -- do not care about non heroes
-    if not hScript:IsRealHero() then
+    if not hScript:IsRealHero() or not hScript:IsControllableByAnyPlayer() then
         return;
     end
 

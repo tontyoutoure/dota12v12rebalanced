@@ -54,7 +54,7 @@ function Inventory:InventoryFilter( filterTable )
     end
 
     -- do not care about bots
-    -- if not owner:IsCourier() and (Bots:IsBot(playerId) or not IsValidEntity(item) or not owner:IsRealHero()) then
+    -- if not owner:IsCourier() and (Bots:IsBot(playerId) or not IsValidEntity(item) or not owner:IsRealHero() or not owner:IsControllableByAnyPlayer()) then
     --     return true;
     -- end
 
