@@ -10,15 +10,19 @@ function Poof:Initialize()
     ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Poof, "OnNPCSpawned" ), Poof );
 end
 
+local Seen = {};
 function Poof:OnNPCSpawned( event )
     -- event.entindex
     local hScript = EntIndexToHScript(event.entindex);
+    local playerId = hScript:GetPlayerOwnerID();
     -- do not care about non heroes
-    if not hScript:IsRealHero() or not hScript:IsControllableByAnyPlayer() then
+
+    if not hScript:IsRealHero() or Seen[playerId] then
         return;
+    else
+        Seen[playerId] = true;
     end
 
-    local playerId = hScript:GetPlayerOwnerID();
 
     if not hScript.SeenByPoof then
         local player = hScript:GetPlayerOwner();

@@ -36,6 +36,8 @@ function Color:Initialize()
     ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Color, "OnNPCSpawned" ), Color );
 end
 
+local Seen = {};
+
 function Color:OnNPCSpawned( event )
     -- event.entindex
     if not IsServer() then
@@ -43,12 +45,16 @@ function Color:OnNPCSpawned( event )
     end
 
     local hScript = EntIndexToHScript(event.entindex);
-    -- do not care about non heroes
-    if not hScript:IsRealHero() or not hScript:IsControllableByAnyPlayer() or hScript.SeenByColor then
-        return;
-    end
 
     local playerId = hScript:GetPlayerOwnerID();
+
+    -- do not care about non heroes and only do this once
+    if not hScript:IsRealHero() or Seen[playerId] then
+        return;
+    else
+        Seen[playerId] = true;
+    end
+
     local teamId = PlayerResource:GetTeam(playerId);
 
     local color = nil;
@@ -69,9 +75,6 @@ function Color:OnNPCSpawned( event )
     -- trigger javascript
 
     CustomGameEventManager:Send_ServerToAllClients( "player_color_set", { playerId = playerId, team = team } );
-
-    hScript.SeenByColor = true;
-
 end
 
 
