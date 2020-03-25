@@ -10,7 +10,9 @@ function Poof:Initialize()
     ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Poof, "OnNPCSpawned" ), Poof );
 end
 
+-- forces poof to happen only once per player
 local Seen = {};
+
 function Poof:OnNPCSpawned( event )
     -- event.entindex
     local hScript = EntIndexToHScript(event.entindex);
@@ -23,19 +25,14 @@ function Poof:OnNPCSpawned( event )
         Seen[playerId] = true;
     end
 
-
-    if not hScript.SeenByPoof then
-        local player = hScript:GetPlayerOwner();
-        local particle = ParticleManager:CreateParticle( POOF_PARTICLE, PATTACH_ABSORIGIN, hScript);
-        EmitSoundOn("Custom_Game.Hero.Spawned", hScript);
-        ParticleManager:ReleaseParticleIndex(particle);
-        hScript:SetThink(function ()
-            ParticleManager:DestroyParticle(particle, true);
-            StopSoundOn("Custom_Game.Hero.Spawned", hScript);
-        end, "Destroy Poof Particle", 1);
-    end
-
-    hScript.SeenByPoof = true;
+    local player = hScript:GetPlayerOwner();
+    local particle = ParticleManager:CreateParticle( POOF_PARTICLE, PATTACH_ABSORIGIN, hScript);
+    EmitSoundOn("Custom_Game.Hero.Spawned", hScript);
+    ParticleManager:ReleaseParticleIndex(particle);
+    hScript:SetThink(function ()
+        ParticleManager:DestroyParticle(particle, true);
+        StopSoundOn("Custom_Game.Hero.Spawned", hScript);
+    end, "Destroy Poof Particle", 1);
 end
 
 return Poof;
