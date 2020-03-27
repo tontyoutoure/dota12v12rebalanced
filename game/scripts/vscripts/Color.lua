@@ -36,6 +36,8 @@ function Color:Initialize()
     ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Color, "OnNPCSpawned" ), Color );
 end
 
+-- forces it to happen only once per player
+-- needed for hidden Monkey King clones
 local Seen = {};
 
 function Color:OnNPCSpawned( event )

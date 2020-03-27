@@ -43,42 +43,54 @@
 			}
 		}
 
-		var scale = "90%";
+
+		function SetUpTopScoreboard() {
+			var scale = "90%";
+
+			<!-- $.Msg($.GetContextPanel().GetParent().GetParent().FindChild("HUDElements").FindChild("topbar").id); -->
+
+			var hud = $.GetContextPanel().GetParent().GetParent();
+			hud.RemoveClass("HIDE_TOP_HEROES");
+			hud.RemoveClass("HIDE_TOP_SCOREBOARD");
+			var topbar = hud.FindChild("HUDElements").FindChild("topbar");
+			topbar.style.visibility = "visible";
+			topbar.style.width = "100%";
+
+			var radiantTopbarContainer = topbar.FindChildTraverse("TopBarRadiantTeamContainer");
+			radiantTopbarContainer.style.uiScale = scale;
+			radiantTopbarContainer.style.width= "50%";
+			var radiantTopbar = radiantTopbarContainer.FindChild("TopBarRadiantTeam");
+			radiantTopbar.style.visibility = "visible";
+			radiantTopbar.style.width = "100%";
+			var radiantBackground = radiantTopbar.GetChild(0); 
+			radiantBackground.style.width = "100%";
+			radiantBackground.style.opacity = "0.75";
+			radiantBackground.style.backgroundImage = "none";
+			var radiantFlare = topbar.FindChild("TopBarLeftFlare");
+			<!-- radiantFlare.style.visibility = "collapse"; -->
+
+			var direTopbarContainer = topbar.FindChildTraverse("TopBarDireTeamContainer");
+			direTopbarContainer.style.uiScale = scale;
+			direTopbarContainer.style.width= "50%";
+			var direTopbar = direTopbarContainer.FindChild("TopBarDireTeam");
+			direTopbar.style.visibility = "visible";
+			direTopbar.style.width = "100%";
+			var direBackground = direTopbar.GetChild(0);
+			direBackground.style.width = "100%";
+			direBackground.style.opacity = "0.75";
+			var direFlare = topbar.FindChild("TopBarRightFlare");
+			<!-- direFlare.style.visibility = "collapse"; -->
+		}
+
+		function ScaleSpectatorItems() {
+			var hud = $.GetContextPanel().GetParent().GetParent();
+			var spectatorPanel = hud.FindChildTraverse("SpectatorItems");
+			spectatorPanel.style.uiScale = "65%";
+		}
 
 		FindDotaHudElement( "PreGame" ).FindChild( "Header" ).style.visibility = "collapse";
-		<!-- $.Msg($.GetContextPanel().GetParent().GetParent().FindChild("HUDElements").FindChild("topbar").id); -->
-
-		var hud = $.GetContextPanel().GetParent().GetParent();
-		hud.RemoveClass("HIDE_TOP_HEROES");
-		hud.RemoveClass("HIDE_TOP_SCOREBOARD");
-		var topbar = hud.FindChild("HUDElements").FindChild("topbar");
-		topbar.style.visibility = "visible";
-		topbar.style.width = "100%";
-
-		var radiantTopbarContainer = topbar.FindChildTraverse("TopBarRadiantTeamContainer");
-		radiantTopbarContainer.style.uiScale = scale;
-		radiantTopbarContainer.style.width= "50%";
-		var radiantTopbar = radiantTopbarContainer.FindChild("TopBarRadiantTeam");
-		radiantTopbar.style.visibility = "visible";
-		radiantTopbar.style.width = "100%";
-		var radiantBackground = radiantTopbar.GetChild(0); 
-		radiantBackground.style.width = "100%";
-		radiantBackground.style.opacity = "0.75";
-		radiantBackground.style.backgroundImage = "none";
-		var radiantFlare = topbar.FindChild("TopBarLeftFlare");
-		<!-- radiantFlare.style.visibility = "collapse"; -->
-
-		var direTopbarContainer = topbar.FindChildTraverse("TopBarDireTeamContainer");
-		direTopbarContainer.style.uiScale = scale;
-		direTopbarContainer.style.width= "50%";
-		var direTopbar = direTopbarContainer.FindChild("TopBarDireTeam");
-		direTopbar.style.visibility = "visible";
-		direTopbar.style.width = "100%";
-		var direBackground = direTopbar.GetChild(0);
-		direBackground.style.width = "100%";
-		direBackground.style.opacity = "0.75";
-		var direFlare = topbar.FindChild("TopBarRightFlare");
-		<!-- direFlare.style.visibility = "collapse"; -->
+		SetUpTopScoreboard();
+		ScaleSpectatorItems();
 
 
 	</script>

@@ -2,7 +2,7 @@
 {
     maps	                "dota"
     "IsPlayable"            "1"
-    "PenaltiesEnabled"      "0"
+    "PenaltiesEnabled"      "1"
     "EnablePickRules"       "1"
     "CheckAFKPlayers"       "1"
     "dota"

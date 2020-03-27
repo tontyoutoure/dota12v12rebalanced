@@ -2,7 +2,7 @@ local Inventory = class({});
 local Bots = Bots or require("Bots");
 
 local BUY_COOLDOWN = {
-    item_tome_of_knowledge = 240
+    item_tome_of_knowledge = 300 
 };
 
 -- NOTE: there is some hidden item purchase at the beginning of the game that, if canceled, will crash the game

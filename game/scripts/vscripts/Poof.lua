@@ -11,14 +11,15 @@ function Poof:Initialize()
 end
 
 -- forces poof to happen only once per player
+-- needed for hidden Monkey King clones
 local Seen = {};
 
 function Poof:OnNPCSpawned( event )
     -- event.entindex
     local hScript = EntIndexToHScript(event.entindex);
     local playerId = hScript:GetPlayerOwnerID();
-    -- do not care about non heroes
 
+    -- do not care about non heroes
     if not hScript:IsRealHero() or Seen[playerId] then
         return;
     else

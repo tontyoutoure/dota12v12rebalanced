@@ -120,10 +120,16 @@ function Bots:RandomUnusedHeroName()
 	local length = #(Bots.HeroList);
 	local r = RandomInt(1, length);
 	local heroName = Bots.HeroList[r];
-	while PlayerResource:IsHeroSelected(heroName) do
+	while PlayerResource:IsHeroSelected(heroName, false) do
 		r = (r + 1) % length + 1;
 		heroName = Bots.HeroList[r];
 	end
+
+	-- true doesn't work
+	-- if PlayerResource:IsHeroSelected(heroName, true) ~= PlayerResource:IsHeroSelected(heroName, false) then
+	-- 	print(heroName);
+	-- end
+
 	return heroName;
 end
 

@@ -26,11 +26,16 @@ function GoldTuner:BountyRuneFilter( filterTable )
     return true;
 end
 
+function GoldTuner:IsEligible( hero )
+    -- second condition is to exclude Monkey King clones
+    return hero:IsRealHero() and hero:IsControllableByAnyPlayer();
+end
+
 function GoldTuner:IncrementPlayerGold()
 	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
         local allHeroes = HeroList:GetAllHeroes();
         for _, hero in pairs(allHeroes) do
-            if hero:IsRealHero() and hero:IsControllableByAnyPlayer() then
+            if GoldTuner:IsEligible(hero) then
                 hero:ModifyGold(GOLD_PER_TICK, false, 10);
             end
         end

@@ -7,7 +7,11 @@ local HERO_SELECTION_PENALTY_TIME = 15;
 local PRE_GAME_TIME = 90;
 
 local STARTING_GOLD = 800;
-local RESPAWN_SCALE = 0.8;
+local RESPAWN_SCALE = 0.65;
+
+if IsInToolsMode() then
+	HERO_BANNING_TIME = 0;
+end
 
 -- Load Lua modules
 local GoldTuner = GoldTuner or require("GoldTuner");
@@ -19,7 +23,7 @@ local Vote = Vote or require("Vote");
 local Bots = Bots or require("Bots");
 local Inventory = Inventory or require("Inventory");
 local CosmeticAbilities = CosmeticAbilities or require("CosmeticAbilities");
-local Poof = Poof or require("Poof");
+-- local Poof = Poof or require("Poof");
 local Color = Color or require("Color");
 
 function Precache( context )
@@ -31,7 +35,7 @@ function Precache( context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
 	PrecacheResource( "soundfile", "soundevents/dota_rebalanced.vsndevts", context );
-	Poof:Precache(context);
+	-- Poof:Precache(context);
 end
 
 -- Create the game mode when we activate
@@ -45,8 +49,8 @@ function GameMode:InitGameMode()
 	-- Game Setup Phase
 	GameRules:SetCustomGameSetupTimeout( 5 ); -- must be > 0 or host will be unable to pick hero; besides that, value does not seem to matter
 	GameRules:EnableCustomGameSetupAutoLaunch( true );
-	GameRules:SetCustomGameSetupAutoLaunchDelay( 15 + 1 );
-	GameRules:LockCustomGameSetupTeamAssignment( false );
+	GameRules:SetCustomGameSetupAutoLaunchDelay( 0 );
+	GameRules:LockCustomGameSetupTeamAssignment( true );
 
 	-- Adjust team limits
 	GameRules:SetCustomGameTeamMaxPlayers( DOTA_TEAM_GOODGUYS, 12 );
@@ -82,7 +86,7 @@ function GameMode:InitGameMode()
 
 	-- Extras
 	CosmeticAbilities:Initialize();
-	Poof:Initialize();
+	-- Poof:Initialize();
 	Color:Initialize();
 
 	-- Game Events
