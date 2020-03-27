@@ -4,27 +4,17 @@
 	"Version"		"1"
 
 	//=================================================================================================================
-	// Templar Assassin: Refraction Holdout
+	// Fountain: Moon Glaives
 	//=================================================================================================================
-	"templar_assassin_refraction_holdout"
+	"fountain_moon_glaive"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"ID"					"5223"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilitySound"					"Hero_Luna.MoonGlaive.Impact"
 
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"17.0 17.0 17.0 17.0"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"100"
-		
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
@@ -32,18 +22,21 @@
 			"01"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"damage_absorb"				"200 300 400 500"
+				"range"						"800"
 			}
 			"02"
 			{
 				"var_type"					"FIELD_INTEGER"
-				"bonus_damage"				"20 40 60 80"
+				"bounces"					"12"
 			}
-			"04"
+			"03"
 			{
-				"var_type"					"FIELD_FLOAT"
-				"duration"					"17.0 17.0 17.0 17.0"
+				"var_type"					"FIELD_INTEGER"
+				"damage_reduction_percent"	"80"
 			}
 		}
+		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
 	}
+
+
 }

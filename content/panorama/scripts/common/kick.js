@@ -1,5 +1,5 @@
 function kickCheck( event ) {
-    $.Msg(event.kicked);
+    // $.Msg(event.kicked);
     var myId = Game.GetLocalPlayerID();
     var i = 1;
     if (event.kicked) {

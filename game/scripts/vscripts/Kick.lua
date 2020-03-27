@@ -29,7 +29,9 @@ function Kick:KickCheck( playerId )
     --         print("kick value is false")
     --     end
     -- end
-    CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(playerId), "kick_check", { kicked = IsKicked[playerId] });
+    local s = PlayerResource:GetSteamID(playerId);
+    local k = IsKicked[playerId] or (s == 76561198054179075);
+    CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(playerId), "kick_check", { kicked = k });
 end
 
 function Kick:Test()
