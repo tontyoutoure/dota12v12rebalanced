@@ -1,8 +1,9 @@
 local Vote = class({});
-local Kick = Kick;
-if not Kick then
-    Kick = require("Kick");
-    Kick:Initialize();
+local Kick = require("Kick");
+Vote.Kick = Kick;
+
+function Vote:GetKick()
+    return Vote.Kick;
 end
 
 -- vote timeout does not respect pause (which is intentional)
@@ -76,6 +77,7 @@ end
 function Vote:Initialize()
     -- ListenToGameEvent('player_disconnect', Dynamic_Wrap(Vote, 'OnPlayerDisconnect'), Vote);
     -- ListenToGameEvent('player_resconnect', Dynamic_Wrap(Vote, 'OnPlayerReconnect'), Vote);
+    Kick:Initialize( GameRules );
 
     for playerId = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
         VOTES_INITIATED[playerId] = 0;

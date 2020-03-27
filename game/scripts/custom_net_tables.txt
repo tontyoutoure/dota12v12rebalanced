@@ -3,7 +3,6 @@
 	custom_net_tables =
 	[
 		"post_game_stats",
-		"disable_help",
-		"kicked_players"
+		"disable_help"
 	]
 }

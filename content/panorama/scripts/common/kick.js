@@ -1,10 +1,12 @@
-function kickCheck() {
+function kickCheck( event ) {
+    $.Msg(event.kicked);
     var myId = Game.GetLocalPlayerID();
-    var table = CustomNetTables.GetTableValue( "kicked_players", myId.toString() );
-    if (table && table.isKicked) {
+    var i = 1;
+    if (event.kicked) {
         // GameUI.SendCustomHUDError("KICK CHECK: YOU HAVE BEEN KICKED.", "");
-        while (true) {
+        while (0 < i) {
             $.Msg("YOU ARE KICKED!");
+            i = i + 1;
         }
     } else {
         // GameUI.SendCustomHUDError("KICK CHECK: YOU HAVE NOT BEEN KICKED.", "");

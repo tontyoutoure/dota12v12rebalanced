@@ -14,17 +14,15 @@ if IsInToolsMode() then
 end
 
 -- Load Lua modules
-local GoldTuner = GoldTuner or require("GoldTuner");
-local ExperienceTuner = ExperienceTuner or require("ExperienceTuner");
-local PostGameStats = PostGameStats or require("PostGameStats");
-local DisableHelp = DisableHelp or require("DisableHelp");
-local Kick = Kick or require("Kick");
-local Vote = Vote or require("Vote");
-local Bots = Bots or require("Bots");
-local Inventory = Inventory or require("Inventory");
-local CosmeticAbilities = CosmeticAbilities or require("CosmeticAbilities");
--- local Poof = Poof or require("Poof");
-local Color = Color or require("Color");
+GoldTuner = GoldTuner or require("GoldTuner");
+ExperienceTuner = ExperienceTuner or require("ExperienceTuner");
+PostGameStats = PostGameStats or require("PostGameStats");
+DisableHelp = DisableHelp or require("DisableHelp");
+Vote = Vote or require("Vote");
+Bots = Bots or require("Bots");
+Inventory = Inventory or require("Inventory");
+CosmeticAbilities = CosmeticAbilities or require("CosmeticAbilities");
+Color = Color or require("Color");
 
 function Precache( context )
 	--[[
@@ -35,7 +33,6 @@ function Precache( context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
 	PrecacheResource( "soundfile", "soundevents/dota_rebalanced.vsndevts", context );
-	-- Poof:Precache(context);
 end
 
 -- Create the game mode when we activate
@@ -80,13 +77,11 @@ function GameMode:InitGameMode()
 
 	-- Anti-Troll
 	DisableHelp:Initialize();
-	Kick:Initialize();
 	Inventory:Initialize();
 	-- Vote:Initialize(); -- moved to Pre Game 
 
 	-- Extras
 	CosmeticAbilities:Initialize();
-	-- Poof:Initialize();
 	Color:Initialize();
 
 	-- Game Events
@@ -118,7 +113,9 @@ function GameMode:OnGameRulesStateChange()
 			Bots:AddBotsInterval();
 		end
 	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
-		Vote:Initialize(); 
+		if IsServer() then
+			Vote:Initialize(); 
+		end
 	elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
 		PostGameStats:SetNetTable();
 	end

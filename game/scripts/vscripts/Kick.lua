@@ -1,19 +1,55 @@
 local Kick = class({});
 
--- store kicked players on a nettable
-local NET_TABLE_NAME = "kicked_players";
+local IsKicked = {};
 
-function Kick:Initialize()
+function Kick:Initialize( GameRules )
+    for playerId = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
+        IsKicked[playerId] = false;
+    end
+
     CustomGameEventManager:RegisterListener( "trigger_kick_check", Kick.KickCheck );
+
+    -- trigger kick check every second for insurance
+    GameRules:GetGameModeEntity():SetThink(function () 
+        -- print("kick checking");
+        for playerId = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
+            Kick:KickCheck(playerId);
+        end
+        return 5;
+    end, "Kick Check", 5);
+
 end
 
-function Kick:KickCheck( args )
-    CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(args.playerId), "kick_check", {})
+function Kick:KickCheck( playerId )
+    -- Testing
+    -- if playerId == 0 then
+    --     if IsKicked[playerId] then
+    --         print("kick value is true")
+    --     else
+    --         print("kick value is false")
+    --     end
+    -- end
+    CustomGameEventManager:Send_ServerToPlayer(PlayerResource:GetPlayer(playerId), "kick_check", { kicked = IsKicked[playerId] });
 end
+
+function Kick:Test()
+    local delay = 10;
+    local i = delay;
+    GameRules:GetGameModeEntity():SetThink(function ()
+        print(i);
+        if i == 0 then
+            Kick:KickPlayer(0);
+            return nil;
+        end
+        i = i - 1;
+        return 1;
+    end, "Kick Test", 1);
+end
+
 
 function Kick:KickPlayer( playerId )
-    CustomNetTables:SetTableValue( NET_TABLE_NAME, tostring(playerId), { isKicked = true } );
-    Kick:KickCheck({ playerId = playerId });
+    IsKicked[playerId] = true;
+    Kick:KickCheck(playerId);
 end
 
 return Kick;
