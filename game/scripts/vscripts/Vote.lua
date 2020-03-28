@@ -75,6 +75,7 @@ function Vote:PlayerNameString(playerId)
 end
 
 function Vote:Initialize()
+
     -- ListenToGameEvent('player_disconnect', Dynamic_Wrap(Vote, 'OnPlayerDisconnect'), Vote);
     -- ListenToGameEvent('player_resconnect', Dynamic_Wrap(Vote, 'OnPlayerReconnect'), Vote);
     Kick:Initialize( GameRules );

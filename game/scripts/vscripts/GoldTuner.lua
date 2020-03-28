@@ -1,14 +1,14 @@
 local GoldTuner = class({});
 
 local GOLD_TICK_TIME = 1; -- seconds
-local GOLD_PER_TICK = 2;
+local GOLD_PER_TICK = 1;
 
 local INITIAL_TIME = 0;
 local HOUR_TIME = 60 * 60;
 
 local EXTRA_BOUNTY_RUNE_FACTOR = 1.5;
 local SCALE_INITIAL_VALUE = 1; -- value at initial time 
-local SCALE_HOUR_VALUE = 2.5; -- value at final time 
+local SCALE_HOUR_VALUE = 2; -- value at final time 
 local SCALE_TIME_COEFFICIENT = (SCALE_HOUR_VALUE - SCALE_INITIAL_VALUE) / (HOUR_TIME - INITIAL_TIME);
 
 local SCALE_FACTOR_THINK_TIME = 1;
@@ -59,10 +59,12 @@ function GoldTuner:ScaleFactorThinker()
 end
 
 function GoldTuner:Initialize( GameRules )
-	GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
-	GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( GoldTuner, "BountyRuneFilter" ), GoldTuner );
-    GameRules:GetGameModeEntity():SetThink( "IncrementPlayerGold", GoldTuner, "GoldThinker", GOLD_TICK_TIME );
-	GameRules:GetGameModeEntity():SetThink( "ScaleFactorThinker", GoldTuner, "GoldScaleThinker", SCALE_FACTOR_THINK_TIME );
+    if IsServer() then
+        GameRules:GetGameModeEntity():SetModifyGoldFilter( Dynamic_Wrap( GoldTuner, "GoldFilter" ), GoldTuner );
+        GameRules:GetGameModeEntity():SetBountyRunePickupFilter( Dynamic_Wrap( GoldTuner, "BountyRuneFilter" ), GoldTuner );
+        GameRules:GetGameModeEntity():SetThink( "IncrementPlayerGold", GoldTuner, "GoldThinker", GOLD_TICK_TIME );
+        GameRules:GetGameModeEntity():SetThink( "ScaleFactorThinker", GoldTuner, "GoldScaleThinker", SCALE_FACTOR_THINK_TIME );
+    end
 end
 
 return GoldTuner;

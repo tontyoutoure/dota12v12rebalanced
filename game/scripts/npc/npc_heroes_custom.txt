@@ -3,6 +3,10 @@
 // the specified key-value combinations.  Use override_hero <hero_to_override> for this.
 "DOTAHeroes"
 {
+	"npc_dota_hero_silencer"
+	{
+		"Ability13"		"special_bonus_spell_lifesteal_15"
+	}
 	"npc_dota_hero_mirana_override"
 	{
 		"override_hero"				"npc_dota_hero_mirana"			// Hero to override

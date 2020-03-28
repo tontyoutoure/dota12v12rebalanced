@@ -6,7 +6,7 @@ local HERO_SELECTION_TIME = 30;
 local HERO_SELECTION_PENALTY_TIME = 15;
 local PRE_GAME_TIME = 90;
 
-local STARTING_GOLD = 800;
+local STARTING_GOLD = 600;
 local RESPAWN_SCALE = 0.65;
 
 if IsInToolsMode() then
@@ -23,6 +23,8 @@ Bots = Bots or require("Bots");
 Inventory = Inventory or require("Inventory");
 CosmeticAbilities = CosmeticAbilities or require("CosmeticAbilities");
 Color = Color or require("Color");
+Fountain = Fountain or require("Fountain");
+Rune = Rune or require("Rune");
 
 function Precache( context )
 	--[[
@@ -84,6 +86,9 @@ function GameMode:InitGameMode()
 	CosmeticAbilities:Initialize();
 	Color:Initialize();
 
+	-- Other
+	Rune:Initialize();
+
 	-- Game Events
 	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
 
@@ -106,52 +111,16 @@ end
 
 -- call when game state changes
 function GameMode:OnGameRulesStateChange()
-	local gameState = GameRules:State_Get();
-	if gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
-	elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
-		if IsServer() then
+	if IsServer() then
+		local gameState = GameRules:State_Get();
+		if gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
+		elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
 			Bots:AddBotsInterval();
-		end
-	elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
-		if IsServer() then
+		elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
 			Vote:Initialize(); 
-		end
-		GameMode:BuffFountain();
-	elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
-		PostGameStats:SetNetTable();
-	end
-end
-
-local fountain_abilities = {
-	faceless_void_time_lock = 4,
-	luna_moon_glaive = 4
-}
-
-local fountain_items = {
-	-- item_ultimate_scepter = 1,
-	item_mjollnir = 2,
-	item_monkey_king_bar = 1
-}
-
-function GameMode:BuffFountain()
-	local fountains = Entities:FindAllByClassname('ent_dota_fountain');
-	for i, fountain in pairs(fountains) do
-		for name, level in pairs(fountain_abilities) do
-			local ability = fountain:FindAbilityByName(name);
-			if not ability then
-				ability = fountain:AddAbility(name);
-				if ability then
-					ability:SetLevel(level);
-				end
-			end
-		end
-		for name, N in pairs(fountain_items) do
-			for i = 1, N do
-				local item = CreateItem(name, fountain, fountain);
-				if item then
-					fountain:AddItem(item);
-				end
-			end
+			Fountain:Buff();
+		elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
+			PostGameStats:SetNetTable();
 		end
 	end
 end

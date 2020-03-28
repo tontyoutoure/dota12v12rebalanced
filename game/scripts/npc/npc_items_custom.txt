@@ -14,13 +14,13 @@
 
     "item_ward_observer"
     {
-        "ItemStockTime"                 "180.0"
+        "ItemStockTime"                 "150.0"
 		"ItemStockInitial"				"4"
     }    
 
     "item_ward_sentry"
     {
-        "ItemStockTime"                 "180.0"
+        "ItemStockTime"                 "150.0"
     }    
 
     "item_gem"

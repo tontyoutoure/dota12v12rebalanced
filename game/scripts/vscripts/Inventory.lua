@@ -22,8 +22,8 @@ function Inventory:InitializeBuyMatrix()
 end
 
 function Inventory:Initialize()
-    GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter( Dynamic_Wrap( Inventory, "InventoryFilter" ), Inventory );
     Inventory:InitializeBuyMatrix();
+    GameRules:GetGameModeEntity():SetItemAddedToInventoryFilter( Dynamic_Wrap( Inventory, "InventoryFilter" ), Inventory );
 end
 
 -- core idea: if the item belongs to you, but this filter has not seen it, then you must have purchased it
