@@ -14,7 +14,7 @@ When in development, Dota 2 custom games are divided into two folders, which are
 The first is referred to as the "content" folder for the custom game because it is under the "content" directory.
 The second is referred to the "game" folder because it is under the "game" directory". 
 
-Both are given the same name, which will be used as the name for the custom game by Dota Workshop Tools.
+Both are given the same name, which will be used as the name for the custom game by Dota 2 Workshop Tools.
 
 For example, I used the name "dota12v12rebalanced" and during development I must manage two folders: 
 - "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\content\dota_addons\dota12v12rebalanced"
@@ -39,5 +39,5 @@ I have automated this with a very simple batch script: "setup_links.bat"
 
 You can double click to run the script or execute it from the command prompt.
 
-
+After getting setup, you should see it listed under "Addon Name" when launching Dota 2 Workshop Tools.
 
