@@ -2,38 +2,6 @@ local Bots = class({});
 
 -- GameRules:BotPopulate(); -- does not work on live server
 
--- adds bots 
-function Bots:AddBots()
-	Tutorial:StartTutorialMode(); -- MUST ADD OR CRASH
-	GameRules:GetGameModeEntity():SetBotThinkingEnabled(true);
-	-- GameRules:GetGameModeEntity():SetBotsInLateGame(true); -- they might be rushing mid because of this
-
-	-- GameRules:BotPopulate(); -- does not work on live server
-	local numRadiant = Bots:GetTeamCount( DOTA_TEAM_GOODGUYS );
-	local numDire = Bots:GetTeamCount( DOTA_TEAM_BADGUYS );
-
-	local lane = { "top", "mid", "bot" };
-	local difficulty = "unfair";
-
-	local N = 12;
-
-	for i = 1, N do
-		if (numRadiant < N) then
-			local r = Bots:RandomUnusedHeroName();
-			local l = lane[RandomInt(1, 3)];
-			Tutorial:AddBot(r, l, difficulty, true);
-			numRadiant = numRadiant + 1;
-		end
-		if (numDire < N) then
-			local r = Bots:RandomUnusedHeroName();
-			local l = lane[RandomInt(1, 3)];
-			Tutorial:AddBot(r, l, difficulty, false);
-			numDire = numDire + 1;
-		end
-	end
-
-end
-
 local laneCount = {
 	top = 0,
 	bot = 0,
@@ -53,6 +21,43 @@ function Bots:ChooseLane()
 	return choice;
 end
 
+-- adds bots 
+function Bots:AddBots()
+
+	local numRadiant = Bots:GetTeamCount( DOTA_TEAM_GOODGUYS );
+	local numDire = Bots:GetTeamCount( DOTA_TEAM_BADGUYS );
+
+	if numRadiant + numDire >= DOTA_MAX_TEAM_PLAYERS then
+		return;
+	end
+
+	Tutorial:StartTutorialMode(); -- MUST ADD OR CRASH
+	GameRules:GetGameModeEntity():SetBotThinkingEnabled(true);
+	-- GameRules:GetGameModeEntity():SetBotsInLateGame(true); -- they might be rushing mid because of this
+
+	local lane = { "top", "mid", "bot" };
+	local difficulty = "unfair";
+
+	local N = 12;
+
+	for i = 1, N do
+		if (numRadiant < N) then
+			local r = Bots:RandomUnusedHeroName();
+			local l = Bots:ChooseLane();
+			Tutorial:AddBot(r, l, difficulty, true);
+			numRadiant = numRadiant + 1;
+		end
+		if (numDire < N) then
+			local r = Bots:RandomUnusedHeroName();
+			local l = Bots:ChooseLane();
+			Tutorial:AddBot(r, l, difficulty, false);
+			numDire = numDire + 1;
+		end
+	end
+
+end
+
+--[[
 -- adds bots in intervals to prevent lag
 function Bots:AddBotsInterval()
 	Tutorial:StartTutorialMode(); -- MUST ADD OR CRASH
@@ -91,6 +96,7 @@ function Bots:AddBotsInterval()
 		end
 	end, "Spawn Bots", INITIAL_DELAY);
 end
+]]
 
 --[[
 function Bots:SetBotDifficulty()

@@ -6,6 +6,7 @@
 		<include src="file://{resources}/scripts/common/client_sound_player.js" />
 		<include src="file://{resources}/scripts/custom_game/player_color.js" />
 		<include src="file://{resources}/scripts/common/kick.js" />
+		<include src="file://{resources}/scripts/common/client_echo.js" />
 	</scripts>
 	<script>
 		

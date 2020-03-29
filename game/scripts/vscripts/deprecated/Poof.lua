@@ -1,4 +1,5 @@
 local Poof = class({});
+local Utilities = Utilities or require("Utilities");
 
 local POOF_PARTICLE = "particles/units/heroes/hero_meepo/meepo_poof_end.vpcf";
 
@@ -7,7 +8,8 @@ function Poof:Precache( context )
 end
 
 function Poof:Initialize()
-    ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Poof, "OnNPCSpawned" ), Poof );
+    -- ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Poof, "OnNPCSpawned" ), Poof );
+    Utilities:RegisterGameEventListener( "npc_spawned", Poof.OnNPCSpawned, Poof );
 end
 
 -- forces poof to happen only once per player

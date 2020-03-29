@@ -1,4 +1,5 @@
 local Kick = class({});
+local Utilities = Utilities or require("Utilities");
 
 local IsKicked = {};
 
@@ -7,7 +8,8 @@ function Kick:Initialize( GameRules )
         IsKicked[playerId] = false;
     end
 
-    CustomGameEventManager:RegisterListener( "trigger_kick_check", Kick.KickCheck );
+    Utilities:RegisterCustomEventListener( "trigger_kick_check", Kick.KickCheck, Kick );
+    -- CustomGameEventManager:RegisterListener( "trigger_kick_check", Kick.KickCheck );
 
     -- trigger kick check every second for insurance
     GameRules:GetGameModeEntity():SetThink(function () 

@@ -1,11 +1,13 @@
 local CosmeticAbilities = class({});
 local Bots = Bots or require("Bots");
+local Utilities = Utilities or require("Utilities");
 
 -- TODO generalize
 
 function CosmeticAbilities:Initialize()
     -- register callbacks
-    ListenToGameEvent( "npc_spawned", Dynamic_Wrap( CosmeticAbilities, "OnNPCSpawned" ), CosmeticAbilities );
+    -- ListenToGameEvent( "npc_spawned", Dynamic_Wrap( CosmeticAbilities, "OnNPCSpawned" ), CosmeticAbilities );
+    Utilities:RegisterGameEventListener( "npc_spawned", CosmeticAbilities.OnNPCSpawned, CosmeticAbilities );
 end
 
 

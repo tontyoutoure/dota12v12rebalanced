@@ -25,6 +25,7 @@ CosmeticAbilities = CosmeticAbilities or require("CosmeticAbilities");
 Color = Color or require("Color");
 Fountain = Fountain or require("Fountain");
 Rune = Rune or require("Rune");
+Utilities = Utilities or require("Utilities");
 
 function Precache( context )
 	--[[
@@ -72,6 +73,7 @@ function GameMode:InitGameMode()
 	GameRules:GetGameModeEntity():SetPauseEnabled( false );
 	GameRules:GetGameModeEntity():SetFreeCourierModeEnabled( true );
 	GameRules:GetGameModeEntity():SetRespawnTimeScale( RESPAWN_SCALE );
+	GameRules:GetGameModeEntity():SetTowerBackdoorProtectionEnabled( true );
 
 	-- Game Tuner (Filters and Thinkers)
 	GoldTuner:Initialize( GameRules );
@@ -90,7 +92,8 @@ function GameMode:InitGameMode()
 	Rune:Initialize();
 
 	-- Game Events
-	ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
+	-- ListenToGameEvent('game_rules_state_change', Dynamic_Wrap( GameMode, 'OnGameRulesStateChange'), GameMode );
+	Utilities:RegisterGameEventListener('game_rules_state_change', GameMode.OnGameRulesStateChange, GameMode );
 
 end
 
@@ -115,10 +118,11 @@ function GameMode:OnGameRulesStateChange()
 		local gameState = GameRules:State_Get();
 		if gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
 		elseif gameState == DOTA_GAMERULES_STATE_STRATEGY_TIME then
-			Bots:AddBotsInterval();
+			Bots:AddBots();
 		elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
 			Vote:Initialize(); 
 			Fountain:Buff();
+			-- Utilities:Test();
 		elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
 			PostGameStats:SetNetTable();
 		end

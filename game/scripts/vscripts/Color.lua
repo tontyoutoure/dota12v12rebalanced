@@ -1,4 +1,5 @@
 local Color = class({});
+local Utilities = Utilities or require("Utilities");
 
 local radiantIndex = 1;
 local radiantColors = {
@@ -33,7 +34,8 @@ local direColors = {
 }
 
 function Color:Initialize()
-    ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Color, "OnNPCSpawned" ), Color );
+    -- ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Color, "OnNPCSpawned" ), Color );
+    Utilities:RegisterGameEventListener( "npc_spawned", Color.OnNPCSpawned, Color );
 end
 
 -- forces it to happen only once per player

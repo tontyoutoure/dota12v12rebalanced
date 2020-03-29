@@ -1,4 +1,5 @@
 local DisableHelp = class({});
+local Utilities = Utilities or require("Utilities");
 
 local NET_TABLE_NAME = "disable_help";
 
@@ -20,7 +21,8 @@ function DisableHelp:DisableHelpListener( event )
 end
 
 function DisableHelp:Initialize()
-    CustomGameEventManager:RegisterListener( "set_disable_help", Dynamic_Wrap( DisableHelp, "DisableHelpListener" ) );
+    Utilities:RegisterCustomEventListener( "set_disable_help", DisableHelp.DisableHelpListener, DisableHelp );
+    -- CustomGameEventManager:RegisterListener( "set_disable_help", Dynamic_Wrap( DisableHelp, "DisableHelpListener" ) );
 end
 
 return DisableHelp;

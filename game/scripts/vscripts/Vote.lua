@@ -1,5 +1,6 @@
 local Vote = class({});
 local Kick = require("Kick");
+local Utilities = Utilities or require("Utilities");
 Vote.Kick = Kick;
 
 function Vote:GetKick()
@@ -88,8 +89,10 @@ function Vote:Initialize()
     TEAM_VOTE_STATUS[DOTA_TEAM_BADGUYS] = { voteInProgress = false, cooldown = true, availableTime = INITIAL_AVAILABLE_TIME, subjectId = nil };
     GameRules:SendCustomMessage("Start a vote kick by clicking the Boots icon on the scoreboard. Vote kicking becomes available when the clock hits <font color='#eeeeee'>0:00</font>.", 0, 0);
 
-    CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( Vote, "BeginVoting" ) );
-    CustomGameEventManager:RegisterListener( "vote_submitted", Dynamic_Wrap( Vote, "ReceiveVote" ) );
+    Utilities:RegisterCustomEventListener( "begin_voting", Vote.BeginVoting, Vote );
+    Utilities:RegisterCustomEventListener( "vote_submitted", Vote.ReceiveVote, Vote );
+    -- CustomGameEventManager:RegisterListener( "begin_voting", Dynamic_Wrap( Vote, "BeginVoting" ) );
+    -- CustomGameEventManager:RegisterListener( "vote_submitted", Dynamic_Wrap( Vote, "ReceiveVote" ) );
 
     local time = GameRules:GetDOTATime(false, true);
     GameRules:GetGameModeEntity():SetThink(function () 
@@ -217,7 +220,7 @@ function Vote:ReceiveVote( event )
     -- not used
     -- CustomGameEventManager:Send_ServerToTeam( teamId, "update_votes", table );
 
-    local message = "Vote Submitted | Votes: "..(voteTable.numVotes)..
+    local message = "Vote Submitted"..
                     " | Kick: "..(voteTable.numYes)..
                     " | Don't Kick: "..(voteTable.numVotes - voteTable.numYes)..
                     " | Did Not Vote: "..(voteTable.numVoters - voteTable.numVotes);
