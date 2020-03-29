@@ -8,15 +8,17 @@
 	}
 
 	//=================================================================================================================
-	// Ability: Special Bonus
+	// Zuus: Static Field
 	//=================================================================================================================
-	"special_bonus_unique_mirana_3"
+	"zuus_static_field"
 	{
 		// General
 		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"6397"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
+		"ID"					"5112"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"	
+		"AbilitySound"					"Hero_Zuus.StaticField"
 		
 		// Special
 		//-------------------------------------------------------------------------------------------------------------
@@ -24,8 +26,62 @@
 		{
 			"01"
 			{
-				"var_type"					"FIELD_INTEGER"
-				"value"				"8"
+				"var_type"					"FIELD_FLOAT"
+				"damage_health_pct"			"4 5 6 7"
+				"LinkedSpecialBonus"		"special_bonus_unique_zeus"
+				"CalculateSpellDamageTooltip"	"0"
+			}
+		}
+		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_3"
+	}
+	
+	//=================================================================================================================
+	// Ability: Mirana Invis
+	//=================================================================================================================
+	"mirana_invis"
+	{
+		// General
+		//-------------------------------------------------------------------------------------------------------------
+		"ID"					"5049"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
+		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
+		"FightRecapLevel"				"2"
+		"AbilitySound"					"Ability.MoonlightShadow"
+
+		// Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"				"0"
+		"AbilityCastPoint"				"0.5 0.5 0.5"
+		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_4"
+
+		// Time		
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"140.0 120.0 100.0"
+
+		// Cost
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"				"125"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"fade_delay"			"3.5 3.0 2.5"
+			}
+			"02"
+			{
+				"var_type"				"FIELD_FLOAT"
+				"duration"				"14.0"
+			}
+			"03"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"bonus_movement_speed"		"15"
 			}
 		}
 	}
@@ -52,584 +108,7 @@
 			}
 		}
 	}
-	
-	//=================================================================================================================
-	// Ability: Mirana Arrow
-	//=================================================================================================================
-	"mirana_arrow"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5048"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_DIRECTIONAL | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_YES_STRONG"
-		"FightRecapLevel"				"1"
-		"AbilitySound"					"Hero_Mirana.ArrowCast"
 
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"2500 3000 3500 4000"
-		"AbilityCastPoint"				"0.5 0.5 0.5 0.5"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"18 17 16 15"
-		"AbilityDuration"				"3.11 3.11 3.11 3.11"
-
-		// Damage.
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDamage"					"60 140 220 300"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"125 150 175 200"
-
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"arrow_speed"		"1000.0"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"arrow_width"		"115"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"arrow_range"		"2500 3000 3500 4000"
-			}
-			"04"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"arrow_max_stunrange"	"2000 2500 3000 3500"
-			}
-			"05"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"arrow_min_stun"	"0.01"
-			}
-			"06"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"arrow_max_stun"	"4.5 5 5.5 6.0"
-			}
-			"07"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"arrow_bonus_damage"	"300"
-			}
-			"08"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"arrow_vision"	"600"
-			}
-		}
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
-	}
-
-	//=================================================================================================================
-	// Ability: Mirana Invis
-	//=================================================================================================================
-	"mirana_invis"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5049"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_NO"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ALLIES_YES"
-		"FightRecapLevel"				"2"
-		"AbilitySound"					"Ability.MoonlightShadow"
-
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"0"
-		"AbilityCastPoint"				"0.5 0.5 0.5"
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_4"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"140.0 130.0 120.0"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"200"
-
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"fade_delay"			"3.5 3.0 2.5"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"duration"				"12.0"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"bonus_movement_speed"		"20"
-			}
-		}
-	}
-
-	//=================================================================================================================
-	// Ability: Mirana Leap
-	//=================================================================================================================
-	"mirana_leap"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5050"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
-		"SpellDispellableType"			"SPELL_DISPELLABLE_YES"
-		"AbilitySound"					"Ability.Leap"
-		
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"0"
-		"AbilityCharges"				"4"
-		"AbilityChargeRestoreTime"		"45 40 35 30"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"50"
-
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"leap_distance"			"350 450 550 650"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"leap_speed"			"1300.0"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"leap_acceleration"		"6000.0"
-			}
-			"04"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"leap_speedbonus"	"8 16 24 32"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"leap_speedbonus_as"	"25 50 75 100"
-				"LinkedSpecialBonus"	"special_bonus_unique_mirana_1"
-			}
-			"06"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"leap_bonus_duration"	"3"
-			}
-		}
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_3"
-	}
-	
-	//=================================================================================================================
-	// Ability: Mirana Starfall
-	//=================================================================================================================
-	"mirana_starfall"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5051"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"FightRecapLevel"				"1"
-		"AbilitySound"					"Ability.Starfall"
-
-		"HasScepterUpgrade"			"1"
-		
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastPoint"				"0.4"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"12.0 11.0 10.0 9.0"
-		"AbilityDuration"				"10.0 10.0 10.0 10.0"
-
-		// Damage.
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDamage"					"75 150 225 300"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"80 105 130 155"
-
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"starfall_radius"	"650"		
-			}
-			"02"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"starfall_secondary_radius"	"425"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"interval_scepter"	"6.0"
-				"RequiresScepter"			"1"
-			}
-			"04"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"secondary_starfall_damage_percent"	 "75"
-			}
-		}
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_1"
-		"AbilityCastGestureSlot"		"DEFAULT"
-	}
-
-	//=================================================================================================================
-	// Zeus 
-	//=================================================================================================================
-
-	//=================================================================================================================
-	// Zuus: Arc Lightning
-	//=================================================================================================================
-	"zuus_arc_lightning"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5110"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"AbilitySound"					"Hero_Zuus.ArcLightning.Cast"
-
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"850"
-		"AbilityCastPoint"				"0.2"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"1.6"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"80"
-
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"arc_damage"			"70 90 110 130"
-				"LinkedSpecialBonus"	"special_bonus_unique_zeus_2"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"radius"				"500 600 700 800"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"jump_count"			"5 7 9 15"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"jump_delay"			"0.25 0.20 0.15 0.10"
-			}
-		}
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_1"
-	}
-	
-	//=================================================================================================================
-	// Zuus: Lightning Bolt
-	//=================================================================================================================
-	"zuus_lightning_bolt"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5111"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"FightRecapLevel"				"1"
-		"AbilitySound"					"Hero_Zuus.LightningBolt"
-
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"600 650 700 750"
-		"AbilityCastPoint"				"0.4 0.4 0.4 0.4"
-
-		// Damage.
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityDamage"					"125 175 225 275"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"6.0 6.0 6.0 6.0"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"100 125 150 175"
-
-		// Stats
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityModifierSupportValue"	"0.1"	// just a ministun
-
-
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"true_sight_radius"		"750"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"sight_radius_day"		"750"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"sight_radius_night"	"750"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"sight_duration"		"1.0"
-			}
-			"05"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"spread_aoe"	"325"
-			}
-		}
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_2"
-	}
-	
-	//=================================================================================================================
-	// Zuus: Cloud
-	//=================================================================================================================
-	"zuus_cloud"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"6325"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"MaxLevel"						"1"
-		"FightRecapLevel"				"1"
-		"IsGrantedByScepter"			"1"
-		"HasScepterUpgrade"				"1"
-		"AbilitySound"					"Hero_Zuus.Cloud.Cast"
-
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastRange"				"0"
-		"AbilityCastPoint"				"0.2"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_4"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"35"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"325"
-
-		// Stats
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityModifierSupportValue"	"0.1"	// just a ministun
-
-
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"cloud_duration"	"35"
-				"RequiresScepter"			"1"
-			}
-			"02"
-			{
-				"var_type"			"FIELD_FLOAT"
-				"cloud_bolt_interval"	"3.25"
-				"RequiresScepter"			"1"
-			}
-			"03"
-			{
-				"var_type"			"FIELD_INTEGER"
-				"cloud_radius"			"600"
-				"RequiresScepter"			"1"
-			}
-			"04"
-			{
-				"var_type"					"FIELD_INTEGER"
-				"hits_to_kill_tooltip"		"8"
-				"RequiresScepter"			"1"
-			}
-			"05"
-			{
-				"var_type"					"FIELD_INTEGER"
-				"creep_hits_to_kill_tooltip"		"16"
-				"RequiresScepter"			"1"
-			}
-			"06"
-			{
-				"var_type"					"FIELD_INTEGER"
-				"cloud_bounty_tooltip"		"100"
-				"RequiresScepter"			"1"
-			}
-		}
-	}
-	
-	//=================================================================================================================
-	// Zuus: Static Field
-	//=================================================================================================================
-	"zuus_static_field"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5112"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"	
-		"AbilitySound"					"Hero_Zuus.StaticField"
-		
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"					"FIELD_FLOAT"
-				"damage_health_pct"			"6.0 6.5 7.0 7.5"
-				"LinkedSpecialBonus"		"special_bonus_unique_zeus"
-				"CalculateSpellDamageTooltip"	"0"
-			}
-		}
-		"AbilityCastAnimation"		"ACT_DOTA_CAST_ABILITY_3"
-	}
-	
-
-
-	//=================================================================================================================
-	// Zuus: Thundergod's Wrath
-	//=================================================================================================================
-	"zuus_thundergods_wrath"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"5113"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityType"					"DOTA_ABILITY_TYPE_ULTIMATE"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_NO"
-		"FightRecapLevel"				"2"
-		"AbilitySound"					"Hero_Zuus.GodsWrath"
-
-		"HasScepterUpgrade"				"1"
-		"AbilityDraftUltScepterAbility"		"zuus_cloud"
-	
-		// Casting
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCastPoint"				"0.4 0.4 0.4 0.4"
-		"AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_5"
-
-		// Time		
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityCooldown"				"120.0"
-
-		// Cost
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilityManaCost"				"300 450 600"
-		
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"sight_radius_day"		"500"
-			}
-			"02"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"sight_radius_night"	"500"
-			}
-			"03"
-			{
-				"var_type"				"FIELD_FLOAT"
-				"sight_duration"		"5.0 7.5 10.0"
-			}
-			"04"
-			{
-				"var_type"				"FIELD_INTEGER"
-				"damage"				"200 250 300"
-			}
-		}
-	}
-
-	//=================================================================================================================
-	// Ability: Special Bonus
-	//=================================================================================================================
-	"special_bonus_unique_zeus_3"
-	{
-		// General
-		//-------------------------------------------------------------------------------------------------------------
-		"ID"					"6518"														// unique ID number for this ability.  Do not change this once established or it will invalidate collected stats.
-		"AbilityType"					"DOTA_ABILITY_TYPE_ATTRIBUTES"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
-		
-		// Special
-		//-------------------------------------------------------------------------------------------------------------
-		"AbilitySpecial"
-		{
-			"01"
-			{
-				"var_type"					"FIELD_FLOAT"
-				"value"				"1.5"
-			}
-		}
-	}
 
   	//=================================================================================================================
   	// Backdoor Protection

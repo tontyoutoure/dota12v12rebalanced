@@ -180,8 +180,8 @@ Bots.HeroList = {
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_windrunner",
 	"npc_dota_hero_witch_doctor",
-	"npc_dota_hero_skeleton_king"
-	-- "npc_dota_hero_zuus" -- does not work due to mod
+	"npc_dota_hero_skeleton_king",
+	"npc_dota_hero_zuus"
 };
 
 return Bots;
