@@ -1,0 +1,43 @@
+Getting Started:
+
+When you first download the repo, there will be two folders:
+- content
+- game
+
+I will explain what to do what these after providing some background. (You will simply need to run a script I've created
+but please read through to understand what is going on.)
+
+When in development, Dota 2 custom games are divided into two folders, which are but are in two different locations:
+- one which is a subdirectory of "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\content\dota_addons"
+- one which is a subdirectory of "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota_addons"
+
+The first is referred to as the "content" folder for the custom game because it is under the "content" directory.
+The second is referred to the "game" folder because it is under the "game" directory". 
+
+Both are given the same name, which will be used as the name for the custom game by Dota Workshop Tools.
+
+For example, I used the name "dota12v12rebalanced" and during development I must manage two folders: 
+- "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\content\dota_addons\dota12v12rebalanced"
+- "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota_addons\dota12v12rebalanced"
+
+It is not practical to manage two folders in different directories.
+What we can do is create a single folder somewhere else and, inside that folder,
+create links to those two directories above so that we can work in this new folder
+as if those two directories are contained within. (It even works with git!)
+
+To make these shortcuts, we must:
+move the "content" folder into:
+"C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\content\dota_addons"
+and rename it "dota12v12rebalanced", and
+move the "game" folder into:
+"C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota_addons"
+and rename it "dota12v12rebalanced".
+
+Then, in some new working directory, we create symbolic links to the newly renamed directories.
+
+I have automated this with a very simple batch script: "setup_links.bat"
+
+You can double click to run the script or execute it from the command prompt.
+
+
+

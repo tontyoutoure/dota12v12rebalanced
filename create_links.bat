@@ -1,2 +1,0 @@
-mklink /J "content" "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\content\dota_addons\my12v12"
-mklink /J "game" "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota_addons\my12v12"
