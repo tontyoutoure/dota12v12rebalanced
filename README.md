@@ -72,11 +72,13 @@ create links to those two directories above so that we can work in this new fold
 as if those two directories are contained within. (It even works with git!)
 
 To make these shortcuts, we must:
+
 move the "content" folder into:
 - "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\content\dota_addons"
-and rename it "dota12v12rebalanced", and
-move the "game" folder into:
+
+and rename it "dota12v12rebalanced", and move the "game" folder into:
 - "C:\Program Files (x86)\Steam\steamapps\common\dota 2 beta\game\dota_addons"
+
 and rename it "dota12v12rebalanced".
 
 Then, in some new working directory, we create symbolic links to the newly renamed directories.
