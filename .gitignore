@@ -2,6 +2,7 @@ game/*.bin
 game/*.cfg
 game/*.tmp
 
+*.vpk
 *.vpcf_c
 *.vtex_c
 *.vsndevts_c
