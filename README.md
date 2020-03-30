@@ -118,14 +118,14 @@ There are two ways to communicate between Lua and JavaScript, namely:
 
 (This section is a WIP.)
 
-## UI
+### UI
 The UI code (JavaScript, XML, CSS) go into the "content/panorama" folder.
 Panorama is the name of the UI framework developed and used by Valve games.
 
-## Game Logic
+### Game Logic
 The game logic code (Lua scripts) go into the "game/scripts/vscripts" folder.
 
-## Resources
+### Resources
 Other resources, such as the map, textures, images, go into other content subdirectories.
 When building the project, the compiled versions of these resources are automatically placed in corresponding subdirectories of the game directory.
 
@@ -136,7 +136,7 @@ The entry point for custom games is [addon_game_mode.lua](https://github.com/dot
 
 This script is like our "main" funciton. Everything our code does must be referenced from here in some way.
 
-## Conventions
+### Conventions
 
 While I work as a software developer, I am new to custom game development, so I do not know what the Lua coding conventions are and established my own.
 
