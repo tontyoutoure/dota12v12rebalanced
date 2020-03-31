@@ -21,6 +21,7 @@
                 <Panel id="Circle">
                 </Panel>
             </Panel>
+            <Label id="ChatOption0" class="ChatText" text="ChatOption" />
             <Label id="ChatOption1" class="ChatText" text="ChatOption" />
             <Label id="ChatOption2" class="ChatText" text="ChatOption" />
             <Label id="ChatOption3" class="ChatText" text="ChatOption" />
@@ -28,7 +29,6 @@
             <Label id="ChatOption5" class="ChatText" text="ChatOption" />
             <Label id="ChatOption6" class="ChatText" text="ChatOption" />
             <Label id="ChatOption7" class="ChatText" text="ChatOption" />
-            <Label id="ChatOption8" class="ChatText" text="ChatOption" />
         </Panel>
     </Panel>
 
