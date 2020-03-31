@@ -1,0 +1,35 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/dotastyles.css" />
+		<include src="file://{resources}/styles/custom_game/chat_wheel.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/common/utils.js" />
+		<include src="file://{resources}/scripts/custom_game/chat_wheel.js" />
+	</scripts>
+    <script>
+    </script>
+
+    <Panel class="ChatWheelHud">
+        <Panel id="ChatWheel">
+            <Panel id="ArrowContainer" class="Hidden">
+                <Panel id="Arrow">
+                </Panel>
+            </Panel>
+            <Panel id="Ring">
+                <Panel id="Circle">
+                </Panel>
+            </Panel>
+            <Label id="ChatOption1" class="ChatText" text="ChatOption" />
+            <Label id="ChatOption2" class="ChatText" text="ChatOption" />
+            <Label id="ChatOption3" class="ChatText" text="ChatOption" />
+            <Label id="ChatOption4" class="ChatText" text="ChatOption" />
+            <Label id="ChatOption5" class="ChatText" text="ChatOption" />
+            <Label id="ChatOption6" class="ChatText" text="ChatOption" />
+            <Label id="ChatOption7" class="ChatText" text="ChatOption" />
+            <Label id="ChatOption8" class="ChatText" text="ChatOption" />
+        </Panel>
+    </Panel>
+
+</root>
