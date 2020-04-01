@@ -450,7 +450,7 @@
 	{
 		"group" 5
 		"level" 1
-		"text"	"That's ing to win, baby!"
+		"text"	"That's playing to win, baby!"
 	}
 
 	///////////////////////////////////////////////////////////////////////////

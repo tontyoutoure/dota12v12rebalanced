@@ -13,7 +13,7 @@
 "echo_slama_jama"					"Echo Slamma Jamma!"
 "next_level"						"The next level!"
 "youre_a_hero"						"You're a goddamn hero!"
-"playing_to_win"					"That's ing to win, baby!"
+"playing_to_win"					"That's playing to win, baby!"
 "that_was_questionable"				"I...uh...That was questionable at the...at the best."
 "what_just_happened"				"I can't believe what we're seeing. What just happened?"
 "oy_oy_oy"							"Oyoy oy oy, oy, oy, oy, oy, oy!"
