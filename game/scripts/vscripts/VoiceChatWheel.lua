@@ -1,7 +1,7 @@
 local VoiceChatWheel = class({});
 local Utilities = Utilities or require("Utilities");
 
-local PLAYER_COOLDOWN = 60;
+local PLAYER_COOLDOWN = 30;
 
 local PlayerLastUsage = {};
 
@@ -19,6 +19,7 @@ end
 
 function VoiceChatWheel:VoiceChatWheelHandler( event )
     local soundname = event.soundname;
+    local soundtext = event.soundtext;
     if soundname == "" then
         return;
     end
@@ -28,6 +29,8 @@ function VoiceChatWheel:VoiceChatWheelHandler( event )
     local remainingCooldown = (PlayerLastUsage[playerId] + PLAYER_COOLDOWN) - currentTime;
     if remainingCooldown < 0 then
         EmitAnnouncerSound("Custom_Game."..soundname);
+        -- print(soundtext);
+        Say(PlayerResource:GetPlayer(playerId), soundtext, false);
         PlayerLastUsage[playerId] = currentTime;
     else  
         VoiceChatWheel:PlayerCoolDownMessage(playerId, remainingCooldown);

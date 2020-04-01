@@ -175,56 +175,56 @@
 	{
 		"group" 1
 		"level" 1
-		"text"	"啊，队友呢？队友呢？队友呢？！队友呢？！？！"
+		"text"  "啊，队友呢？队友呢？队友呢？！队友呢？！？！"
 	}
 
 	"wan_bu_liao_la"
 	{
 		"group" 1
 		"level" 1
-		"text"	"玩不了啦!"
+		"text"  "玩不了啦!"
 	}
 
 	"po_liang_lu"
 	{
 		"group" 1
 		"level" 1
-		"text"	"破两路更好打, 是吧?"
+		"text"  "破两路更好打, 是吧?"
 	}
 
 	"tian_huo"
 	{
 		"group" 1
 		"level" 1
-		"text"	"天火!"
+		"text"  "天火!"
 	}
 
 	"jia_you"
 	{
 		"group" 1
 		"level" 1
-		"text"	"加油!"
+		"text"  "加油!"
 	}
 
 	"zou_hao_bu_song"
 	{
 		"group" 1
 		"level" 1
-		"text"	"走好, 不送"
+		"text"  "走好, 不送"
 	}
 
 	"liu_liu_liu"
 	{
 		"group" 1
 		"level" 1
-		"text"	"这波不亏"
+		"text"  "这波不亏"
 	}
 
 	"hu_lu_wa"
 	{
 		"group" 1
 		"level" 1
-		"text"	"葫芦娃救爷爷"
+		"text"  "葫芦娃救爷爷"
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -235,49 +235,49 @@
 	{
 		"group" 2
 		"level" 1
-		"text"	"你气不气?"
+		"text"  "你气不气?"
 	}
 
 	"gao_fu_shuai"
 	{
 		"group" 2
 		"level" 1
-		"text"	"这就是高富帅啊"
+		"text"  "这就是高富帅啊"
 	}
 
 	"gan_ma_ne_xiong_di"
 	{
 		"group" 2
 		"level" 1
-		"text"	"干嘛呢兄弟"
+		"text"  "干嘛呢兄弟"
 	}
 
 	"bai_tuo_shei_qu"
 	{
 		"group" 2
 		"level" 1
-		"text"	"拜托谁去杀了他吧"
+		"text"  "拜托谁去杀了他吧"
 	}
 
 	"piao_liang"
 	{
 		"group" 2
 		"level" 1
-		"text"	"漂~ 亮！"
+		"text"  "漂~ 亮！"
 	}
 
 	"lian_dou_xiu_wai_la"
 	{
 		"group" 2
 		"level" 1
-		"text"	"脸都秀歪啦"
+		"text"  "脸都秀歪啦"
 	}
 
 	"zai_jian_le_bao_bei"
 	{
 		"group" 2
 		"level" 1
-		"text"	"再见了宝贝儿！"
+		"text"  "再见了宝贝儿！"
 	}
 
 	"lets_play"
@@ -295,42 +295,42 @@
 	{
 		"group" 3
 		"level" 1
-		"text"	"네, 노, 네, 노 노 노!"
+		"text"  "네, 노, 네, 노 노 노!"
 	}
 
 	"kor_scan"
 	{
 		"group" 3
 		"level" 1
-		"text"	"스캔 돌려야 되요 따라란따란따라라라란 스캔 돌려야 된다고요!"
+		"text"  "스캔 돌려야 되요 따라란따란따라라라란 스캔 돌려야 된다고요!"
 	}
 
 	"kor_immortality"
 	{
 		"group" 3
 		"level" 1
-		"text"	"Mommy! I got me! Immortality!"
+		"text"  "Mommy! I got me! Immortality!"
 	}
 
 	"kor_roshan"
 	{
 		"group" 3
 		"level" 1
-		"text"	"Roshan! Roshan! Roshan!"
+		"text"  "Roshan! Roshan! Roshan!"
 	}
 
 	"kor_yolo"
 	{
 		"group" 3
 		"level" 1
-		"text"	"골드 부활 못 해! YOLO! 골드 부활 못 해! YOLO!"
+		"text"  "골드 부활 못 해! YOLO! 골드 부활 못 해! YOLO!"
 	}
 
 	"kor_million_dollar_house"
 	{
 		"group" 3
 		"level" 1
-		"text"	"10억짜리 꿈의 고리! 15억짜리 꿈의 고리!"
+		"text"  "10억짜리 꿈의 고리! 15억짜리 꿈의 고리!"
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -514,56 +514,56 @@
 	{
 		"group" 7 
 		"level" 1
-		"text"	"Боже, ты посмотри вокруг, что происходит!"
+		"text"	"Боже, ты посмотри вокруг, что происходит!"
 	}
 
 	"zhil_do_konsta"
 	{
 		"group" 7
 		"level" 1
-		"text"	"Жил до конца, умер как герой"
+		"text"	"Жил до конца, умер как герой"
 	}
 
 	"ay_ay_ay"
 	{
 		"group" 7
 		"level" 1
-		"text"	"Ай-ай-ай-ай-ай, что сейчас произошло!"
+		"text" "Ай-ай-ай-ай-ай, что сейчас произошло!"
 	}
 
 	"ehto_g_g"
 	{
 		"group" 7
 		"level" 1
-		"text"	"Это ГГ"
+		"text"	"Это ГГ"
 	}
 
 	"eto_prosto_netchto"
 	{
 		"group" 7
 		"level" 1
-		"text"	"Это. Просто. Нечто."
+		"text"  "Это. Просто. Нечто."
 	}
 
 	"krasavchik"
 	{
 		"group" 7
 		"level" 1
-		"text"	"Красавчик!"
+		"text"  "Красавчик!"
 	}
 
 	"bozhe_kak_eto_bolno"
 	{
 		"group" 7
 		"level" 1
-		"text"	"Боже, как это больно!"
+		"text"  "Боже, как это больно!"
 	}
 
 	"oy_oy_bezhat"
 	{
 		"group" 7
 		"level" 1
-		"text"	"Ой-ой-ой-ой-ой, бежать!"
+		"text"  "Ой-ой-ой-ой-ой, бежать!"
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -574,49 +574,49 @@
 	{
 		"group" 0
 		"level" 1
-		"text"	"Это ненормально, это нечестно!"
+		"text"  "Это ненормально, это нечестно!"
 	}
 
 	"eto_sochno"
 	{
 		"group" 0
 		"level" 1
-		"text"	"Как же это сочно, ах!"
+		"text"  "Как же это сочно, ах!"
 	}
 
 	"kreasa_kreasa"
 	{
 		"group" 0
 		"level" 1
-		"text"	"Резать Резать Резать Резать"
+		"text"  "Резать Резать Резать Резать"
 	}
 
 	"kak_boyge_te_byechenya"
 	{
 		"group" 0
 		"level" 1
-		"text"	"Какой же ты бешеный, а"
+		"text"  "Какой же ты бешеный, а"
 	}
 
 	"eto_ge_popayx_feeda"
 	{
 		"group" 0
 		"level" 1
-		"text"	"Это уже попахивает фидом"
+		"text"  "Это уже попахивает фидом"
 	}
 
 	"da_da_da_nyet"
 	{
 		"group" 0
 		"level" 1
-		"text"	"Да? Да? Да? Нет."
+		"text"  "Да? Да? Да? Нет."
 	}
 
 	"wot_eto_bru"
 	{
 		"group" 0
 		"level" 1
-		"text"	"Вот Это Врыв!"
+		"text"  "Вот Это Врыв!"
 	}
 
 	///////////////////////////////////////////////////////////////////////////

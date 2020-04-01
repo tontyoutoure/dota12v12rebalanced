@@ -78,16 +78,18 @@ function OnChatWheelKeyUp(){
             // play selected sound if any
             var i = ChatWheel.Highlighted;
             var soundname = ChatWheel.Options[i].GetAttributeString("soundname", "");
+            var soundtext = ChatWheel.Options[i].text;
             // send sound event to server
-            PlayerPlaySound(soundname);
+            PlayerPlaySound(soundname, soundtext);
         }
     }
 }
 
-function PlayerPlaySound(soundname) {
+function PlayerPlaySound(soundname, soundtext) {
     var event = {
         playerId: Game.GetLocalPlayerID(),
-        soundname: soundname
+        soundname: soundname,
+        soundtext: soundtext
     };
     GameEvents.SendCustomGameEventToServer( "voice_chat_wheel", event );
 }

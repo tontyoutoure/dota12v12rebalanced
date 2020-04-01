@@ -36,11 +36,33 @@ local direColors = {
 function Color:Initialize()
     -- ListenToGameEvent( "npc_spawned", Dynamic_Wrap( Color, "OnNPCSpawned" ), Color );
     Utilities:RegisterGameEventListener( "npc_spawned", Color.OnNPCSpawned, Color );
+    Utilities:RegisterGameEventListener( "game_rules_state_change", Color.OnGameStateChange, Color );
 end
 
 -- forces it to happen only once per player
 -- needed for hidden Monkey King clones
 local Seen = {};
+
+function Color:OnGameStateChange()
+	if IsServer() then
+		local gameState = GameRules:State_Get();
+        if gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
+            Color:OnHeroSelect();
+        elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
+            Color:OnPreGame();
+		end
+	end
+end
+
+function Color:OnHeroSelect()
+    for playerId = 0, 23 do
+        if PlayerResource:IsValidPlayerID(playerId) and not Seen[playerId] then
+            Color:SetColor(playerId);
+            Seen[playerId] = true;
+        end
+    end
+end
+
 
 function Color:OnNPCSpawned( event )
     -- event.entindex
@@ -59,6 +81,10 @@ function Color:OnNPCSpawned( event )
         Seen[playerId] = true;
     end
 
+    Color:SetColor(playerId);
+end
+
+function Color:SetColor(playerId)
     local teamId = PlayerResource:GetTeam(playerId);
 
     local color = nil;
@@ -76,9 +102,11 @@ function Color:OnNPCSpawned( event )
     else
         PlayerResource:SetCustomPlayerColor(playerId, 0, 0, 0);
     end
-    -- trigger javascript
 
-    CustomGameEventManager:Send_ServerToAllClients( "player_color_set", { playerId = playerId, team = team } );
+end
+
+function Color:OnPreGame()
+    CustomGameEventManager:Send_ServerToAllClients( "player_colors_set", {} );
 end
 
 

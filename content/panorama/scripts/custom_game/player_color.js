@@ -1,29 +1,33 @@
 (function () {
-    GameEvents.Subscribe( "player_color_set", OnPlayerColorSet);
+    GameEvents.Subscribe( "player_colors_set", OnPlayerColorsSet);
 })();
 
-function OnPlayerColorSet(event) {
-    // event.playerId
-    // event.team
+function OnPlayerColorsSet(event) {
 
-    var hud = $.GetContextPanel().GetParent().GetParent();
-    var topbar = hud.FindChild("HUDElements").FindChild("topbar");
+    for (var i = 0; i < 24; ++i) {
+        var playerId = i;
+        var teamId = Players.GetTeam(playerId);
+        $.Msg(teamId);
 
-    var teamTopbar = null;
-    if (event.team == "Radiant") {
-        var radiantTopbarContainer = topbar.FindChildTraverse("TopBarRadiantTeamContainer");
-        var radiantTopbar = radiantTopbarContainer.FindChild("TopBarRadiantTeam");
-        teamTopbar = radiantTopbar;
-    } else {
-        var direTopbarContainer = topbar.FindChildTraverse("TopBarDireTeamContainer");
-        var direTopbar = direTopbarContainer.FindChild("TopBarDireTeam");
-        teamTopbar = direTopbar;
+        var hud = $.GetContextPanel().GetParent().GetParent();
+        var topbar = hud.FindChild("HUDElements").FindChild("topbar");
+
+        if (teamId == DOTATeam_t.DOTA_TEAM_GOODGUYS) {
+            var radiantTopbarContainer = topbar.FindChildTraverse("TopBarRadiantTeamContainer");
+            var radiantTopbar = radiantTopbarContainer.FindChild("TopBarRadiantTeam");
+            var teamTopbar = radiantTopbar;
+            var playerPanel = teamTopbar.FindChildTraverse("RadiantPlayer" + playerId);
+            var playerColor = playerPanel.FindChildTraverse("PlayerColor");
+            playerColor.style.backgroundColor = GetHexPlayerColor(playerId);
+        } else {
+            var direTopbarContainer = topbar.FindChildTraverse("TopBarDireTeamContainer");
+            var direTopbar = direTopbarContainer.FindChild("TopBarDireTeam");
+            var teamTopbar = direTopbar;
+            var playerPanel = teamTopbar.FindChildTraverse("DirePlayer" + playerId);
+            var playerColor = playerPanel.FindChildTraverse("PlayerColor");
+            playerColor.style.backgroundColor = GetHexPlayerColor(playerId);
+        }
     }
-
-    // $.Msg(event.team + "Player" + event.playerId);
-    var playerPanel = teamTopbar.FindChildTraverse(event.team + "Player" + event.playerId);
-    var playerColor = playerPanel.FindChildTraverse("PlayerColor");
-    playerColor.style.backgroundColor = GetHexPlayerColor(event.playerId);
 
 }
 
