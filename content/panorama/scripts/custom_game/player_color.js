@@ -7,7 +7,6 @@ function OnPlayerColorsSet(event) {
     for (var i = 0; i < 24; ++i) {
         var playerId = i;
         var teamId = Players.GetTeam(playerId);
-        $.Msg(teamId);
 
         var hud = $.GetContextPanel().GetParent().GetParent();
         var topbar = hud.FindChild("HUDElements").FindChild("topbar");
@@ -32,6 +31,8 @@ function OnPlayerColorsSet(event) {
 }
 
 function GetHexPlayerColor(playerId) {
-	var playerColor = Players.GetPlayerColor(playerId).toString(16);
+    var playerColor = Players.GetPlayerColor(playerId).toString(16);
+    $.Msg(playerId);
+    $.Msg(Players.GetPlayerColor(playerId).toString(10));
 	return playerColor == null ? '#000000' : ('#' + playerColor.substring(6, 8) + playerColor.substring(4, 6) + playerColor.substring(2, 4) + playerColor.substring(0, 2));
 }

@@ -48,8 +48,6 @@ function Color:OnGameStateChange()
 		local gameState = GameRules:State_Get();
         if gameState == DOTA_GAMERULES_STATE_HERO_SELECTION then
             Color:OnHeroSelect();
-        elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
-            Color:OnPreGame();
 		end
 	end
 end
@@ -62,7 +60,6 @@ function Color:OnHeroSelect()
         end
     end
 end
-
 
 function Color:OnNPCSpawned( event )
     -- event.entindex
@@ -77,9 +74,8 @@ function Color:OnNPCSpawned( event )
     -- do not care about non heroes and only do this once
     if not hScript:IsRealHero() or Seen[playerId] then
         return;
-    else
-        Seen[playerId] = true;
     end
+    Seen[playerId] = true;
 
     Color:SetColor(playerId);
 end
@@ -88,26 +84,21 @@ function Color:SetColor(playerId)
     local teamId = PlayerResource:GetTeam(playerId);
 
     local color = nil;
-    local team = nil;
     if teamId == DOTA_TEAM_GOODGUYS then
         color = radiantColors[radiantIndex];
         PlayerResource:SetCustomPlayerColor(playerId, color[1], color[2], color[3]);
         radiantIndex = radiantIndex + 1;
-        team = "Radiant";
     elseif teamId == DOTA_TEAM_BADGUYS then
         color = direColors[direIndex];
         PlayerResource:SetCustomPlayerColor(playerId, color[1], color[2], color[3]);
         direIndex = direIndex + 1;
-        team = "Dire";
     else
         PlayerResource:SetCustomPlayerColor(playerId, 0, 0, 0);
     end
 
+    if radiantIndex > 12 and direIndex > 12 then
+        CustomGameEventManager:Send_ServerToAllClients( "player_colors_set", {} );
+    end
 end
-
-function Color:OnPreGame()
-    CustomGameEventManager:Send_ServerToAllClients( "player_colors_set", {} );
-end
-
 
 return Color;
