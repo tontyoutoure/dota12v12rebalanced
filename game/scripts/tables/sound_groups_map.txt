@@ -1,0 +1,11 @@
+"sound_groups_map"
+{
+    1   "Chinese 1"
+    2   "Chinese 2"
+    3   "Korean"
+    4   "Filipino"
+    5   "English 1"
+    6   "English 2"
+    7   "Russian 1"
+    0   "Russian 2"
+}

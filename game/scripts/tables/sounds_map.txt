@@ -1,111 +1,780 @@
-"name"
+"sounds_map"
 {
-    "level"             1
-    "text"              ""
+	///////////////////////////////////////////////////////////////////////////
+
+	// Miscellaneous (Unused)
+
+	"ti9_kooka_laugh"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Kookabura Laugh"
+	}
+
+	"ti9_monkey_biz"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Monkey Business"
+	}
+
+	"ti9_orangutan_kiss"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Sloppy Orangutan Kiss"
+	}
+
+	"ti9_skeeter"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Mosquito Buzz"
+	}
+
+	"ti9_crowd_groan"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Crowd Groan"
+	}
+
+	"ti9_head_bonk"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Head Bonk"
+	}
+
+	"ti9_record_scratch"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Record Scratch"
+	}
+
+	"ti9_ta_da"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Ta Daaaaaa"
+	}
+
+	"bockbock"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Bock bock"
+	}
+
+
+	"kiss"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Kiss"
+	}
+
+	"ow"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Oww"
+	}
+
+	"party_horn"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Party horn"
+	}
+
+	"snore"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Snore"
+	}
+
+	"yahoo"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Yahoo"
+	}
+
+	"rimshot"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Ba-dum tishh"
+	}
+
+	"charge"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Charge"
+	}
+
+	"frog"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Frog"
+	}
+
+	"crash_burn"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Crash and burn"
+	}
+
+	"sad_bone"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Sad trombone"
+	}
+
+	"cricket"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Cricket"
+	}
+
+	"drum_roll"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Drumroll"
+	}
+
+	"headshake"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Headshake"
+	}
+
+	"crybaby"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Crybaby"
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Group 1 Chinese 1
+
+	"duiyou_ne"
+	{
+		"group" 1
+		"level" 1
+		"text"	"啊，队友呢？队友呢？队友呢？！队友呢？！？！"
+	}
+
+	"wan_bu_liao_la"
+	{
+		"group" 1
+		"level" 1
+		"text"	"玩不了啦!"
+	}
+
+	"po_liang_lu"
+	{
+		"group" 1
+		"level" 1
+		"text"	"破两路更好打, 是吧?"
+	}
+
+	"tian_huo"
+	{
+		"group" 1
+		"level" 1
+		"text"	"天火!"
+	}
+
+	"jia_you"
+	{
+		"group" 1
+		"level" 1
+		"text"	"加油!"
+	}
+
+	"zou_hao_bu_song"
+	{
+		"group" 1
+		"level" 1
+		"text"	"走好, 不送"
+	}
+
+	"liu_liu_liu"
+	{
+		"group" 1
+		"level" 1
+		"text"	"这波不亏"
+	}
+
+	"hu_lu_wa"
+	{
+		"group" 1
+		"level" 1
+		"text"	"葫芦娃救爷爷"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Group 2 Chinese 2
+
+	"ni_qi_bu_qi"
+	{
+		"group" 2
+		"level" 1
+		"text"	"你气不气?"
+	}
+
+	"gao_fu_shuai"
+	{
+		"group" 2
+		"level" 1
+		"text"	"这就是高富帅啊"
+	}
+
+	"gan_ma_ne_xiong_di"
+	{
+		"group" 2
+		"level" 1
+		"text"	"干嘛呢兄弟"
+	}
+
+	"bai_tuo_shei_qu"
+	{
+		"group" 2
+		"level" 1
+		"text"	"拜托谁去杀了他吧"
+	}
+
+	"piao_liang"
+	{
+		"group" 2
+		"level" 1
+		"text"	"漂~ 亮！"
+	}
+
+	"lian_dou_xiu_wai_la"
+	{
+		"group" 2
+		"level" 1
+		"text"	"脸都秀歪啦"
+	}
+
+	"zai_jian_le_bao_bei"
+	{
+		"group" 2
+		"level" 1
+		"text"	"再见了宝贝儿！"
+	}
+
+	"lets_play"
+	{
+		"group" 2
+		"level" 1
+		"text"	"Let's Play Some Dota"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Group 3 Korean
+
+	"kor_yes_no"
+	{
+		"group" 3
+		"level" 1
+		"text"	"네, 노, 네, 노 노 노!"
+	}
+
+	"kor_scan"
+	{
+		"group" 3
+		"level" 1
+		"text"	"스캔 돌려야 되요 따라란따란따라라라란 스캔 돌려야 된다고요!"
+	}
+
+	"kor_immortality"
+	{
+		"group" 3
+		"level" 1
+		"text"	"Mommy! I got me! Immortality!"
+	}
+
+	"kor_roshan"
+	{
+		"group" 3
+		"level" 1
+		"text"	"Roshan! Roshan! Roshan!"
+	}
+
+	"kor_yolo"
+	{
+		"group" 3
+		"level" 1
+		"text"	"골드 부활 못 해! YOLO! 골드 부활 못 해! YOLO!"
+	}
+
+	"kor_million_dollar_house"
+	{
+		"group" 3
+		"level" 1
+		"text"	"10억짜리 꿈의 고리! 15억짜리 꿈의 고리!"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Group 4 Filipino Caster
+
+	"echo_slama_jama"
+	{
+		"group" 4
+		"level" 1
+		"text"	"Echo Slamma Jamma!"
+	}
+
+	"next_level"
+	{
+		"group" 4
+		"level" 1
+		"text"	"The next level!"
+	}
+
+	"oy_oy_oy"
+	{
+		"group" 4
+		"level" 1
+		"text"	"Oyoy oy oy, oy, oy, oy, oy, oy!"
+	}
+
+	"ta_daaaa"
+	{
+		"group" 4
+		"level" 1
+		"text"	"Lakad Matataaag! Normalin, Normalin."
+	}
+
+	"nakupuuu"
+	{
+		"group" 4
+		"level" 1
+		"text"	"NAKUPUU"
+	}
+
+	"whats_cooking"
+	{
+		"group" 4
+		"level" 1
+		"text"	"You know what's cooking? BOOM!"
+	}
+
+	"goodness_gracious"
+	{
+		"group" 4
+		"level" 1
+		"text"	"Sir Chief. Goodness Gracious Papable."
+	}
+
+	"easiest_money"
+	{
+		"group" 4
+		"level" 1
+		"text"	"Easiest money of my life!"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Group 5 English Caster 1
+
+	"absolutely_perfect"
+	{
+		"group" 5
+		"level" 1
+		"text"	"Absolutely Perfect"
+	}
+
+	"patience"
+	{
+		"group" 5
+		"level" 1
+		"text"	"Patience from Zhou"
+	}
+
+	"wow"
+	{
+		"group" 5
+		"level" 1
+		"text"	"Waow"
+	}
+
+	"all_dead"
+	{
+		"group" 5
+		"level" 1
+		"text"	"They're all dead!"
+	}
+
+	"brutal"
+	{
+		"group" 5
+		"level" 1
+		"text"	"Brutal. Savage. Rekt."
+	}
+
+	"disastah"
+	{
+		"group" 5
+		"level" 1
+		"text"	"It's a disastah!"
+	}
+
+	"youre_a_hero"
+	{
+		"group" 5
+		"level" 1
+		"text"	"You're a goddamn hero!"
+	}
+
+	"playing_to_win"
+	{
+		"group" 5
+		"level" 1
+		"text"	"That's ing to win, baby!"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Group 6 English Caster 2
+
+	"that_was_questionable"
+	{
+		"group" 6
+		"level" 1
+		"text"	"I...uh...That was questionable at the...at the best."
+	}
+
+	"what_just_happened"
+	{
+		"group" 6
+		"level" 1
+		"text"	"I can't believe what we're seeing. What just happened?"
+	}
+
+	"oh_my_lord"
+	{
+		"group" 6
+		"level" 1
+		"text"	"Oh my lord!"
+	}
+
+	"no_chill"
+	{
+		"group" 6
+		"level" 1
+		"text"	"This guy has no chill"
+	}
+
+	"ding_ding_ding"
+	{
+		"group" 6
+		"level" 1
+		"text"	"Ding Ding Ding Mother******"
+	}
+
+	"looking_spicy"
+	{
+		"group" 6
+		"level" 1
+		"text"	"It's looking Spicy!"
+	}
+
+	"eughahaha"
+	{
+		"group" 6
+		"level" 1
+		"text"	"Eughahaha Aah Ha Ha Ha Ha"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Group 7 Russian Caster 1
+
+	"bozhe_ti_posmotri"
+	{
+		"group" 7 
+		"level" 1
+		"text"	"Боже, ты посмотри вокруг, что происходит!"
+	}
+
+	"zhil_do_konsta"
+	{
+		"group" 7
+		"level" 1
+		"text"	"Жил до конца, умер как герой"
+	}
+
+	"ay_ay_ay"
+	{
+		"group" 7
+		"level" 1
+		"text"	"Ай-ай-ай-ай-ай, что сейчас произошло!"
+	}
+
+	"ehto_g_g"
+	{
+		"group" 7
+		"level" 1
+		"text"	"Это ГГ"
+	}
+
+	"eto_prosto_netchto"
+	{
+		"group" 7
+		"level" 1
+		"text"	"Это. Просто. Нечто."
+	}
+
+	"krasavchik"
+	{
+		"group" 7
+		"level" 1
+		"text"	"Красавчик!"
+	}
+
+	"bozhe_kak_eto_bolno"
+	{
+		"group" 7
+		"level" 1
+		"text"	"Боже, как это больно!"
+	}
+
+	"oy_oy_bezhat"
+	{
+		"group" 7
+		"level" 1
+		"text"	"Ой-ой-ой-ой-ой, бежать!"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Group 0 Russian Caster 2
+
+	"eto_nenormalno"
+	{
+		"group" 0
+		"level" 1
+		"text"	"Это ненормально, это нечестно!"
+	}
+
+	"eto_sochno"
+	{
+		"group" 0
+		"level" 1
+		"text"	"Как же это сочно, ах!"
+	}
+
+	"kreasa_kreasa"
+	{
+		"group" 0
+		"level" 1
+		"text"	"Резать Резать Резать Резать"
+	}
+
+	"kak_boyge_te_byechenya"
+	{
+		"group" 0
+		"level" 1
+		"text"	"Какой же ты бешеный, а"
+	}
+
+	"eto_ge_popayx_feeda"
+	{
+		"group" 0
+		"level" 1
+		"text"	"Это уже попахивает фидом"
+	}
+
+	"da_da_da_nyet"
+	{
+		"group" 0
+		"level" 1
+		"text"	"Да? Да? Да? Нет."
+	}
+
+	"wot_eto_bru"
+	{
+		"group" 0
+		"level" 1
+		"text"	"Вот Это Врыв!"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Frostivus
+
+	"sleighbells"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Sleighbells"
+	}
+
+	"champagne_celebration"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Sparkling Celebration"
+	}
+
+	"greevil_laugh01"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Greevil Laughter"
+	}
+
+	"greevil_laugh02"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Greevil Laughter"
+	}
+
+	"greevil_laugh03"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Greevil Laughter"
+	}
+
+	"greevil_laugh04"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Greevil Laughter"
+	}
+
+	"greevil_laugh05"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Greevil Laughter"
+	}
+
+	"greevil_laugh06"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Greevil Laughter"
+	}
+
+	"greevil_laugh07"
+	{
+		"group" -1 
+		"level" 1
+		"text"	"Greevil Laughter"
+	}
+
+	"frostivus_magic"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Frostivus Magic"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// New Bloom
+
+	"ny_drums"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Ceremonial Drums"
+	}
+
+	"ny_gong"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Celebratory Gong"
+	}
+
+	"ny_pig_snort"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Oink Oink!"
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Glados
+
+	"glados_chat_21"
+	{
+		"group" -1
+		"level" 1
+		"text"	"I estimate the probability of winning to be above 99%."
+	}
+
+	"glados_chat_01"
+	{
+		"group" -1
+		"level" 1
+		"text"	"I'm not angry, I'm Just Disappointed."
+	}
+
+	"glados_chat_07"
+	{
+		"group" -1
+		"level" 1
+		"text"	"I estimate the probability of winning to be above 1%."
+	}
+
+	"glados_chat_04"
+	{
+		"group" -1
+		"level" 1
+		"text"	"I estimate the probability of winning to be 17%."
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+
+	// Other
+
+	//"hallo_mama"
+
+	"ceeeb_start"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Ceeeb"
+	}
+
+	"ceeeb_stop"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Ceeeb"
+	}
+
+	"sproing"
+	{
+		"group" -1
+		"level" 1
+		"text"	"Sproing"
+	}
+
 }
-
-"patience"							"Patience from Zhou"
-"wow"								"Waow"
-"all_dead"							"They're all dead!"
-"brutal"							"Brutal. Savage. Rekt."
-"disastah"							"It's a disastah!"
-"easiest_money"						"Easiest money of my life!"
-"echo_slama_jama"					"Echo Slamma Jamma!"
-"next_level"						"The next level!"
-"youre_a_hero"						"You're a goddamn hero!"
-"playing_to_win"					"That's ing to win, baby!"
-"that_was_questionable"				"I...uh...That was questionable at the...at the best."
-"what_just_happened"				"I can't believe what we're seeing. What just happened?"
-"oy_oy_oy"							"Oyoy oy oy, oy, oy, oy, oy, oy!"
-"ta_daaaa"							"Lakad Matataaag! Normalin, Normalin."
-"oh_my_lord"						"Oh my lord!"
-"looking_spicy"						"It's looking Spicy!"
-"no_chill"							"This guy has no chill"
-"ding_ding_ding"					"Ding Ding Ding Mother******"
-"absolutely_perfect"				"Absolutely Perfect"
-"lets_play"							"Let's Play Some Dota"
-"nakupuuu"							"NAKUPUU"
-"whats_cooking"						"You know what's cooking? BOOM!"
-"eughahaha"							"Eughahaha Aah Ha Ha Ha Ha"
-"glados_chat_21"					"I estimate the probability of winning to be above 99%."
-"glados_chat_01"					"I'm not angry, I'm Just Disappointed."
-"glados_chat_07"					"I estimate the probability of winning to be above 1%."
-"glados_chat_04"					"I estimate the probability of winning to be 17%."
-"goodness_gracious"					"Sir Chief. Goodness Gracious Papable."
-"ti9_kooka_laugh"					"Kookabura Laugh"
-"ti9_monkey_biz"					"Monkey Business"
-"ti9_orangutan_kiss"				"Sloppy Orangutan Kiss"
-"ti9_skeeter"						"Mosquito Buzz"
-"ti9_crowd_groan"					"Crowd Groan"
-"ti9_head_bonk"						"Head Bonk"
-"ti9_record_scratch"				"Record Scratch"
-"ti9_ta_da"							"Ta Daaaaaa"
-"bozhe_ti_posmotri"					"Боже, ты посмотри вокруг, что происходит!"
-"zhil_do_konsta"					"Жил до конца, умер как герой"
-"ay_ay_ay"							"Ай-ай-ай-ай-ай, что сейчас произошло!"
-"ehto_g_g"							"Это ГГ"
-"eto_prosto_netchto"				"Это. Просто. Нечто."
-"krasavchik"						"Красавчик!"
-"bozhe_kak_eto_bolno"				"Боже, как это больно!"
-"oy_oy_bezhat"						"Ой-ой-ой-ой-ой, бежать!"
-"eto_nenormalno"					"Это ненормально, это нечестно!"
-"eto_sochno"						"Как же это сочно, ах!"
-"kreasa_kreasa"						"Резать Резать Резать Резать"
-"kak_boyge_te_byechenya"			"Какой же ты бешеный, а"
-"eto_ge_popayx_feeda"				"Это уже попахивает фидом"
-"da_da_da_nyet"						"Да? Да? Да? Нет."
-"wot_eto_bru"						"Вот Это Врыв!"
-"kor_yes_no"						"네, 노, 네, 노 노 노!"
-"kor_scan"							"스캔 돌려야 되요 따라란따란따라라라란 스캔 돌려야 된다고요!"
-"kor_immortality"					"Mommy! I got me! Immortality!"
-"kor_roshan"						"Roshan! Roshan! Roshan!"
-"kor_yolo"							"골드 부활 못 해! YOLO! 골드 부활 못 해! YOLO!"
-"kor_million_dollar_house"			"10억짜리 꿈의 고리! 15억짜리 꿈의 고리!"
-"duiyou_ne"							"啊，队友呢？队友呢？队友呢？！队友呢？！？！"
-"wan_bu_liao_la"					"玩不了啦!"
-"po_liang_lu"						"破两路更好打, 是吧?"
-"tian_huo"							"天火!"
-"jia_you"							"加油!"
-"zou_hao_bu_song"					"走好, 不送"
-"liu_liu_liu"						"这波不亏"
-"hu_lu_wa"							"葫芦娃救爷爷"
-"ni_qi_bu_qi"						"你气不气?"
-"gao_fu_shuai"						"这就是高富帅啊"
-"gan_ma_ne_xiong_di"				"干嘛呢兄弟"
-"bai_tuo_shei_qu"					"拜托谁去杀了他吧"
-"piao_liang"						"漂~ 亮！"
-"lian_dou_xiu_wai_la"				"脸都秀歪啦"
-"zai_jian_le_bao_bei"				"再见了宝贝儿！"
-"bockbock"                          "Bock bock"
-"charge"                            "Charge"
-"ceeeb_start"                       "Ceeeb"
-"ceeeb_stop"                        "Ceeeb"
-"champagne_celebration"             "Sparkling Celebration"
-"crash_burn"                        "Crash and burn"
-"cricket"                           "Cricket"
-"crybaby"                           "Crybaby"
-"drum_roll"                         "Drumroll"
-"frog"                              "Frog"
-"frostivus_magic"                   "Frostivus Magic"
-"greevil_laugh01"                   "Greevil Laughter"
-"greevil_laugh02"                   "Greevil Laughter"
-"greevil_laugh03"                   "Greevil Laughter"
-"greevil_laugh04"                   "Greevil Laughter"
-"greevil_laugh05"                   "Greevil Laughter"
-"greevil_laugh06"                   "Greevil Laughter"
-"greevil_laugh07"                   "Greevil Laughter"
-"headshake"                         "Headshake"
-"kiss"                              "Kiss"
-"ny_drums"                          "Ceremonial Drums"
-"ny_gong"                           "Celebratory Gong"
-"ny_pig_snort"                      "Oink Oink!"
-"ow"                                "Oww"
-"party_horn"                        "Party horn"
-"rimshot"                           "Ba-dum tishh"
-"sad_bone"                          "Sad trombone"
-"sleighbells"                       "Sleighbells"
-"snore"                             "Snore"
-"sproing"                           "Sproing"
-"yahoo"                             "Yahoo"
-
-//"hallo_mama"

@@ -3,6 +3,8 @@
 	custom_net_tables =
 	[
 		"post_game_stats",
-		"disable_help"
+		"disable_help",
+		"voice_chat_groups",
+		"voice_chat_table"
 	]
 }

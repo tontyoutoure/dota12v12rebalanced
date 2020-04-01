@@ -9,7 +9,7 @@ function Utilities:RegisterCustomEventListener(event, callback, context)
     end);
     ]]
 
-    local id = CustomGameEventManager:RegisterListener( event, Utilities:Throttle(event, callback, context, 0.1) );
+    local id = CustomGameEventManager:RegisterListener( event, Utilities:Throttle(event, callback, context, 0.5) );
 end
 
 function Utilities:RegisterGameEventListener(event, callback, context)

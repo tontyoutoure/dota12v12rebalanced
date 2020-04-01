@@ -1,4 +1,3 @@
-
 var ChatWheel = {};
 
 function ChatWheelInitialize(){
@@ -9,19 +8,55 @@ function ChatWheelInitialize(){
     ChatWheel.Options = [];
     for (var i = 0; i <= 7; ++i) {
         ChatWheel.Options[i] = ChatWheel.Hud.FindChildTraverse("ChatOption" + i);
-        ChatWheel.Options[i].SetAttributeString("soundname", "ding_ding_ding");
+        ChatWheel.Options[i].SetAttributeString("soundname", "");
     }
     ChatWheel.Highlighted = null;
     ChatWheel.Scheduled = null;
     ChatWheel.Active = false;
-    ChatWheel.FinalPage = false;
+    ChatWheel.Page = 0;
     ChatWheel.Origin = null;
 }
 
+function OnMouseClickChatWheel(){
+    if (ChatWheel.Active) {
+        if (ChatWheel.Page == 0 && ChatWheel.Highlighted !== null) {
+            ChatWheel.Page = 1;
+            SetSoundOptions();
+        } else {
+            OnChatWheelKeyUp();
+        }
+    }
+}
+
+function SetSoundOptions(){
+    var group = ChatWheel.Highlighted;
+    var sounds = CustomNetTables.GetTableValue("voice_chat_table", group.toString());
+    var i = 0;
+    for (var name in sounds) {
+        if (sounds.hasOwnProperty(name)) {
+            ChatWheel.Options[i].text = sounds[name].text;
+            ChatWheel.Options[i].SetAttributeString("soundname", name);
+            i = i + 1;
+        }
+    }
+    for (i = i; i < 8; ++i) {
+        ChatWheel.Options[i].text = "";
+        ChatWheel.Options[i].SetAttributeString("soundname", "");
+    }
+}
+
+function SetSoundGroupOptions(){
+    var soundGroupNames = CustomNetTables.GetTableValue("voice_chat_groups", "soundGroupNames");
+    for (var i = 0; i <= 7; ++i) {
+        ChatWheel.Options[i].text = soundGroupNames[i];
+    }
+}
+
 function OnChatWheelKeyDown(){
+    ChatWheel.Page = 0;
+    SetSoundGroupOptions();
     ChatWheel.ChatWheel.style.visibility = 'visible';
     ChatWheel.Active = true;
-    ChatWheel.FinalPage = true; // set false
     var W = ChatWheel.Hud.actuallayoutwidth;
     var H = ChatWheel.Hud.actuallayoutheight;
     var origin = [W/2, H/2];
@@ -31,20 +66,21 @@ function OnChatWheelKeyDown(){
 }
 
 function OnChatWheelKeyUp(){
-    ChatWheel.ChatWheel.style.visibility = 'collapse';
-    ChatWheel.Active = false;
-    if (ChatWheel.Scheduled) {
-        $.CancelScheduled(ChatWheel.Scheduled);
-        ChatWheel.Scheduled = null;
-    }
+    if (ChatWheel.Active) {
+        ChatWheel.ChatWheel.style.visibility = 'collapse';
+        ChatWheel.Active = false;
+        if (ChatWheel.Scheduled) {
+            $.CancelScheduled(ChatWheel.Scheduled);
+            ChatWheel.Scheduled = null;
+        }
 
-    if (ChatWheel.FinalPage && ChatWheel.Highlighted) {
-        // play selected sound if any
-        var i = ChatWheel.Highlighted;
-        var soundname = ChatWheel.Options[i].GetAttributeString("soundname", undefined);
-        $.Msg(soundname);
-        // send sound event to server
-        PlayerPlaySound(soundname);
+        if (ChatWheel.Page == 1 && ChatWheel.Highlighted !== null) {
+            // play selected sound if any
+            var i = ChatWheel.Highlighted;
+            var soundname = ChatWheel.Options[i].GetAttributeString("soundname", "");
+            // send sound event to server
+            PlayerPlaySound(soundname);
+        }
     }
 }
 
@@ -54,13 +90,6 @@ function PlayerPlaySound(soundname) {
         soundname: soundname
     };
     GameEvents.SendCustomGameEventToServer( "voice_chat_wheel", event );
-}
-
-
-function OnMouseClickChatWheel(){
-    if (ChatWheel.Active) {
-        $.Msg("Click")
-    }
 }
 
 function UpdateChatWheel(){
