@@ -1,0 +1,935 @@
+custom_soundboard.absolutely_perfect
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/absolutely_perfect.vsnd"
+}
+
+custom_soundboard.all_dead 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/all_dead.vsnd"
+}
+
+custom_soundboard.ay_ay_ay 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ay_ay_ay.vsnd"
+}
+
+custom_soundboard.bai_tuo_shei_qu 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/bai_tuo_shei_qu.vsnd"
+}
+
+custom_soundboard.bockbock 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/bockbock.vsnd"
+}
+
+custom_soundboard.bozhe_kak_eto_bolno 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/bozhe_kak_eto_bolno.vsnd"
+}
+
+custom_soundboard.bozhe_ti_posmotri 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/bozhe_ti_posmotri.vsnd"
+}
+
+custom_soundboard.brutal 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/brutal.vsnd"
+}
+
+custom_soundboard.ceeeb_start 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ceeeb_start.vsnd"
+}
+
+custom_soundboard.ceeeb_stop 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ceeeb_stop.vsnd"
+}
+
+custom_soundboard.champagne_celebration 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/champagne_celebration.vsnd"
+}
+
+custom_soundboard.charge 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/charge.vsnd"
+}
+
+custom_soundboard.crash_burn 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/crash_burn.vsnd"
+}
+
+custom_soundboard.cricket 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/cricket.vsnd"
+}
+
+custom_soundboard.crybaby 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/crybaby.vsnd"
+}
+
+custom_soundboard.da_da_da_nyet 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/da_da_da_nyet.vsnd"
+}
+
+custom_soundboard.ding_ding_ding 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ding_ding_ding.vsnd"
+}
+
+custom_soundboard.disastah 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/disastah.vsnd"
+}
+
+custom_soundboard.drum_roll 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/drum_roll.vsnd"
+}
+
+custom_soundboard.duiyou_ne 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/duiyou_ne.vsnd"
+}
+
+custom_soundboard.easiest_money 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/easiest_money.vsnd"
+}
+
+custom_soundboard.echo_slama_jama 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/echo_slama_jama.vsnd"
+}
+
+custom_soundboard.ehto_g_g 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ehto_g_g.vsnd"
+}
+
+custom_soundboard.eto_ge_popayx_feeda 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/eto_ge_popayx_feeda.vsnd"
+}
+
+custom_soundboard.eto_nenormalno 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/eto_nenormalno.vsnd"
+}
+
+custom_soundboard.eto_prosto_netchto 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/eto_prosto_netchto.vsnd"
+}
+
+custom_soundboard.eto_sochno 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/eto_sochno.vsnd"
+}
+
+custom_soundboard.eughahaha 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/eughahaha.vsnd"
+}
+
+custom_soundboard.frog 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/frog.vsnd"
+}
+
+custom_soundboard.frostivus_magic 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/frostivus_magic.vsnd"
+}
+
+custom_soundboard.gan_ma_ne_xiong_di 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/gan_ma_ne_xiong_di.vsnd"
+}
+
+custom_soundboard.gao_fu_shuai 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/gao_fu_shuai.vsnd"
+}
+
+custom_soundboard.glados_chat_01 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/glados_chat_01.vsnd"
+}
+
+custom_soundboard.glados_chat_04 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/glados_chat_04.vsnd"
+}
+
+custom_soundboard.glados_chat_07 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/glados_chat_07.vsnd"
+}
+
+custom_soundboard.glados_chat_21 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/glados_chat_21.vsnd"
+}
+
+custom_soundboard.goodness_gracious 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/goodness_gracious.vsnd"
+}
+
+custom_soundboard.greevil_laugh01 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/greevil_laugh01.vsnd"
+}
+
+custom_soundboard.greevil_laugh02 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/greevil_laugh02.vsnd"
+}
+
+custom_soundboard.greevil_laugh03 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/greevil_laugh03.vsnd"
+}
+
+custom_soundboard.greevil_laugh04 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/greevil_laugh04.vsnd"
+}
+
+custom_soundboard.greevil_laugh05 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/greevil_laugh05.vsnd"
+}
+
+custom_soundboard.greevil_laugh06 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/greevil_laugh06.vsnd"
+}
+
+custom_soundboard.greevil_laugh07 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/greevil_laugh07.vsnd"
+}
+
+custom_soundboard.hallo_mama 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/hallo_mama.vsnd"
+}
+
+custom_soundboard.headshake 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/headshake.vsnd"
+}
+
+custom_soundboard.hu_lu_wa 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/hu_lu_wa.vsnd"
+}
+
+custom_soundboard.jia_you 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/jia_you.vsnd"
+}
+
+custom_soundboard.kak_boyge_te_byechenya 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/kak_boyge_te_byechenya.vsnd"
+}
+
+custom_soundboard.kiss 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/kiss.vsnd"
+}
+
+custom_soundboard.kor_immortality 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/kor_immortality.vsnd"
+}
+
+custom_soundboard.kor_million_dollar_house 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/kor_million_dollar_house.vsnd"
+}
+
+custom_soundboard.kor_roshan 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vd_files  "sounds/kor_roshan.vsnd"
+}
+
+custom_soundboard.kor_scan 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/kor_scan.vsnd"
+}
+
+custom_soundboard.kor_yes_no 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/kor_yes_no.vsnd"
+}
+
+custom_soundboard.kor_yolo 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/kor_yolo.vsnd"
+}
+
+custom_soundboard.krasavchik 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/krasavchik.vsnd"
+}
+
+custom_soundboard.kreasa_kreasa 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/kreasa_kreasa.vsnd"
+}
+
+custom_soundboard.lets_play 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/lets_play.vsnd"
+}
+
+custom_soundboard.lian_dou_xiu_wai_la 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/lian_dou_xiu_wai_la.vsnd"
+}
+
+custom_soundboard.liu_liu_liu 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/liu_liu_liu.vsnd"
+}
+
+custom_soundboard.looking_spicy 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/looking_spicy.vsnd"
+}
+
+custom_soundboard.nakupuuu 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/nakupuuu.vsnd"
+}
+
+custom_soundboard.next_level 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/next_level.vsnd"
+}
+
+custom_soundboard.ni_qi_bu_qi 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ni_qi_bu_qi.vsnd"
+}
+
+custom_soundboard.no_chill 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/no_chill.vsnd"
+}
+
+custom_soundboard.ny_drums 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ny_drums.vsnd"
+}
+
+custom_soundboard.ny_gong 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ny_gong.vsnd"
+}
+
+custom_soundboard.ny_pig_snort 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ny_pig_snort.vsnd"
+}
+
+custom_soundboard.oh_my_lord 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/oh_my_lord.vsnd"
+}
+
+custom_soundboard.ow 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ow.vsnd"
+}
+
+custom_soundboard.oy_oy_bezhat 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/oy_oy_bezhat.vsnd"
+}
+
+custom_soundboard.oy_oy_oy 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/oy_oy_oy.vsnd"
+}
+
+custom_soundboard.party_horn 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/party_horn.vsnd"
+}
+
+custom_soundboard.patience 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/patience.vsnd"
+}
+
+custom_soundboard.piao_liang 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/piao_liang.vsnd"
+}
+
+custom_soundboard.playing_to_win 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/playing_to_win.vsnd"
+}
+
+custom_soundboard.po_liang_lu 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/po_liang_lu.vsnd"
+}
+
+custom_soundboard.rimshot 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/rimshot.vsnd"
+}
+
+custom_soundboard.sad_bone 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/sad_bone.vsnd"
+}
+
+custom_soundboard.sleighbells 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/sleighbells.vsnd"
+}
+
+custom_soundboard.snore 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/snore.vsnd"
+}
+
+custom_soundboard.sproing 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/sproing.vsnd"
+}
+
+custom_soundboard.ta_daaaa 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ta_daaaa.vsnd"
+}
+
+custom_soundboard.that_was_questionable 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/that_was_questionable.vsnd"
+}
+
+custom_soundboard.ti9_crowd_groan 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ti9_crowd_groan.vsnd"
+}
+
+custom_soundboard.ti9_head_bonk 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ti9_head_bonk.vsnd"
+}
+
+custom_soundboard.ti9_kooka_laugh 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ti9_kooka_laugh.vsnd"
+}
+
+custom_soundboard.ti9_monkey_biz 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ti9_monkey_biz.vsnd"
+}
+
+custom_soundboard.ti9_orangutan_kiss 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ti9_orangutan_kiss.vsnd"
+}
+
+custom_soundboard.ti9_record_scratch 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ti9_record_scratch.vsnd"
+}
+
+custom_soundboard.ti9_skeeter 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ti9_skeeter.vsnd"
+}
+
+custom_soundboard.ti9_ta_da 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/ti9_ta_da.vsnd"
+}
+
+custom_soundboard.tian_huo 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/tian_huo.vsnd"
+}
+
+custom_soundboard.wan_bu_liao_la 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/wan_bu_liao_la.vsnd"
+}
+
+custom_soundboard.whats_cooking 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/whats_cooking.vsnd"
+}
+
+custom_soundboard.what_just_happened 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/what_just_happened.vsnd"
+}
+
+custom_soundboard.wot_eto_bru 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/wot_eto_bru.vsnd"
+}
+
+custom_soundboard.wow 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/wow.vsnd"
+}
+
+custom_soundboard.yahoo 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/yahoo.vsnd"
+}
+
+custom_soundboard.youre_a_hero 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/youre_a_hero.vsnd"
+}
+
+custom_soundboard.zai_jian_le_bao_bei 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/zai_jian_le_bao_bei.vsnd"
+}
+
+custom_soundboard.zhil_do_konsta 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/zhil_do_konsta.vsnd"
+}
+
+custom_soundboard.zou_hao_bu_song 
+{
+	type  "dota_src1_2d"
+	volume  1.000000
+	pitch  1.000000
+	limiter_on  1.000000
+	vsnd_files  "sounds/zou_hao_bu_song.vsnd"
+}

@@ -3,7 +3,7 @@ GameMode = GameMode or class({});
 -- set parameters
 local HERO_BANNING_TIME = 15;
 local HERO_SELECTION_TIME = 30;
-local HERO_SELECTION_PENALTY_TIME = 15;
+local HERO_SELECTION_PENALTY_TIME = 30;
 local PRE_GAME_TIME = 90;
 
 local STARTING_GOLD = 600;
@@ -26,6 +26,7 @@ Color = Color or require("Color");
 Fountain = Fountain or require("Fountain");
 Rune = Rune or require("Rune");
 Utilities = Utilities or require("Utilities");
+VoiceChatWheel = VoiceChatWheel or require("VoiceChatWheel");
 
 function Precache( context )
 	--[[
@@ -36,6 +37,7 @@ function Precache( context )
 			PrecacheResource( "particle_folder", "particles/folder", context )
 	]]
 	PrecacheResource( "soundfile", "soundevents/dota_rebalanced.vsndevts", context );
+	PrecacheResource( "soundfile", "soundevents/custom_soundboard.vsndevts", context );
 end
 
 -- Create the game mode when we activate
@@ -87,6 +89,7 @@ function GameMode:InitGameMode()
 	-- Extras
 	CosmeticAbilities:Initialize();
 	Color:Initialize();
+	VoiceChatWheel:Initialize();
 
 	-- Other
 	Rune:Initialize();

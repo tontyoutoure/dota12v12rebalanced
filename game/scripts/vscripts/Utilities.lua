@@ -21,6 +21,9 @@ function Utilities:Throttle(event, callback, context, cooldown)
     -- true if locked for clientId
     local locked = {};
     return function (clientId, args)
+        if clientId < 1 or clientId > DOTA_MAX_TEAM_PLAYERS then
+            return;
+        end
         if not locked[clientId] then
             locked[clientId] = true;
             callback(context, args);
