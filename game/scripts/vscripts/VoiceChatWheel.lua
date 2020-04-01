@@ -13,6 +13,10 @@ function VoiceChatWheel:Initialize( GameRules )
     Utilities:RegisterCustomEventListener( "voice_chat_wheel", VoiceChatWheel.VoiceChatWheelHandler, VoiceChatWheel );
 end
 
+function VoiceChatWheel:OnPreGame()
+    GameRules:SendCustomMessage("Press L to use the Voice Chat Wheel.", 0, 0);
+end
+
 function VoiceChatWheel:VoiceChatWheelHandler( event )
     local soundname = event.soundname;
     if soundname == "" then

@@ -125,6 +125,7 @@ function GameMode:OnGameRulesStateChange()
 		elseif gameState == DOTA_GAMERULES_STATE_PRE_GAME then
 			Vote:Initialize(); 
 			Fountain:Buff();
+			VoiceChatWheel:OnPreGame();
 			-- Utilities:Test();
 		elseif gameState == DOTA_GAMERULES_STATE_POST_GAME then
 			PostGameStats:SetNetTable();
