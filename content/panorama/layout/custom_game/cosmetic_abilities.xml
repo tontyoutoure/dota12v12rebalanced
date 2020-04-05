@@ -1,0 +1,26 @@
+
+<root>
+	<styles>
+		<include src="file://{resources}/styles/dotastyles.css" />
+		<include src="file://{resources}/styles/custom_game/cosmetic_abilities.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/common/utils.js" />
+		<include src="file://{resources}/scripts/custom_game/cosmetic_abilities.js" />
+	</scripts>
+    <script>
+    </script>
+
+    <Panel class="CosmeticAbilitiesHud" hittest="false">
+        <Panel id="CosmeticAbilitiesContainer">
+            <Panel id="CosmeticAbility1" class="CosmeticAbility">
+            </Panel>
+            <Panel id="CosmeticAbility2" class="CosmeticAbility">
+            </Panel>
+            <Panel id="CosmeticAbility3" class="CosmeticAbility">
+            </Panel>
+        </Panel>
+    </Panel>
+
+</root>

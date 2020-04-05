@@ -1,6 +1,6 @@
 // Should be run only once
 function registerVoteListeners() {
-    $.Msg("Registering Vote Event Listeners...");
+    // $.Msg("Registering Vote Event Listeners...");
     GameEvents.Subscribe("request_votes", handleVoteRequest);
     GameEvents.Subscribe("end_voting", endVoteDialog);
     // GameEvents.Subscribe("update_votes", updateVoteDialog);

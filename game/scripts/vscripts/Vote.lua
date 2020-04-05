@@ -36,7 +36,7 @@ local SUBJECT_VOTE_TABLE = {};
     -- "numVotes"
     -- "numYes" number of yes's
     -- "votes" each player's votes
-        -- "Yes", "No", or nil
+       -- "Yes", "No", or nil
 
 local TEAM_VOTE_STATUS = {};
 -- Table Contents:
@@ -52,8 +52,9 @@ local DISCONNECTED = {};
 -- Table Contents
 -- teamId -> table that maps playerId to true if disconnect or false/nil otherwise
 
-local VOTES_INITIATED = {};
--- playerId -> number of votes triggered
+local PLAYER_LAST_USE = {};
+-- playerId -> time of last uses 
+local PLAYER_COOLDOWN = 600;
 
 function Vote:TeamName( teamId )
     if teamId == DOTA_TEAM_GOODGUYS then
@@ -82,7 +83,7 @@ function Vote:Initialize()
     Kick:Initialize( GameRules );
 
     for playerId = 0, (DOTA_MAX_TEAM_PLAYERS - 1) do
-        VOTES_INITIATED[playerId] = 0;
+        PLAYER_LAST_USE[playerId] = -999999;
     end
 
     TEAM_VOTE_STATUS[DOTA_TEAM_GOODGUYS] = { voteInProgress = false, cooldown = true, availableTime = INITIAL_AVAILABLE_TIME, subjectId = nil };
@@ -114,9 +115,11 @@ function Vote:BeginVoting( event )
     local time = GameRules:GetDOTATime(false, true);
 
     local teamTable = TEAM_VOTE_STATUS[playerTeamId];
-    if not (VOTES_INITIATED[playerId] < MAX_VOTE_INITIATIONS_PER_PLAYER) then
+    if PLAYER_LAST_USE[playerId] + PLAYER_COOLDOWN > time then
+        local timeRemaining = (PLAYER_LAST_USE[playerId] + PLAYER_COOLDOWN) - time;
+        timeRemaining = math.floor(timeRemaining + 0.5);
         local error = {
-            message = "You can only initiate a vote once!"
+            message = "You cannot initiate vote kick for "..timeRemaining.." more seconds."
         };
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "play_sound", { sound = "General.CastFail_NoMana" } );
         CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer(playerId), "display_error_from_server", error );
@@ -152,8 +155,8 @@ function Vote:BeginVoting( event )
         return nil;
     end
 
-    VOTES_INITIATED[playerId] = VOTES_INITIATED[playerId] + 1;
-    
+    PLAYER_LAST_USE[playerId] = time;
+
     Vote:TeamMessage(subjectTeamId, "A vote to kick "..Vote:PlayerNameString(subjectId).." has begun!");
 
     teamTable.voteInProgress = true;

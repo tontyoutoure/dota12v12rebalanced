@@ -11,7 +11,7 @@
     <script>
     </script>
 
-    <Panel class="ChatWheelHud" hittest="false">
+    <Panel class="ChatWheelHud">
         <Panel id="ChatWheel">
             <Panel id="ArrowContainer" class="Hidden">
                 <Panel id="Arrow">

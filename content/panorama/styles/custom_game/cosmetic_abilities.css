@@ -1,0 +1,17 @@
+.CosmeticAbilitiesHud
+{
+}
+
+#CosmeticAbilitiesContainer
+{
+    height: 100%;
+    width: 100%;
+    flow-children: right;
+}
+
+.CosmeticAbility
+{
+    height: 100%;
+    width: 33.3333333%;
+    visibility: collapse;
+}
