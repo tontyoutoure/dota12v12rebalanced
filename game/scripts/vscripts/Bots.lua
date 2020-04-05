@@ -23,7 +23,14 @@ end
 
 -- adds bots 
 function Bots:AddBots()
-
+-- tontyoutoure: Before adding bots, get a list of human players.
+	self.tHumanPlayerList = self.tHumanPlayerList or {}
+	for i=0, DOTA_MAX_TEAM_PLAYERS do
+		if PlayerResource:IsValidPlayer(i) then
+			self.tHumanPlayerList[i] = true
+		end
+	end
+-- tontyoutoure's codes end here
 	local numRadiant = Bots:GetTeamCount( DOTA_TEAM_GOODGUYS );
 	local numDire = Bots:GetTeamCount( DOTA_TEAM_BADGUYS );
 
@@ -183,5 +190,46 @@ Bots.HeroList = {
 	"npc_dota_hero_skeleton_king",
 	"npc_dota_hero_zuus"
 };
+
+
+
+-- tontyoutoure's codes start from here
+-- basically they give bots 4 modifiers to make the bots work properly. 
+
+function _OnNPCSpawned(keys)
+	if GameRules:State_Get() < DOTA_GAMERULES_STATE_PRE_GAME then return end
+
+	local hHero = EntIndexToHScript(keys.entindex)	
+	if hHero.bInitialized or not hHero:IsHero() then return end	 
+
+	if not Bots.tHumanPlayerList[hHero:GetPlayerOwnerID()] then
+
+		hHero:AddNewModifier(hHero, nil, "modifier_bots_behavior", {}).tHumanPlayerList = Bots.tHumanPlayerList
+		if hHero:GetName() == "npc_dota_hero_axe" and not hHero:IsIllusion() then
+			hHero:AddNewModifier(hHero, nil, "modifier_axe_thinker", {})
+		end	
+		if hHero:IsRealHero() and not hHero:IsTempestDouble() and not hHero:IsClone() then
+			hHero:AddNewModifier(hHero, nil, "modifier_bot_use_items", {})
+			hHero:AddNewModifier(hHero, nil, 'modifier_item_assemble_fix', {})
+		end
+	end
+
+--tontyoutoure: Not sure these two causes lagging
+
+
+	hHero.bInitialized = true;
+end
+
+-- modifier_bot_use_items makes bots can use some other items
+LinkLuaModifier('modifier_bot_use_items', 'global_modifiers.lua', LUA_MODIFIER_MOTION_NONE)
+-- modifier_item_assemble_fix makes bots can build more items and fix some bugs
+LinkLuaModifier('modifier_item_assemble_fix', 'global_modifiers.lua', LUA_MODIFIER_MOTION_NONE)
+-- modifier_bots_behavior Make bots able to attack inner towers/base, pick up runes and activate watch towers.
+LinkLuaModifier('modifier_bots_behavior', 'global_modifiers.lua', LUA_MODIFIER_MOTION_NONE)
+--Last time I check, Axe cannot use his abilities, modifier_axe_thinker makes him able to do it.
+LinkLuaModifier('modifier_axe_thinker', 'global_modifiers.lua', LUA_MODIFIER_MOTION_NONE)
+ListenToGameEvent('npc_spawned', _OnNPCSpawned, nil)
+
+-- tontyoutoure's codes end here
 
 return Bots;
